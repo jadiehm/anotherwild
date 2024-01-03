@@ -35,3 +35,23 @@
 	font-stretch: normal;
 	font-display: swap;
 }
+
+/* Alder Road */
+@font-face {
+	font-family: "Alder Road";
+	src: url("assets/fonts/AlderRoad-Regular.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+/* Alder Road */
+@font-face {
+	font-family: "Carnaby Street";
+	src: url("assets/fonts/CarnabyStreet-Clean.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
