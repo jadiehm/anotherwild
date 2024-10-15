@@ -21,20 +21,24 @@
 
         const video = document.getElementById('bg-video');
         const source = document.getElementById('videoSource');
+        const audioSource = document.getElementById('audioSource');
 
         video.classList.add('fade-out');
 
-        video.addEventListener('transitionend', function onFadeOut() {
+        function onFadeOut() {
             // Change the video source
-            source.src = $currTrack !== null ? `assets/video/${$currTrack}.mp4` : `/assets/video/01FLAGGROUND.mp4` ;
 
-            
-            // Reload and play the new video
             if ($currTrack !== null) {
+                audioSource.src = `assets/audio/${$currTrack}.mp3`;
+                source.src = `assets/video/${$currTrack}.mp4`;
+                video.setAttribute("preload", "none");
                 video.load();
                 video.muted = true; // Ensures the video remains muted
                 video.play();
             } else {
+                audioSource.src = `assets/video/01FLAGGROUND.mp3`;
+                source.src = `assets/video/01FLAGGROUND.mp4`;
+                video.setAttribute("preload", "none");
                 video.load();
                 video.muted = true; // Ensures the video remains muted
             }
@@ -44,7 +48,9 @@
             
             // Remove the event listener to avoid triggering it again
             video.removeEventListener('transitionend', onFadeOut);
-        });
+        }
+
+        video.addEventListener('transitionend', onFadeOut);
     }
 
     const splitAt = (index, xs) => [xs.slice(0, index)];
@@ -124,7 +130,7 @@
         font-size: 90px;
         margin: 0;
         color: #ffffff;
-        transition: 500ms all linear;
+        transition: 500ms letter-spacing linear;
         text-shadow: 2px 2px 6px black;
     }
     .active {

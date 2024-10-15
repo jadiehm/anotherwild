@@ -6,7 +6,6 @@
 
 	import topography from "$svg/topography.svg";
 
-	let scrollY;
 	let width;
 	let height;
 
@@ -104,14 +103,6 @@
 	]
 	const albumGroups = d3.groups(data, d => d.album);
 
-	function scrollScale(scrollY) {
-		if (scrollY == 0 || scrollY == undefined) {
-			return 1
-		} else {
-			return 1 + scrollY/1000
-		}	
-	}
-
 	onMount (() => {
         let topoPaths = d3.selectAll(".bg-topography svg path");
 
@@ -133,16 +124,13 @@
     })
 </script>
 
-<svelte:window bind:scrollY={scrollY} bind:innerWidth={width} bind:innerHeight={height} />
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-{#each data as song, i}
-	<audio id="audio_{song.id}">
-		<source src="assets/audio/{song.id}.mp3" type="audio/mpeg">
-	</audio>
-{/each}
-<!-- <div class="bg" style="transform: scale({scrollScale(scrollY)})"></div> -->
+<audio id="bg-audio">
+	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
+</audio>
 <div class="bg-movie">
-	<video id="bg-video" loop muted class="background-video">
+	<video id="bg-video" class="background-video" loop muted playsinline>
 		<source id="videoSource" src="assets/video/01FLAGGROUND.mp4" type="video/mp4">
 	</video>
 	<div class="bg-topography">
@@ -193,10 +181,10 @@
 		background: black;
 		top: 0;
 		left: 0;
-		width: 100vw;     /* Full viewport width */
-		height: 100vh;    /* Full viewport height */
-		object-fit: cover; /* Ensures the video covers the entire screen */
-		z-index: -1;      /* Places the video behind other content */
+		width: 100vw;     
+		height: 100vh;   
+		object-fit: cover; 
+		z-index: -1;
 	}
 	#bg-video {
 		object-fit: cover;
@@ -224,7 +212,7 @@
 		width: 100%;
 		height: 3.5rem;
 		background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
-		backdrop-filter: blur(2px);
+		/* backdrop-filter: blur(2px); */
 		position: fixed;
 		top: 0;
 		left: 0;
