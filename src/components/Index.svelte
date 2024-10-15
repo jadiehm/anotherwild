@@ -141,7 +141,7 @@
 
 {#each data as song, i}
 	<audio id="audio_{song.id}">
-		<source src="src/data/{song.id}.mp3" type="audio/mpeg">
+		<source src="/src/data/{song.id}.mp3" type="audio/mpeg">
 	</audio>
 {/each}
 <!-- <div class="bg" style="transform: scale({scrollScale(scrollY)})"></div> -->

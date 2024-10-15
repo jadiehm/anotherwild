@@ -13,7 +13,7 @@
 
     onMount (() => {
         wave = new CircularAudioWave(document.getElementById(`chart-container-${id}`));
-        wave.loadAudio(`src/data/${id}.mp3`);
+        wave.loadAudio(`/src/data/${id}.mp3`);
         mounted = true;
     })
 
