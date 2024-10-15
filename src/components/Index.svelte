@@ -156,7 +156,7 @@
 </div>
 <div class="header">
 	<h1>A fang in the rough</h1>
-	<p>An album in 3 parts by <a href="https://www.instagram.com/watercolorpony/">Noah Fagan</a></p>
+	<p>A concept album in 3 parts by <a href="https://www.instagram.com/watercolorpony/">Noah Fagan</a></p>
 </div>
 <div class="album-container">
 	{#each albumGroups as album}
