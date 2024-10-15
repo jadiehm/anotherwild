@@ -4,6 +4,8 @@
 	import AudioViz from "$components/AudioViz.svelte";
 	import * as d3 from "d3";
 
+	import topography from "$svg/topography.svg";
+
 	let scrollY;
 	let width;
 	let height;
@@ -113,6 +115,26 @@
 			return 1 + scrollY/1000
 		}	
 	}
+
+	onMount (() => {
+        let topoPaths = d3.selectAll(".bg-topography svg path");
+
+		let shuffledPaths = d3.shuffle(topoPaths);
+
+		shuffledPaths.each(function(d, i) {
+			const path = d3.select(this);
+			const length = this.getTotalLength();
+
+			// Set up the path for drawing effect
+			path.attr("stroke-dasharray", length)
+				.attr("stroke-dashoffset", length)
+				.transition()                      // Apply a transition
+				.delay(i * 100)                    // Stagger each path by 300ms
+				.duration(2000)                    // Set the duration of the draw effect
+				.ease(d3.easeLinear)               // Use a linear easing for smooth drawing
+				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
+		});
+    })
 </script>
 
 <svelte:window bind:scrollY={scrollY} bind:innerWidth={width} bind:innerHeight={height} />
@@ -127,6 +149,9 @@
 	<video id="bg-video" loop muted class="background-video">
 		<source id="videoSource" src="/assets/01FLAGGROUND.mp4" type="video/mp4">
 	</video>
+	<div class="bg-topography">
+		{@html topography}
+	</div>
 	<div class="video-overlay"></div>
 </div>
 <div class="header">
@@ -151,6 +176,21 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		z-index: 1;
+	}
+	.bg-topography {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		opacity: 0.05;
+		transform: scale(4);
+	}
+	:global(.bg-topography svg path) {
+		fill: none;
+		stroke: white;
+		stroke-width: 0.5px;
 	}
 	.bg-movie {
 		position: fixed;
@@ -187,15 +227,18 @@
 	.header {
 		width: 100%;
 		height: 3.5rem;
-		background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
-		position: sticky;
+		background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+		backdrop-filter: blur(2px);
+		position: fixed;
 		top: 0;
+		left: 0;
 		z-index: 1000;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 		padding: 0 0.5rem;
+		border-bottom: 1px solid white;
 	}
 	h1 {
 		margin: 0;

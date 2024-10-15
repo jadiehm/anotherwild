@@ -128,8 +128,6 @@
     }
     .active {
         height: 40rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        margin-bottom: 2rem;
     }
     button {
         background: transparent;
