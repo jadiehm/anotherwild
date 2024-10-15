@@ -9,10 +9,6 @@
 	let scrollY;
 	let width;
 	let height;
-	let audio;
-	let demo1Shader;
-	let img;
-
 
 	const data = [
 		{
