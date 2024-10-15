@@ -130,9 +130,9 @@
 	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
 </audio>
 <div class="bg-movie">
-	<video id="bg-video" class="background-video" loop muted playsinline>
+	<!-- <video id="bg-video" class="background-video" loop muted playsinline>
 		<source id="videoSource" src="assets/video/01FLAGGROUND.mp4" type="video/mp4">
-	</video>
+	</video> -->
 	<div class="bg-topography">
 		{@html topography}
 	</div>
