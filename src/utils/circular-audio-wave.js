@@ -1,7 +1,7 @@
 import * as echarts from 'echarts';
 
 let startedTime;
-    let pausedTime;
+let pausedTime;
 
 export default class CircularAudioWave {
     constructor(elem, opts = {}) {
@@ -10,9 +10,13 @@ export default class CircularAudioWave {
         this.maxChartValue = 240;
         this.minChartValue = 100;
         this.chart = echarts.init(elem);
+        this._resizeHandler = this._debounce(this.resize.bind(this), 200);
         this.playing = false;
         this.lineColorOffset = 0;
         this.tick = 0;
+
+        // Attach the resize handler to the window resize event
+        window.addEventListener('resize', this._resizeHandler);
 
         let bgColor = '#ffffff';
         this.defaultChartOption = {
@@ -240,6 +244,12 @@ export default class CircularAudioWave {
 
         this.chartOption = JSON.parse(JSON.stringify(this.defaultChartOption));
     }
+    // Resize method to update the chart dimensions
+    resize() {
+        if (this.chart) {
+            this.chart.resize();
+        }
+    }
     loadAudio(filePath) {
         this.filePath = filePath;
         this._setupAudioNodes();
@@ -310,6 +320,7 @@ export default class CircularAudioWave {
     }
     destroy() {
         this.chart.dispose();
+        window.removeEventListener('resize', this._resizeHandler);
     }
     reset() {
         this.tick = 0;

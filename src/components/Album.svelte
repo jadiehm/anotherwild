@@ -25,5 +25,12 @@
         text-transform: uppercase;
         padding: 0;
         margin: 0;
+        text-shadow: 1px 1px 4px black;
+    }
+
+    @media(max-width: 400px) {
+       .album {
+            font-size: 12px;
+       }
     }
 </style>
