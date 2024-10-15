@@ -19,40 +19,38 @@
         currTrack.set(newActiveTrack);
         dispatch('trackclicked', { id: trackData.id, active: newActiveTrack === trackData.id  });
 
-        // const video = document.getElementById('bg-video');
-        // const source = document.getElementById('videoSource');
+        const video = document.getElementById('bg-video');
+        const source = document.getElementById('videoSource');
         const audioSource = document.getElementById('audioSource');
 
-        // video.classList.add('fade-out');
+        video.classList.add('fade-out');
 
         function onFadeOut() {
             // Change the video source
 
             if ($currTrack !== null) {
                 audioSource.src = `assets/audio/${$currTrack}.mp3`;
-                // source.src = `assets/video/${$currTrack}.mp4`;
-                // video.setAttribute("preload", "none");
-                // video.load();
-                // video.muted = true; 
-                // video.play();
+                source.src = `assets/video/${$currTrack}.mp4`;
+                video.setAttribute("preload", "none");
+                video.load();
+                video.muted = true; // Ensures the video remains muted
+                video.play();
             } else {
                 audioSource.src = `assets/video/01FLAGGROUND.mp3`;
-                // source.src = `assets/video/01FLAGGROUND.mp4`;
-                // video.setAttribute("preload", "none");
-                // video.load();
-                // video.muted = true; 
+                source.src = `assets/video/01FLAGGROUND.mp4`;
+                video.setAttribute("preload", "none");
+                video.load();
+                video.muted = true; // Ensures the video remains muted
             }
 
             // Step 3: Fade the video back in
-            // video.classList.remove('fade-out');
+            video.classList.remove('fade-out');
             
             // Remove the event listener to avoid triggering it again
-            // video.removeEventListener('transitionend', onFadeOut);
+            video.removeEventListener('transitionend', onFadeOut);
         }
 
-        onFadeOut()
-
-        // video.addEventListener('transitionend', onFadeOut);
+        video.addEventListener('transitionend', onFadeOut);
     }
 
     const splitAt = (index, xs) => [xs.slice(0, index)];

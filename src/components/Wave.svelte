@@ -12,17 +12,17 @@
     let mounted = false;
 
     onMount (() => {
-        wave = new CircularAudioWave(document.getElementById(`chart-container-${id}`));
-        wave.loadAudio(`/assets/audio/${id}.mp3`);
+        // wave = new CircularAudioWave(document.getElementById(`chart-container-${id}`));
+        // wave.loadAudio(`/assets/audio/${id}.mp3`);
         mounted = true;
     })
 
     $: if (mounted) {
         if (active && !isPlaying) {
-            wave.play();
+            // wave.play();
             isPlaying = true;
         } else if (!active && isPlaying) {
-            wave.pause();
+            // wave.pause();
             isPlaying = false;
         }
     }
