@@ -26,7 +26,7 @@
 
         video.addEventListener('transitionend', function onFadeOut() {
             // Change the video source
-            source.src = $currTrack !== null ? `assets/video/${$currTrack}.mp4` : `/assets/video/01FLAGGROUND.mp4` ;
+            source.src = $currTrack !== null ? `anotherwild/assets/video/${$currTrack}.mp4` : `/assets/video/01FLAGGROUND.mp4` ;
 
             
             // Reload and play the new video

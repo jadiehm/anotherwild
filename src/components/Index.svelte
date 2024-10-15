@@ -137,13 +137,13 @@
 
 {#each data as song, i}
 	<audio id="audio_{song.id}">
-		<source src="assets/audio/{song.id}.mp3" type="audio/mpeg">
+		<source src="anotherwild/assets/audio/{song.id}.mp3" type="audio/mpeg">
 	</audio>
 {/each}
 <!-- <div class="bg" style="transform: scale({scrollScale(scrollY)})"></div> -->
 <div class="bg-movie">
 	<video id="bg-video" loop muted class="background-video">
-		<source id="videoSource" src="assets/video/01FLAGGROUND.mp4" type="video/mp4">
+		<source id="videoSource" src="anotherwild/assets/video/01FLAGGROUND.mp4" type="video/mp4">
 	</video>
 	<div class="bg-topography">
 		{@html topography}
