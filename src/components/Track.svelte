@@ -1,5 +1,5 @@
 <script>
-    import Wave from "$components/Wave.svelte";
+    import Wave from "$components/Wave2.svelte";
     import PlayIcon from "$svg/play.svg";
     import PauseIcon from "$svg/pause.svg";
     import { onMount } from "svelte";
@@ -56,6 +56,7 @@
     const splitAt = (index, xs) => [xs.slice(0, index)];
 
     $: active = $currTrack == trackData.id;
+    let svgWidth, svgHeight;
 </script>
 
 <div class="track" on:click={trackClick} class:active={active} id="id-{trackData.id}">
@@ -70,8 +71,8 @@
             {/if}
         </button>
     </div>
-        <div class="chart-container" id="chart-container-{trackData.id}">
-            <Wave id={trackData.id} {active} {playing} />
+        <div class="chart-container" id="chart-container-{trackData.id}" bind:clientWidth={svgWidth} bind:clientHeight={svgHeight}>
+            <Wave id={trackData.id} {active} dimensions={[svgWidth, svgHeight]}/>
         </div>
 </div>
 
