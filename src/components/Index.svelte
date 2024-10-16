@@ -1,13 +1,15 @@
 <script>
 	import { getContext, onMount } from "svelte";
 	import Album from "$components/Album.svelte";
-	import AudioViz from "$components/AudioViz.svelte";
+	import Info from "$components/Info.svelte";
+	import Icon from "$components/helpers/Icon.svelte";
 	import * as d3 from "d3";
 
 	import topography from "$svg/topography.svg";
 
 	let width;
 	let height;
+	let infoVisible = false;
 
 	const data = [
 		{
@@ -62,7 +64,7 @@
 		},
 		{
 			"album": 2,
-			"title": "drifft",
+			"title": "driift",
 			"id": "11DRIIFT"
 		},
 		{
@@ -122,10 +124,26 @@
 				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
 		});
     })
+
+	function infoClick() {
+		infoVisible = !infoVisible;
+		const body = document.querySelector('body');
+		const albumContainer = d3.select('.album-container');
+		if (infoVisible) {
+			body.style.overflowY = 'hidden';
+			albumContainer.style("pointer-events", "none");
+		} else {
+			body.style.overflowY = '';
+			albumContainer.style("pointer-events", "auto");
+		}
+	}
+
+	$: console.log(infoClick)
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
+<Info {infoVisible}/>
 <audio id="bg-audio">
 	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
 </audio>
@@ -140,13 +158,24 @@
 </div>
 <div class="header">
 	<h1>A fang in the rough</h1>
-	<p>A concept album in 3 parts by <a href="https://www.instagram.com/watercolorpony/">Noah Fagan</a></p>
+	<button class="infoBtn" on:click={infoClick} >
+		{#if infoVisible}
+			<p>Close</p>
+			<Icon name="x" width="1rem"/>
+		{:else}
+			<p>About</p>
+			<Icon name="info" width="1rem"/>
+		{/if}
+	</button>
 </div>
 <div class="album-container">
 	{#each albumGroups as album}
 		<Album data={album}/>
 	{/each}
 </div>
+<footer>
+	<p>©Ⓟ Copyright 2024 Noah Fagan</p>
+</footer>
 
 <style>
 	.bg {
@@ -175,6 +204,21 @@
 		fill: none;
 		stroke: white;
 		stroke-width: 0.5px;
+	}
+	.infoBtn {
+		background: rgba(255,255,255,0.95);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 4.25rem;
+		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+	}
+	.infoBtn p {
+		color: black;
+		margin: 0 0.25rem 0 0;
+		font-family: "Carnaby Street", var(--sans), sans;
+		text-transform: uppercase;
 	}
 	.bg-movie {
 		position: fixed;
@@ -205,7 +249,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: url("assets/bg-pattern-dark.png");
+		background: url("assets/images/bg-pattern-dark.png");
 		opacity: .5;
 	}
 	.header {
@@ -226,17 +270,11 @@
 	}
 	h1 {
 		margin: 0;
-		font-family: "Carnaby Street";
+		font-family: "Carnaby Street", var(--sans), sans;
 		text-transform: uppercase;
 		color: #ffffff;
 		font-size: 20px;
 		letter-spacing: 1px;
-	}
-	.header p, .header a {
-		margin: 0;
-		font-family: "Carnaby Street";
-		color: #ffffff;
-		font-size: 14px;
 	}
 	.header a {
 		text-transform: uppercase;
@@ -245,12 +283,18 @@
 		color: #A5BFB6;
 	}
 	.album-container {
-		position: absolute;
 		width: 100%;
-		height: 100vh;
-		top: 3.5rem;
-		left: 0;
+		margin-top: 3.5rem;
 		z-index: 999;
+	}
+
+	footer {
+		width: 100%;
+		height: 2rem;
+		color: rgba(255,255,255,0.7);
+		padding: 0 0.5rem;
+		font-size: 12px;
+		font-family: var(--sans);
 	}
 
 	@media(max-width: 400px) {
