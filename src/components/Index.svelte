@@ -171,7 +171,7 @@
 	<div class="video-overlay"></div>
 </div>
 <div class="header">
-	<h1>{copy.title} <span>Album Preview visualizer</span></h1>
+	<h1>{copy.title} <span>audio visualizer</span></h1>
 	<div class="links-header">
 		<!-- {#each copy.links as link, i}
 			<a href="{link.url}">{@html icons[i]}</a>
@@ -364,18 +364,17 @@
 	}
 	h1 {
 		margin: 0;
-		font-family: "Carnaby Street", var(--sans), sans;
+		font-family: var(--serif);
 		text-transform: uppercase;
 		color: #f1eeec;
 		font-size: 20px;
-		letter-spacing: 1px;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		gap: 0.5rem
 	}
 	h1 span {
-		font-family: var(--sans);
+		font-family: "Carnaby Street", var(--sans);
 		letter-spacing: 0;
 		font-size: var(--14px);
 	}
