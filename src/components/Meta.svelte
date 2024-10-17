@@ -34,6 +34,7 @@
 	<meta name="robots" content="max-image-preview:large" />
 
 	<link rel="canonical" href="{url}/" />
+	<link rel="icon" href="./assets/social/favicon.png" type="image/x-icon">
 
 	{#each preloadFont as href}
 		<link rel="preload" {href} as="font" type="font/woff2" crossorigin />
