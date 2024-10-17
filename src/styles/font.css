@@ -1,3 +1,12 @@
+@font-face {
+	font-family: "Hoefler Text";
+	src: url("assets/fonts/hoefler-text.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
 /* National */
 @font-face {
 	font-family: "National 2 Narrow Web";

@@ -3,11 +3,14 @@
     import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
     import instagramIcon from "$svg/instagram.svg";
+    import youtubeIcon from "$svg/youtube.svg";
     export let infoVisible;
 
     const copy = getContext("copy");
 
-    const icons = [spotifyIcon, appleIcon, instagramIcon];
+    console.log(youtubeIcon)
+
+    const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
 </script>
 
 <section class="info" class:infoVisible={infoVisible}>

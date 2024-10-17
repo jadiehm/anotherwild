@@ -29,7 +29,7 @@
             // Change the video source
 
             if ($currTrack !== null) {
-                audioSource.src = `assets/audio/${$currTrack}.mp3`;
+                audioSource.src = `assets/audio/preview/${$currTrack}.mp3`;
                 source.src = `assets/video/${$currTrack}.mp4`;
                 video.setAttribute("preload", "none");
                 video.load();
@@ -126,9 +126,10 @@
         text-shadow: 1px 1px 4px black;
     }
     .trackTitle {
-        font-family: "Alder Road";
+        font-family: "Hoefler Text";
+        font-weight: 500;
         text-transform: uppercase;
-        font-size: 90px;
+        font-size: 50px;
         margin: 0;
         color: #f1eeec;
         transition: 500ms letter-spacing linear;
@@ -188,7 +189,7 @@
             height: 35rem;
         }
         .trackTitle {
-            font-size: 40px;
+            font-size: 18px;
             text-shadow: 2px 2px 6px black;
         }
 

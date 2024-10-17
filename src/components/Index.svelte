@@ -5,6 +5,7 @@
 	import Icon from "$components/helpers/Icon.svelte";
 	import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
+	import youtubeIcon from "$svg/youtube.svg";
     import instagramIcon from "$svg/instagram.svg";
 	import * as d3 from "d3";
 
@@ -14,7 +15,7 @@
 	let height;
 	let infoVisible = false;
 
-	const icons = [spotifyIcon, appleIcon, instagramIcon];
+	const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
 
 	const copy = getContext("copy");
 
@@ -156,8 +157,8 @@
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 <Info {infoVisible}/>
-<audio id="bg-audio">
-	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
+<audio id="bg-audio" loop>
+	<source id="audioSource" src="assets/audio/preview/01FLAGGROUND.mp3" type="audio/mpeg">
 </audio>
 <div class="bg-movie">
 	<img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
@@ -172,9 +173,9 @@
 <div class="header">
 	<h1>{copy.title} <span>Preview visualizer</span></h1>
 	<div class="links-header">
-		{#each copy.links as link, i}
+		<!-- {#each copy.links as link, i}
 			<a href="{link.url}">{@html icons[i]}</a>
-		{/each}
+		{/each} -->
 		<button class="infoBtn" on:click={infoClick} >
 			{#if infoVisible}
 				<p>Close</p>
@@ -187,7 +188,14 @@
 	</div>
 </div>
 <div class="album-container">
-	<p></p>
+	<div class="refer">
+		<p>Listen to the full album on</p>
+		<ul>
+			<li><span>{@html spotifyIcon}</span><a href="">Spotify</a></li>
+			<li><span>{@html appleIcon}</span><a href="https://music.apple.com/us/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1771281297?uo=4&app=itunes&at=1001lry3&ct=dashboard">Apple Music</a></li>
+			<li><span>{@html youtubeIcon}</span><a href="">YouTube</a></li>
+		</ul>
+	</div>
 	{#each albumGroups as album}
 		<Album data={album}/>
 	{/each}
@@ -197,6 +205,55 @@
 </footer>
 
 <style>
+	.refer {
+		width: 100%;
+		margin: 0;
+		padding: 2rem 1rem;
+		background: rgb(165, 191, 182, 0.9);
+		color: #151515;
+		font-family: var(--sans);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+	.refer p {
+		font-size: var(--18px);
+		margin: 0;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.refer ul {
+		list-style: none;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		padding: 0;
+		margin: 0;
+	}
+	.refer li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+	}
+	:global(.refer span) {
+		display: inline-block;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	:global(.refer a) {
+		font-weight: 700;
+	}
+	:global(.refer a:hover) {
+		opacity: 0.6;
+	}
 	.bg-topography {
 		position: absolute;
 		width: 100%;
@@ -349,6 +406,10 @@
 			padding: 0.5rem;
 			justify-content: center;
 	   }
+	   .refer {
+			flex-direction: column;
+			padding: 1rem;
+	   }
 
 	   .album-container {
 			margin-top: 6rem;
@@ -363,6 +424,16 @@
 	   .header p, .header a  {
 			font-size: 12px;
 	   }
+	   .refer p, .refer li {
+		font-size: var(--16px);
+	   }
+	   .refer li {
+		font-size: var(--14px);
+	   }
+	   :global(.refer span) {
+			width: 1.25rem;
+			height: 1.25rem;
+		}
     }
 </style>
 
