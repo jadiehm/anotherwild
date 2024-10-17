@@ -110,7 +110,7 @@
     }
     .trackNum {
         display: inline-block;
-        color: #ffffff;
+        color: #f1eeec;
         border-radius: 50%;
         width: 2rem;
         height: 2rem;
@@ -130,7 +130,7 @@
         text-transform: uppercase;
         font-size: 90px;
         margin: 0;
-        color: #ffffff;
+        color: #f1eeec;
         transition: 500ms letter-spacing linear;
         text-shadow: 2px 2px 6px black;
     }
@@ -150,6 +150,9 @@
     :global(button svg) {
         width: 100%;
         height: 100%;
+    }
+    :global(button svg path) {
+        fill: #f1eeec;
     }
 
     @media(max-width: 800px) {
@@ -197,6 +200,10 @@
             top: -0.25rem;
             font-size: 14px;
         }
+        button {
+            height: 2.25rem;
+            width: 2.25rem; 
+        }
     }
 
     @media(max-width: 400px) {
@@ -207,17 +214,12 @@
             height: 32rem;
         }
         .trackTitle {
-            font-size: 28px;
+            /* font-size: 28px; */
             text-shadow: 1px 1px 4px black;
         }
 
         .track:hover .trackTitle {
-            letter-spacing: 0.25rem;
-        }
-
-        .trackNum {
-            top: -0.25rem;
-            font-size: 12px;
+            letter-spacing: 0.125rem;
         }
     }
 </style>

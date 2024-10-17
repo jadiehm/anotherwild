@@ -1,7 +1,7 @@
 <script>
     import Icon from "$components/helpers/Icon.svelte";
     import SpotifyIcon from "$svg/spotify.svg";
-    import BCIcon from "$svg/bandcamp.svg";
+    import iTunesIcon from "$svg/itunes.svg";
     export let infoVisible;
 </script>
 
@@ -12,12 +12,12 @@
             <caption>Photo by <span><a href="https://www.instagram.com/grantwlowe/"> Grant W. Lowe</a></span></caption>
         </div>
         <div class="right">
-            <p>A Fang in the Rough is a concept album in 3 parts by Nashville artist Noah Fagan.</p>
+            <p>A F A N G I N T H E R O U G H <br> is a concept album in 3 parts by <br> A N O T H E R W I L D.</p>
             <div class="links">
                 <p class="lead-in">Find them on</p>
-                <p><Icon name="instagram" width="1.5rem"/> <a href="https://www.instagram.com/watercolorpony/">Instagram</a></p>
+                <p><Icon name="instagram" width="1.5rem"/> <a href="https://www.instagram.com/_anotherwild_/">Instagram</a></p>
                 <p><span class="icon">{@html SpotifyIcon}</span> <a href="">Spotify</a></p>
-                <p><span class="icon">{@html BCIcon}</span> <a href="">Bandcamp</a></p>
+                <p><span class="icon">{@html iTunesIcon}</span> <a href="https://music.apple.com/us/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1771281297?uo=4&app=itunes&at=1001lry3&ct=dashboard">iTunes</a></p>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 999;
+        z-index: 1000;
         height: 100vh;
         overflow-y: auto;
         display: flex;
@@ -108,6 +108,9 @@
 
     :global(caption a:hover, .links a:hover) {
         opacity: 0.8;
+    }
+    :global(.links .icon svg path) {
+        fill: #f1eeec;
     }
 
     @media(max-width: 700px) {

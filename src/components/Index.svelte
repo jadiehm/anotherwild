@@ -123,6 +123,13 @@
 				.ease(d3.easeLinear)               // Use a linear easing for smooth drawing
 				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
 		});
+
+		const video = document.querySelector('#bg-video');
+		const backupPhoto = document.querySelector('#video-backup');
+
+		video.addEventListener('canplay', () => {
+			backupPhoto.style.display = 'none';
+		});
     })
 
 	function infoClick() {
@@ -137,8 +144,6 @@
 			albumContainer.style("pointer-events", "auto");
 		}
 	}
-
-	$: console.log(infoClick)
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
@@ -148,6 +153,7 @@
 	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
 </audio>
 <div class="bg-movie">
+	<img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
 	<video id="bg-video" class="background-video" loop muted playsinline>
 		<source id="videoSource" src="assets/video/01FLAGGROUND.mp4" type="video/mp4">
 	</video>
@@ -157,7 +163,7 @@
 	<div class="video-overlay"></div>
 </div>
 <div class="header">
-	<h1>A fang in the rough</h1>
+	<h1>A F A N G I N T H E R O U G H</h1>
 	<button class="infoBtn" on:click={infoClick} >
 		{#if infoVisible}
 			<p>Close</p>
@@ -174,22 +180,10 @@
 	{/each}
 </div>
 <footer>
-	<p>©Ⓟ Copyright 2024 Noah Fagan</p>
+	<p>©Ⓟ October 18, 2024 H O R S E A N D H O U N D</p>
 </footer>
 
 <style>
-	.bg {
-		position: fixed;
-		width: 100%;
-		height: 100vh;
-		top: 0;
-		left: 0;
-		background-image: url("assets/bg.jpg");
-        background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		z-index: 1;
-	}
 	.bg-topography {
 		position: absolute;
 		width: 100%;
@@ -197,7 +191,7 @@
 		top: 0;
 		left: 0;
 		z-index: 1;
-		opacity: 0.05;
+		opacity: 0.1;
 		transform: scale(4);
 	}
 	:global(.bg-topography svg path) {
@@ -240,6 +234,15 @@
 		transition: opacity 0.25s ease-out;
    		opacity: 0.8; 
 	}
+	#video-backup {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		transition: all 500s linear
+	}
 	:global(#bg-video.fade-out) {
     	opacity: 0 !important; 
 	}
@@ -266,13 +269,13 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 0 0.5rem;
-		border-bottom: 1px solid white;
+		border-bottom: 1px solid #f1eeec;
 	}
 	h1 {
 		margin: 0;
 		font-family: "Carnaby Street", var(--sans), sans;
 		text-transform: uppercase;
-		color: #ffffff;
+		color: #f1eeec;
 		font-size: 20px;
 		letter-spacing: 1px;
 	}
@@ -291,10 +294,11 @@
 	footer {
 		width: 100%;
 		height: 2rem;
-		color: rgba(255,255,255,0.7);
+		color: #f1eeec;
 		padding: 0 0.5rem;
 		font-size: 12px;
 		font-family: var(--sans);
+		opacity: 0.8;
 	}
 
 	@media(max-width: 400px) {

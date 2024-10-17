@@ -100,8 +100,8 @@
 <svg id="audio-wave-{id}" class="audio-wave" width={dimensions[0]} height={dimensions[1]}>
     <!-- Center the group in the middle of the SVG -->
     <g transform={`translate(${dimensions[0]/2}, ${dimensions[1]/2})`}>
-        <path id="path1-{id}" fill="none" stroke="white" stroke-width="2"></path>
-        <path id="path2-{id}" fill="none" stroke="white" stroke-width="2"></path>
+        <path id="path1-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
+        <path id="path2-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
     </g>
 </svg>
 {/if}
@@ -114,7 +114,7 @@
 
     path {
         fill: none;
-        stroke: white;
+        stroke: #f1eeec;
         stroke-width: 2;
     }
 </style>

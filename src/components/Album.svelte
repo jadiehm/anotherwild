@@ -14,7 +14,7 @@
 
 <style>
     .album {
-        border-top: 1px solid #ffffff;
+        border-top: 1px solid #f1eeec;
     }
     .album:first-of-type {
         border-top: none; 
@@ -23,17 +23,11 @@
         position: relative;
         top: 0.5rem;
         left: 0.5rem;
-        color: #ffffff;
+        color: #f1eeec;
         font-family: "Carnaby Street";
         text-transform: uppercase;
         padding: 0;
         margin: 0;
         text-shadow: 1px 1px 4px black;
-    }
-
-    @media(max-width: 400px) {
-       .album {
-            font-size: 12px;
-       }
     }
 </style>
