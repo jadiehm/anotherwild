@@ -9,7 +9,7 @@
     <div class="inner">
         <div class="left">
             <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
-            <caption>Photo by <span><a href="https://www.instagram.com/grantwlowe/"> Grant W. Lowe</a></span></caption>
+            <span>Photo by <a href="https://www.instagram.com/grantwlowe/"> Grant W. Lowe</a></span>
         </div>
         <div class="right">
             <p>A F A N G I N T H E R O U G H <br> is a concept album in 3 parts by <br> A N O T H E R W I L D.</p>
@@ -70,6 +70,14 @@
         font-size: var(--36px);
     }
 
+    .left img {
+        margin-bottom: 0.25rem;
+    }
+
+    .left span, .left a {
+        color: #f1eeec;
+    }
+
     .links {
         margin: 4rem 0;
     }
@@ -94,19 +102,7 @@
         height: 1.5rem;
     }
 
-    caption {
-        width: 100%;
-        display: inline-block;
-        text-align: left;
-        color: rgba(255,255,255,0.8);
-        font-size: var(--14px); 
-        letter-spacing: 1px;
-    }
-    :global(caption a) {
-        color: #f1eeec;
-    }
-
-    :global(caption a:hover, .links a:hover) {
+    :global(.left a:hover, .links a:hover) {
         opacity: 0.8;
     }
     :global(.links .icon svg path) {
