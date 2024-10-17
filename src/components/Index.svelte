@@ -127,7 +127,7 @@
 				.attr("stroke-dashoffset", length)
 				.transition()                      // Apply a transition
 				.delay(i * 100)                    // Stagger each path by 300ms
-				.duration(2000)                    // Set the duration of the draw effect
+				.duration(3000)                    // Set the duration of the draw effect
 				.ease(d3.easeLinear)               // Use a linear easing for smooth drawing
 				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
 		});
@@ -171,7 +171,7 @@
 	<div class="video-overlay"></div>
 </div>
 <div class="header">
-	<h1>{copy.title} <span>Preview visualizer</span></h1>
+	<h1>{copy.title} <span>Album Preview visualizer</span></h1>
 	<div class="links-header">
 		<!-- {#each copy.links as link, i}
 			<a href="{link.url}">{@html icons[i]}</a>
@@ -423,6 +423,9 @@
        h1 {
 			font-size: 18px;
 			letter-spacing: 0px;
+	   }
+	   h1 span {
+		font-size: 12px;
 	   }
 	   .header p, .header a  {
 			font-size: 12px;

@@ -33,4 +33,10 @@
         margin: 0;
         text-shadow: 1px 1px 4px black;
     }
+
+    @media(max-width: 600px) {
+        .albumNum {
+            font-size: 12px;
+        } 
+    }
 </style>

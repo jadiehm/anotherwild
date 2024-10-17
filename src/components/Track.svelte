@@ -92,13 +92,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 10rem;
+        height: 8rem;
         transition: 500ms all linear;
         overflow: hidden;
         cursor: pointer;
     }
     .track:hover .trackTitle {
-        letter-spacing: 0.5rem;
+        letter-spacing: 0.35rem;
     }
     .track:hover button {
         opacity: 1;
@@ -126,9 +126,9 @@
         text-shadow: 1px 1px 4px black;
     }
     .trackTitle {
-        font-family: "Alder Road";
+        font-family: "Hoefler Text";
         text-transform: uppercase;
-        font-size: 90px;
+        font-size: 46px;
         margin: 0;
         color: #f1eeec;
         transition: 500ms letter-spacing linear;
@@ -157,22 +157,23 @@
 
     @media(max-width: 800px) {
         .track {
-            height: 7rem;
+            height: 6rem;
         }
         .active {
             height: 35rem;
         }
         .trackTitle {
-            font-size: 64px;
+            font-size: 36px;
             text-shadow: 2px 2px 6px black;
         }
 
         .track:hover .trackTitle {
-            letter-spacing: 0.5rem;
+            letter-spacing: 0.15rem;
         }
 
         .trackNum {
             top: -0.5rem;
+            text-shadow: 1px 1px 2px black;
         }
         button {
             height: 2.5rem;
@@ -182,23 +183,23 @@
 
     @media(max-width: 600px) {
         .track {
-            height: 6rem;
+            height: 5rem;
         }
         .active {
             height: 35rem;
         }
         .trackTitle {
-            font-size: 40px;
+            font-size: 24px;
             text-shadow: 2px 2px 6px black;
         }
 
         .track:hover .trackTitle {
-            letter-spacing: 0.25rem;
+            letter-spacing: 0.15rem;
         }
 
         .trackNum {
             top: -0.25rem;
-            font-size: 14px;
+            font-size: 12px;
         }
         button {
             height: 2.25rem;
@@ -210,12 +211,11 @@
         .track {
             height: 4rem;
         }
+        .trackTitle {
+            font-size: 18px;
+        }
         .active {
             height: 32rem;
-        }
-        .trackTitle {
-            /* font-size: 28px; */
-            text-shadow: 1px 1px 4px black;
         }
 
         .track:hover .trackTitle {
