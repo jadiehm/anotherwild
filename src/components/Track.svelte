@@ -29,14 +29,14 @@
             // Change the video source
 
             if ($currTrack !== null) {
-                audioSource.src = `assets/audio/preview/${$currTrack}.mp3`;
+                audioSource.src = `assets/audio/${$currTrack}.mp3`;
                 source.src = `assets/video/${$currTrack}.mp4`;
                 video.setAttribute("preload", "none");
                 video.load();
                 video.muted = true; // Ensures the video remains muted
                 video.play();
             } else {
-                audioSource.src = `assets/video/01FLAGGROUND.mp3`;
+                audioSource.src = `assets/audio/01FLAGGROUND.mp3`;
                 source.src = `assets/video/01FLAGGROUND.mp4`;
                 video.setAttribute("preload", "none");
                 video.load();
