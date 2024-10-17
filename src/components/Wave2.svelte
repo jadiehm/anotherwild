@@ -54,12 +54,17 @@
         const lineRadial = d3.lineRadial()
             .radius((d, i) => radius + d * 100 * d)
             .angle((d, i) => (i / numPoints) * 2 * Math.PI)
-            .curve(d3.curveCardinalClosed);
+            .curve(d3.curveCardinalClosed.tension(1));
         
         const lineRadial2 = d3.lineRadial()
             .radius((d, i) => radius/2 + d * 100 * d)
             .angle((d, i) => (i / numPoints) * 2 * Math.PI)
-            .curve(d3.curveCardinalClosed);
+            .curve(d3.curveCardinalClosed.tension(1));
+        
+        const lineRadial3 = d3.lineRadial()
+            .radius((d, i) => radius/6 + d * 100 * d)
+            .angle((d, i) => (i / numPoints) * 2 * Math.PI)
+            .curve(d3.curveCardinalClosed.tension(1));
 
         // Update the path data
         let path1 = d3.select(`#path1-${id}`)
@@ -70,6 +75,11 @@
         let path2 = d3.select(`#path2-${id}`)
             .datum(dataArray)
             .attr('d', lineRadial2)
+            .style("opacity", 1);
+
+        let path3 = d3.select(`#path3-${id}`)
+            .datum(dataArray)
+            .attr('d', lineRadial3)
             .style("opacity", 1);
     }
 
@@ -102,6 +112,7 @@
     <g transform={`translate(${dimensions[0]/2}, ${dimensions[1]/2})`}>
         <path id="path1-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
         <path id="path2-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
+        <path id="path3-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
     </g>
 </svg>
 {/if}

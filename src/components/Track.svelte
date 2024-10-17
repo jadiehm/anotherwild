@@ -126,10 +126,9 @@
         text-shadow: 1px 1px 4px black;
     }
     .trackTitle {
-        font-family: "Hoefler Text";
-        font-weight: 500;
+        font-family: "Alder Road";
         text-transform: uppercase;
-        font-size: 50px;
+        font-size: 90px;
         margin: 0;
         color: #f1eeec;
         transition: 500ms letter-spacing linear;
@@ -189,7 +188,7 @@
             height: 35rem;
         }
         .trackTitle {
-            font-size: 18px;
+            font-size: 40px;
             text-shadow: 2px 2px 6px black;
         }
 

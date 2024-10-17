@@ -8,15 +8,16 @@
 
     const copy = getContext("copy");
 
-    console.log(youtubeIcon)
-
     const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
 </script>
 
 <section class="info" class:infoVisible={infoVisible}>
     <div class="inner">
         <div class="left">
-            <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+            <div class="photo-wrapper">
+                <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+                <img class="album-img" src="assets/images/LADDER.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+            </div>
             <span class="caption">{@html copy.caption}</span>
         </div>
         <div class="right">
@@ -61,7 +62,7 @@
         max-width: 900px;
         display: flex;
         flex-direction: row;
-        gap: 2rem;
+        gap: 3rem;
         margin-top: 0rem;
         padding: 5rem 2rem;
     }
@@ -75,15 +76,28 @@
     }
 
     .right p {
-        font-size: var(--36px);
+        font-size: 30px;
     }
 
     .left img {
         margin-bottom: 0.25rem;
+        transition: filter 0.3s ease;
     }
 
     .left span, .left a {
         color: #f1eeec;
+    }
+    .photo-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    .album-img {
+        position: absolute;
+        top: -1.75rem;
+        right: -1.75rem;
+        width: 40%;
+        aspect-ratio: 1;
+        border: 5px solid black;
     }
 
     .links {
@@ -119,17 +133,21 @@
        color: #f1eeec; 
     }
 
-    :global(.left a:hover, .links a:hover) {
-        opacity: 0.8;
+    :global(.left a:hover, .right .links a:hover) {
+        color: rgba(165, 191, 182, 0.95);
     }
     :global(.links .icon svg path) {
         fill: #f1eeec;
     }
 
+    img:hover {
+        filter: blur(2px);
+    }
+
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            margin-top: 6rem;
+            margin-top: 8rem;
             padding: 2rem;
             height: 100%;
         }
@@ -141,7 +159,7 @@
 
     @media(max-width: 600px) {
         .inner {
-            margin-top: 10rem;
+            margin-top: 13rem;
         }
     }
 

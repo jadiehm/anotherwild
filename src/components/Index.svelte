@@ -209,7 +209,7 @@
 		width: 100%;
 		margin: 0;
 		padding: 2rem 1rem;
-		background: rgb(165, 191, 182, 0.9);
+		background: rgba(165, 191, 182, 0.85);
 		color: #151515;
 		font-family: var(--sans);
 		display: flex;
@@ -278,6 +278,9 @@
 		width: 4.25rem;
 		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
 	}
+	.infoBtn:hover {
+		background: rgba(165, 191, 182, 0.95);
+	}
 	.links-header {
 		display: flex;
 		flex-direction: row;
@@ -340,7 +343,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: url("assets/images/bg-pattern-dark.png");
+		background: url("https://afangintherough.com/assets/images/bg-pattern-dark.png");
 		opacity: .5;
 	}
 	.header {
@@ -391,7 +394,7 @@
 	footer {
 		width: 100%;
 		height: 2rem;
-		color: #f1eeec;
+		color: rgba(165, 191, 182, 1);
 		padding: 0 0.5rem;
 		font-size: 12px;
 		font-family: var(--sans);
