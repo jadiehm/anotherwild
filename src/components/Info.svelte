@@ -1,24 +1,29 @@
 <script>
-    import Icon from "$components/helpers/Icon.svelte";
-    import SpotifyIcon from "$svg/spotify.svg";
-    import iTunesIcon from "$svg/itunes.svg";
+    import { getContext } from 'svelte';
+    import spotifyIcon from "$svg/spotify.svg";
+    import appleIcon from "$svg/itunes.svg";
+    import instagramIcon from "$svg/instagram.svg";
     export let infoVisible;
+
+    const copy = getContext("copy");
+
+    const icons = [spotifyIcon, appleIcon, instagramIcon];
 </script>
 
 <section class="info" class:infoVisible={infoVisible}>
     <div class="inner">
         <div class="left">
             <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
-            <span>Photo by <a href="https://www.instagram.com/grantwlowe/"> Grant W. Lowe</a></span>
+            <span class="caption">{@html copy.caption}</span>
         </div>
         <div class="right">
-            <p>A F A N G I N T H E R O U G H <br> is a concept album in 3 parts by <br> A N O T H E R W I L D.</p>
-            <div class="links">
-                <p class="lead-in">Find them on</p>
-                <p><Icon name="instagram" width="1.5rem"/> <a href="https://www.instagram.com/_anotherwild_/">Instagram</a></p>
-                <p><span class="icon">{@html SpotifyIcon}</span> <a href="">Spotify</a></p>
-                <p><span class="icon">{@html iTunesIcon}</span> <a href="https://music.apple.com/us/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1771281297?uo=4&app=itunes&at=1001lry3&ct=dashboard">iTunes</a></p>
-            </div>
+            <p>{@html copy.about}</p>
+            <ul class="links">
+                <li class="lead-in">Find them on</li>
+                {#each copy.links as link, i}
+                    <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
+                {/each}
+            </ul>
         </div>
     </div>
 </section>
@@ -80,13 +85,19 @@
 
     .links {
         margin: 4rem 0;
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
     }
 
-    .links p {
+    .links li {
         font-size: var(--24px);
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin: 0;
+        padding: 0.5rem 0;
     }
 
     .links a {
@@ -100,6 +111,9 @@
     span.icon {
         width: 1.5rem;
         height: 1.5rem;
+    }
+    :global(.caption a) {
+       color: #f1eeec; 
     }
 
     :global(.left a:hover, .links a:hover) {
@@ -119,6 +133,12 @@
         .left, .right {
             width: 100%;
             max-width: 400px;
+        }
+    }
+
+    @media(max-width: 600px) {
+        .inner {
+            margin-top: 10rem;
         }
     }
 

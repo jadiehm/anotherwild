@@ -3,6 +3,9 @@
 	import Album from "$components/Album.svelte";
 	import Info from "$components/Info.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
+	import spotifyIcon from "$svg/spotify.svg";
+    import appleIcon from "$svg/itunes.svg";
+    import instagramIcon from "$svg/instagram.svg";
 	import * as d3 from "d3";
 
 	import topography from "$svg/topography.svg";
@@ -11,10 +14,14 @@
 	let height;
 	let infoVisible = false;
 
+	const icons = [spotifyIcon, appleIcon, instagramIcon];
+
+	const copy = getContext("copy");
+
 	const data = [
 		{
 			"album": 1,
-			"title": "flag//ground",
+			"title": "finally",
 			"id": "01FLAGGROUND"
 		},
 		{
@@ -163,24 +170,30 @@
 	<div class="video-overlay"></div>
 </div>
 <div class="header">
-	<h1>A F A N G I N T H E R O U G H</h1>
-	<button class="infoBtn" on:click={infoClick} >
-		{#if infoVisible}
-			<p>Close</p>
-			<Icon name="x" width="1rem"/>
-		{:else}
-			<p>About</p>
-			<Icon name="info" width="1rem"/>
-		{/if}
-	</button>
+	<h1>{copy.title} <span>Preview visualizer</span></h1>
+	<div class="links-header">
+		{#each copy.links as link, i}
+			<a href="{link.url}">{@html icons[i]}</a>
+		{/each}
+		<button class="infoBtn" on:click={infoClick} >
+			{#if infoVisible}
+				<p>Close</p>
+				<Icon name="x" width="1rem"/>
+			{:else}
+				<p>About</p>
+				<Icon name="info" width="1rem"/>
+			{/if}
+		</button>
+	</div>
 </div>
 <div class="album-container">
+	<p></p>
 	{#each albumGroups as album}
 		<Album data={album}/>
 	{/each}
 </div>
 <footer>
-	<p>©Ⓟ October 18, 2024 H O R S E A N D H O U N D</p>
+	<p>{copy.copyright}</p>
 </footer>
 
 <style>
@@ -196,7 +209,7 @@
 	}
 	:global(.bg-topography svg path) {
 		fill: none;
-		stroke: white;
+		stroke: #f1eeec;
 		stroke-width: 0.5px;
 	}
 	.infoBtn {
@@ -207,6 +220,24 @@
 		justify-content: center;
 		width: 4.25rem;
 		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+	}
+	.links-header {
+		display: flex;
+		flex-direction: row;
+		gap: 0.75rem;
+		align-items: center;
+	}
+	:global(.links-header a) {
+		width: 1.5rem;
+		height: 1.5rem;
+		color: #f1eeec;
+		border-bottom: none;
+	}
+	:global(.links-header a:hover) {
+		opacity: 0.8;
+	}
+	:global(.links-header a svg path) {
+		fill: #f1eeec;
 	}
 	.infoBtn p {
 		color: black;
@@ -278,6 +309,15 @@
 		color: #f1eeec;
 		font-size: 20px;
 		letter-spacing: 1px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem
+	}
+	h1 span {
+		font-family: var(--sans);
+		letter-spacing: 0;
+		font-size: var(--14px);
 	}
 	.header a {
 		text-transform: uppercase;
@@ -300,6 +340,20 @@
 		font-family: var(--sans);
 		opacity: 0.8;
 	}
+
+	@media(max-width: 600px) {
+       .header {
+			flex-direction: column;
+			gap: 0.5rem;
+			height: 6rem;
+			padding: 0.5rem;
+			justify-content: center;
+	   }
+
+	   .album-container {
+			margin-top: 6rem;
+		}
+    }
 
 	@media(max-width: 400px) {
        h1 {
