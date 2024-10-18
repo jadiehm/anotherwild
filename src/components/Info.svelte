@@ -24,8 +24,6 @@
     function handleScroll(event) {
         scrollY = event.target.scrollTop;
     }
-
-    $: console.log(scrollY)
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} />

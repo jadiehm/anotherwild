@@ -36,6 +36,8 @@
 	<link rel="canonical" href="{url}/" />
 	<link rel="icon" href="https://afangintherough.com/assets/social/favicon.png" type="image/x-icon">
 
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-SW8YQCTVCN"></script>
+
 	{#each preloadFont as href}
 		<link rel="preload" {href} as="font" type="font/woff2" crossorigin />
 	{/each}
