@@ -19,11 +19,16 @@
     }
 
     let scrollY = 0;
+    let innerWidth = 0;
 
     function handleScroll(event) {
         scrollY = event.target.scrollTop;
     }
+
+    $: console.log(scrollY)
 </script>
+
+<svelte:window bind:innerWidth={innerWidth} />
 
 <section class="info" class:infoVisible={infoVisible} on:scroll={handleScroll}>
     <div class="inner">
@@ -50,9 +55,9 @@
     
         <!-- Page 1 -->
         <div class="page-wrapper" style="z-index: 1000">
-                <div class="fake-page" class:scrolled={scrollY > 150}></div>
-                <div class="fake-page" class:scrolled={scrollY > 150}></div>
-                <div class="fake-page" class:scrolled={scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 400 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 400 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 400 : scrollY > 150}></div>
                 <div class="page page-start" style="transform: rotate(0deg)">
                     {#each copy.note1 as graf, i}
                         <p>{@html graf.value}</p>
@@ -303,18 +308,19 @@
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            padding: 2rem;
-            height: 100%;
+            padding: 2rem 1rem;
+            align-items: center;
         }
         .left, .right {
             width: 100%;
             max-width: 400px;
         }
+        .note {
+            margin-top: 0;
+            padding: 0;
+        }
     }
     @media(max-width: 600px) {
-        .note {
-            padding: 3rem 0;
-        }
         .page {
             padding: 1rem 2rem;
         }
