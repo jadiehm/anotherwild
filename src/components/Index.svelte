@@ -7,6 +7,7 @@
     import appleIcon from "$svg/itunes.svg";
 	import youtubeIcon from "$svg/youtube.svg";
     import instagramIcon from "$svg/instagram.svg";
+	import stamp from "$svg/stamp.svg";
 	import * as d3 from "d3";
 
 	import topography from "$svg/topography.svg";
@@ -23,7 +24,7 @@
 		{
 			"album": 1,
 			"title": "finally",
-			"id": "01FLAGGROUND"
+			"id": "01FINALLY"
 		},
 		{
 			"album": 1,
@@ -158,12 +159,12 @@
 
 <Info {infoVisible}/>
 <audio id="bg-audio" loop>
-	<source id="audioSource" src="assets/audio/01FLAGGROUND.mp3" type="audio/mpeg">
+	<source id="audioSource" src="assets/audio/01FINALLY.mp3" type="audio/mpeg">
 </audio>
 <div class="bg-movie">
 	<img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
 	<video id="bg-video" class="background-video" loop muted playsinline>
-		<source id="videoSource" src="assets/video/01FLAGGROUND.mp4" type="video/mp4">
+		<source id="videoSource" src="assets/video/01FINALLY.mp4" type="video/mp4">
 	</video>
 	<div class="bg-topography">
 		{@html topography}
@@ -202,6 +203,7 @@
 </div>
 <footer>
 	<p>{copy.copyright}</p>
+	<div class="stamp">{@html stamp}</div>
 </footer>
 
 <style>
@@ -398,6 +400,16 @@
 		font-size: 12px;
 		font-family: var(--sans);
 		opacity: 0.8;
+		position: relative;
+	}
+
+	.stamp {
+		position: absolute;
+		right: 1rem;
+		bottom: 1rem;
+		transform: rotate(20deg);
+		width: 100px;
+		height: 100px;
 	}
 
 	@media(max-width: 600px) {
@@ -415,6 +427,10 @@
 
 	   .album-container {
 			margin-top: 6rem;
+		}
+		.stamp {
+			width: 80px;
+			height: 80px;
 		}
     }
 
@@ -438,6 +454,10 @@
 	   :global(.refer span) {
 			width: 1.25rem;
 			height: 1.25rem;
+		}
+		.stamp {
+			width: 60px;
+			height: 60px;
 		}
     }
 </style>

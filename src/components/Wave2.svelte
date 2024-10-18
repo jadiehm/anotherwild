@@ -14,7 +14,7 @@
     let currAudio;
 
     // Circular chart properties
-    const numPoints = 100; // Number of points in the circular wave
+    const numPoints = 300; // Number of points in the circular wave
 
     onMount(async () => {
         // Initialize the audio context and analyser
@@ -44,27 +44,41 @@
 
         // Update frequency data and normalize for visualization
         analyser.getByteFrequencyData(frequencyData);
-        for (let i = 0; i < numPoints; i++) {
-            dataArray[i] = frequencyData[i * Math.floor(frequencyData.length / numPoints)] / 256;
+
+        const numFrequencies = frequencyData.length;
+        const halfNumPoints = Math.floor(numPoints / 2);
+        
+        if (numFrequencies === 0) return;
+
+        const pointsPerFrequency = numPoints / numFrequencies; 
+
+        for (let i = 0; i < halfNumPoints; i++) {
+            const frequencyValue = frequencyData[i % numFrequencies] / 256;  // Repeat the frequency data
+            dataArray[i] = Math.max(0.05, isNaN(frequencyValue) ? 0 : frequencyValue);
+        }
+
+        for (let i = halfNumPoints; i < numPoints; i++) {
+            const frequencyValue = frequencyData[(i - halfNumPoints) % numFrequencies] / 256;
+            dataArray[i] = Math.max(0.05, isNaN(frequencyValue) ? 0 : frequencyValue);
         }
 
         let radius = dimensions[0]/4;
 
         // Create radial line generator
         const lineRadial = d3.lineRadial()
-            .radius((d, i) => radius + d * 100 * d)
-            .angle((d, i) => (i / numPoints) * 2 * Math.PI)
-            .curve(d3.curveCardinalClosed.tension(1));
+            .radius((d, i) => radius + d * 100 * d)  // Scale the radius based on the data
+            .angle((d, i) => (i / numPoints) * 2 * Math.PI)  // Ensure points are evenly distributed
+            .curve(d3.curveCardinalClosed);  // Use the curve function
         
         const lineRadial2 = d3.lineRadial()
-            .radius((d, i) => radius/2 + d * 100 * d)
-            .angle((d, i) => (i / numPoints) * 2 * Math.PI)
-            .curve(d3.curveCardinalClosed.tension(1));
+        .radius((d, i) => radius/2 + d * 100 * d)  // Scale the radius based on the data
+            .angle((d, i) => (i / numPoints) * 2 * Math.PI)  // Ensure points are evenly distributed
+            .curve(d3.curveCardinalClosed);  // Use the curve function
         
         const lineRadial3 = d3.lineRadial()
-            .radius((d, i) => radius/6 + d * 100 * d)
-            .angle((d, i) => (i / numPoints) * 2 * Math.PI)
-            .curve(d3.curveCardinalClosed.tension(1));
+            .radius((d, i) => radius/6 + d * 100 * d)  // Scale the radius based on the data
+            .angle((d, i) => (i / numPoints) * 2 * Math.PI)  // Ensure points are evenly distributed
+            .curve(d3.curveCardinalClosed);  // Use the curve function
 
         // Update the path data
         let path1 = d3.select(`#path1-${id}`)

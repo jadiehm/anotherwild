@@ -4,6 +4,7 @@
     import appleIcon from "$svg/itunes.svg";
     import instagramIcon from "$svg/instagram.svg";
     import youtubeIcon from "$svg/youtube.svg";
+    import stamp from "$svg/stamp.svg";
     export let infoVisible;
 
     const copy = getContext("copy");
@@ -17,6 +18,7 @@
             <div class="photo-wrapper">
                 <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
                 <img class="album-img" src="assets/images/LADDER.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+                <div class="stamp">{@html stamp}</div>
             </div>
             <span class="caption">{@html copy.caption}</span>
         </div>
@@ -64,7 +66,7 @@
         flex-direction: row;
         gap: 3rem;
         margin-top: 0rem;
-        padding: 5rem 2rem;
+        padding: 5rem 3rem;
     }
 
     .left, .right {
@@ -130,6 +132,17 @@
         width: 1.5rem;
         height: 1.5rem;
     }
+    .stamp {
+        position: absolute;
+        left: -2rem;
+        bottom: 1rem;
+        width: 100px;
+        height: 100px;
+        transform: rotate(20deg);
+    }
+    :global(.stamp svg path) {
+        fill: #f1eeec;
+    }
     .caption {
         font-family: "Carnaby Street";
     }
@@ -157,8 +170,9 @@
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            margin-top: 8rem;
-            padding: 2rem;
+            align-items: center;
+            margin-top: 10rem;
+            padding: 3rem;
             height: 100%;
         }
         .left, .right {
@@ -175,13 +189,13 @@
 
     @media(max-width: 500px) {
         .right p {
-            font-size: 20px;
+            font-size: 18px;
         }
         caption, .links .lead-in {
             font-size: var(--12px);
         }
         .links p {
-            font-size: var(--18px);
+            font-size: var(--16px);
         }
     }
 </style>
