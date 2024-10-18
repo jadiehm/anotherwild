@@ -1,5 +1,5 @@
 <script>
-    import { getContext } from 'svelte';
+    import { getContext, onMount } from "svelte";
     import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
     import instagramIcon from "$svg/instagram.svg";
@@ -32,26 +32,51 @@
             </ul>
         </div>
     </div>
+    <div class="note">
+        <p class="lead-in">About the project</p>
+        <div class="page">
+            {#each copy.note1 as graf, i}
+                <p>{graf.value}</p>
+            {/each}
+        </div>
+        <div class="page">
+            {#each copy.note2 as graf, i}
+            <p>{graf.value}</p>
+            {/each}
+        </div>
+
+        <div class="page">
+            {#each copy.note3 as graf, i}
+            <p>{graf.value}</p>
+            {/each}
+        </div>
+        <div class="page">
+            {#each copy.note4 as graf, i}
+            <p>{graf.value}</p>
+            {/each}
+        </div>
+    </div>
 </section>
 
 <style>
     section {
         position: fixed;
-        top: 0;
+        top: 3.5rem;
         left: 0;
         width: 100%;
         z-index: 1000;
         height: 100vh;
         overflow-y: auto;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         background: rgba(0,0,0,0.95);
         transform: translateX(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
+        padding: 3rem 1rem;
     }
 
     section.infoVisible {
@@ -60,15 +85,33 @@
 
     .inner {
         width: 100%;
-        height: auto;
         max-width: 900px;
         display: flex;
         flex-direction: row;
         gap: 3rem;
-        margin-top: 0rem;
-        padding: 5rem 3rem;
+        margin-top: 0;
+        padding: 1rem;
     }
-
+    .note {
+        width: 100%;
+        max-width: 660px;
+        font-family: var(--serif);
+        margin: 5rem auto;
+    }
+    .note .lead-in {
+        font-size: var(--14px);
+        font-family: "Carnaby Street";
+        text-transform: uppercase;
+    }
+    .page {
+        background-color: #f1eeec;
+        color: #151515;
+        padding: 3rem;
+        margin: 1rem 0;
+        background-image: url("assets/images/bg_texture.png");
+        background-size: 200px;
+        background-repeat: repeat;
+    }
     .left, .right {
         width: 50%;
     }
