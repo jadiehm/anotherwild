@@ -5,14 +5,27 @@
     import instagramIcon from "$svg/instagram.svg";
     import youtubeIcon from "$svg/youtube.svg";
     import stamp from "$svg/stamp.svg";
+    import inView from "$actions/inView.js";
+    import { fly } from 'svelte/transition';
+    import { sineInOut } from 'svelte/easing';
     export let infoVisible;
 
     const copy = getContext("copy");
 
     const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
+    
+    function getRandomRotation() {
+        return Math.floor(Math.random() * (-2 - 2 + 1)) + 2;
+    }
+
+    let scrollY = 0;
+
+    function handleScroll(event) {
+        scrollY = event.target.scrollTop;
+    }
 </script>
 
-<section class="info" class:infoVisible={infoVisible}>
+<section class="info" class:infoVisible={infoVisible} on:scroll={handleScroll}>
     <div class="inner">
         <div class="left">
             <div class="photo-wrapper">
@@ -34,26 +47,44 @@
     </div>
     <div class="note">
         <p class="lead-in">About the project</p>
-        <div class="page">
-            {#each copy.note1 as graf, i}
-                <p>{graf.value}</p>
-            {/each}
+    
+        <!-- Page 1 -->
+        <div class="page-wrapper" style="z-index: 1000">
+                <div class="fake-page" class:scrolled={scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={scrollY > 150}></div>
+                <div class="page page-start" style="transform: rotate(0deg)">
+                    {#each copy.note1 as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
         </div>
-        <div class="page">
-            {#each copy.note2 as graf, i}
-            <p>{graf.value}</p>
-            {/each}
+    
+        <!-- Page 2 -->
+        <div class="page-wrapper">
+                <div class="page" style="transform: rotate(-0.5deg)">
+                    {#each copy.note2 as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
         </div>
-
-        <div class="page">
-            {#each copy.note3 as graf, i}
-            <p>{graf.value}</p>
-            {/each}
+    
+        <!-- Page 3 -->
+        <div class="page-wrapper">
+                <div class="page" style="transform: rotate(0.5deg)">
+                    {#each copy.note3 as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
         </div>
-        <div class="page">
-            {#each copy.note4 as graf, i}
-            <p>{graf.value}</p>
-            {/each}
+    
+        <!-- Page 4 -->
+        <div class="page-wrapper">
+                <div class="page" style="transform: rotate(0deg)">
+                    {#each copy.note4 as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
         </div>
     </div>
 </section>
@@ -76,7 +107,7 @@
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
-        padding: 3rem 1rem;
+        padding: 3rem 2rem;
     }
 
     section.infoVisible {
@@ -94,16 +125,59 @@
     }
     .note {
         width: 100%;
-        max-width: 660px;
         font-family: var(--serif);
         margin: 5rem auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 2rem;
     }
     .note .lead-in {
         font-size: var(--14px);
         font-family: "Carnaby Street";
         text-transform: uppercase;
     }
+    .page-wrapper {
+        position: relative;
+        max-width: 660px;
+        height: auto;
+        width: 100%;
+    }
+    .fake-page {
+        width: 100%;
+        height: calc(100% - 2rem);
+        position: absolute;
+        background-color: #f1eeec;
+        background-image: url("assets/images/bg_texture.png");
+        background-size: 200px;
+        background-repeat: repeat;
+        border: 1px solid #dfd9d5;
+        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
+        z-index: 600;
+        transition: all 0.125s ease-in;
+    }
+    .fake-page:first-of-type {
+        left: 0rem;
+        transform: rotate(-2deg);
+    }
+    .fake-page:nth-of-type(2) {
+        left: 2rem;
+        top: 1rem;
+        transform: rotate(1deg);
+    }
+    .fake-page:nth-of-type(3) {
+        left: 1rem;
+        top: -0.5rem;
+        transform: rotate(1deg);
+    }
+    .fake-page.scrolled {
+        left: 0;
+        top: 1rem;
+        transform: rotate(0deg);
+    }
     .page {
+        max-width: 660px;
         background-color: #f1eeec;
         color: #151515;
         padding: 3rem;
@@ -111,6 +185,22 @@
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
+        border: 1px solid #dfd9d5;
+        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
+        z-index: 1000;
+        position: relative;
+    }
+    .expand-Btn {
+        background: rgba(165, 191, 182, 1);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 6rem;
+		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+        color: black;
+		font-family: "Carnaby Street", var(--sans), sans;
+		text-transform: uppercase;
     }
     .left, .right {
         width: 50%;
@@ -213,9 +303,7 @@
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            align-items: center;
-            margin-top: 10rem;
-            padding: 3rem;
+            padding: 2rem;
             height: 100%;
         }
         .left, .right {
@@ -223,10 +311,35 @@
             max-width: 400px;
         }
     }
-
     @media(max-width: 600px) {
-        .inner {
-            margin-top: 13rem;
+        .note {
+            padding: 3rem 0;
+        }
+        .page {
+            padding: 1rem 2rem;
+        }
+        .page p {
+            font-size: 14px;
+        }
+
+        .fake-page:first-of-type {
+            left: 1.5rem;
+            transform: rotate(-2deg);
+        }
+        .fake-page:nth-of-type(2) {
+            left: 0.5rem;
+            top: 1rem;
+            transform: rotate(1deg);
+        }
+        .fake-page:nth-of-type(3) {
+            left: 0rem;
+            top: 0rem;
+            transform: rotate(1deg);
+        }
+        .fake-page.scrolled {
+            left: 0;
+            top: 1rem;
+            transform: rotate(0deg);
         }
     }
 

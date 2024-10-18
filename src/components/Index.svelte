@@ -146,10 +146,8 @@
 		const body = document.querySelector('body');
 		const albumContainer = d3.select('.album-container');
 		if (infoVisible) {
-			body.style.overflowY = 'hidden';
 			albumContainer.style("pointer-events", "none");
 		} else {
-			body.style.overflowY = '';
 			albumContainer.style("pointer-events", "auto");
 		}
 	}
