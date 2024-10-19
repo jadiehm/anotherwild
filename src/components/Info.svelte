@@ -53,9 +53,9 @@
     
         <!-- Page 1 -->
         <div class="page-wrapper" style="z-index: 1000">
-                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 500 : scrollY > 150}></div>
-                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 500 : scrollY > 150}></div>
-                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 500 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                 <div class="page page-start" style="transform: rotate(0deg)">
                     {#each copy.note1 as graf, i}
                         <p>{@html graf.value}</p>
