@@ -2,6 +2,7 @@
     import { getContext, onMount } from "svelte";
     import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
+    import bandcampIcon from "$svg/bandcamp.svg";
     import instagramIcon from "$svg/instagram.svg";
     import youtubeIcon from "$svg/youtube.svg";
     import stamp from "$svg/stamp.svg";
@@ -42,9 +43,10 @@
             <p>{@html copy.about}</p>
             <ul class="links">
                 <li class="lead-in">Find them on</li>
-                {#each copy.links as link, i}
+                <li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
+                <!-- {#each copy.links as link, i}
                     <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
-                {/each}
+                {/each} -->
             </ul>
         </div>
     </div>

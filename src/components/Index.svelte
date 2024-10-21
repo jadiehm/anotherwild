@@ -5,6 +5,7 @@
 	import Icon from "$components/helpers/Icon.svelte";
 	import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
+	import bandcampIcon from "$svg/bandcamp.svg";
 	import youtubeIcon from "$svg/youtube.svg";
     import instagramIcon from "$svg/instagram.svg";
 	import stamp from "$svg/stamp.svg";
@@ -190,9 +191,10 @@
 	<div class="refer">
 		<p>Listen to the full album on</p>
 		<ul>
-			<li><span>{@html spotifyIcon}</span><a href="https://open.spotify.com/album/7dCZsnk1hRpFGTfNpFXKwT">Spotify</a></li>
+			<li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
+			<!-- <li><span>{@html spotifyIcon}</span><a href="https://open.spotify.com/album/7dCZsnk1hRpFGTfNpFXKwT">Spotify</a></li>
 			<li><span>{@html appleIcon}</span><a href="https://music.apple.com/us/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1771281297?uo=4&app=itunes&at=1001lry3&ct=dashboard">Apple Music</a></li>
-			<li><span>{@html youtubeIcon}</span><a href="https://www.youtube.com/@anotherwild">YouTube</a></li>
+			<li><span>{@html youtubeIcon}</span><a href="https://www.youtube.com/@anotherwild">YouTube</a></li> -->
 		</ul>
 	</div>
 	{#each albumGroups as album}
