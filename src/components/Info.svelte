@@ -53,16 +53,26 @@
     <div class="note">
         <p class="lead-in">About the project</p>
     
-        <!-- Page 1 -->
+        <!-- Page 0 -->
         <div class="page-wrapper" style="z-index: 1000">
                 <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                 <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                 <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                 <div class="page page-start" style="transform: rotate(0deg)">
-                    {#each copy.note1 as graf, i}
-                        <p>{@html graf.value}</p>
+                    {#each copy.note0 as graf, i}
+                        <p class="center-itals">{@html graf.value}</p>
                     {/each}
                 </div>
+        </div>
+
+        <!-- Page 1 -->
+        <div class="page-wrapper">
+            <div class="page" style="transform: rotate(-1deg)">
+                {#each copy.note2 as graf, i}
+                    <p>{@html graf.value}</p>
+                {/each}
+            </div>
         </div>
     
         <!-- Page 2 -->
@@ -76,7 +86,7 @@
     
         <!-- Page 3 -->
         <div class="page-wrapper">
-                <div class="page" style="transform: rotate(0.5deg)">
+                <div class="page" style="transform: rotate(1deg)">
                     {#each copy.note3 as graf, i}
                         <p>{@html graf.value}</p>
                     {/each}
@@ -85,7 +95,7 @@
     
         <!-- Page 4 -->
         <div class="page-wrapper">
-                <div class="page" style="transform: rotate(0deg)">
+                <div class="page" style="transform: rotate(0.5deg)">
                     {#each copy.note4 as graf, i}
                         <p>{@html graf.value}</p>
                     {/each}
@@ -143,6 +153,10 @@
         font-family: "Carnaby Street";
         text-transform: uppercase;
     }
+    .center-itals {
+        font-style: italic;
+        text-align: center;
+    }
     .page-wrapper {
         position: relative;
         max-width: 660px;
@@ -174,7 +188,12 @@
     .fake-page:nth-of-type(3) {
         left: 1rem;
         top: -0.5rem;
-        transform: rotate(1deg);
+        transform: rotate(-1deg);
+    }
+    .fake-page:nth-of-type(3) {
+        left: 1rem;
+        top: 0rem;
+        transform: rotate(2deg);
     }
     .fake-page.scrolled {
         left: 0;
