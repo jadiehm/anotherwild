@@ -69,7 +69,7 @@
         <!-- Page 1 -->
         <div class="page-wrapper">
             <div class="page" style="transform: rotate(0.5deg)">
-                {#each copy.note2 as graf, i}
+                {#each copy.note1 as graf, i}
                     <p>{@html graf.value}</p>
                 {/each}
             </div>
