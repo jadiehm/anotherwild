@@ -13,7 +13,7 @@
 
     const copy = getContext("copy");
 
-    const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
+    const icons = [spotifyIcon, appleIcon, bandcampIcon, youtubeIcon, instagramIcon];
     
     function getRandomRotation() {
         return Math.floor(Math.random() * (-2 - 2 + 1)) + 2;
@@ -43,10 +43,9 @@
             <p>{@html copy.about}</p>
             <ul class="links">
                 <li class="lead-in">Find them on</li>
-                <li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
-                <!-- {#each copy.links as link, i}
+                {#each copy.links as link, i}
                     <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
-                {/each} -->
+                {/each}
             </ul>
         </div>
     </div>

@@ -17,7 +17,7 @@
 	let height;
 	let infoVisible = false;
 
-	const icons = [spotifyIcon, appleIcon, youtubeIcon, instagramIcon];
+	const icons = [spotifyIcon, appleIcon, youtubeIcon, bandcampIcon, instagramIcon];
 
 	const copy = getContext("copy");
 
@@ -191,10 +191,10 @@
 	<div class="refer">
 		<p>Listen to the full album on</p>
 		<ul>
-			<li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
-			<!-- <li><span>{@html spotifyIcon}</span><a href="https://open.spotify.com/album/7dCZsnk1hRpFGTfNpFXKwT">Spotify</a></li>
+			<li><span>{@html spotifyIcon}</span><a href="https://open.spotify.com/album/7dCZsnk1hRpFGTfNpFXKwT">Spotify</a></li>
 			<li><span>{@html appleIcon}</span><a href="https://music.apple.com/us/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1771281297?uo=4&app=itunes&at=1001lry3&ct=dashboard">Apple Music</a></li>
-			<li><span>{@html youtubeIcon}</span><a href="https://www.youtube.com/@anotherwild">YouTube</a></li> -->
+			<li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
+			<li><span>{@html youtubeIcon}</span><a href="https://www.youtube.com/@anotherwild">YouTube</a></li>
 		</ul>
 	</div>
 	{#each albumGroups as album}
@@ -411,6 +411,12 @@
 		width: 100px;
 		height: 100px;
 	}
+	@media(max-width: 700px) {
+		.refer {
+			flex-direction: column;
+			padding: 1rem;
+	   }
+	}
 
 	@media(max-width: 600px) {
        .header {
@@ -419,10 +425,6 @@
 			height: 6rem;
 			padding: 0.5rem;
 			justify-content: center;
-	   }
-	   .refer {
-			flex-direction: column;
-			padding: 1rem;
 	   }
 
 	   .album-container {
@@ -434,7 +436,7 @@
 		}
     }
 
-	@media(max-width: 400px) {
+	@media(max-width: 500px) {
        h1 {
 			font-size: 18px;
 			letter-spacing: 0px;
@@ -460,5 +462,11 @@
 			height: 60px;
 		}
     }
+
+	@media(max-width: 500px) {
+		.refer ul {
+			flex-wrap: wrap;
+		}
+	}
 </style>
 
