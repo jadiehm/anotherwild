@@ -28,7 +28,7 @@
         dataArray = new Array(numPoints).fill(0);
 
         // Set up the audio element once
-        currAudio = new Audio(`assets/audio/${id}.mp3`);
+        currAudio = new Audio(`assets/audio/preview/${id}.mp3`);
         currAudio.loop = true;
         audioSource = audioContext.createMediaElementSource(currAudio);
         audioSource.connect(analyser);

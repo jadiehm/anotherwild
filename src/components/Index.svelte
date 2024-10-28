@@ -158,7 +158,7 @@
 
 <Info {infoVisible}/>
 <audio id="bg-audio" loop>
-	<source id="audioSource" src="assets/audio/01FINALLY.mp3" type="audio/mpeg">
+	<source id="audioSource" src="assets/audio/preview/01FINALLY.mp3" type="audio/mpeg">
 </audio>
 <div class="bg-movie">
 	<img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
