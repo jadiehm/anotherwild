@@ -173,9 +173,6 @@
 <div class="header">
 	<h1>{copy.title} <span>audio visualizer</span></h1>
 	<div class="links-header">
-		<!-- {#each copy.links as link, i}
-			<a href="{link.url}">{@html icons[i]}</a>
-		{/each} -->
 		<button class="infoBtn" on:click={infoClick} >
 			{#if infoVisible}
 				<p>Close</p>

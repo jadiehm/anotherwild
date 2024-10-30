@@ -1,78 +1,110 @@
 <script>
     import { getContext, onMount } from "svelte";
-    import spotifyIcon from "$svg/spotify.svg";
-    import appleIcon from "$svg/itunes.svg";
-    import bandcampIcon from "$svg/bandcamp.svg";
-    import instagramIcon from "$svg/instagram.svg";
-    import youtubeIcon from "$svg/youtube.svg";
-    import stamp from "$svg/stamp.svg";
-    import inView from "$actions/inView.js";
-    import { fly } from 'svelte/transition';
-    import { sineInOut } from 'svelte/easing';
-    import Slider from "$components/Slider.svelte";
-
+    import Lyrics from "$components/Lyrics.svelte";
+    import { currAboutSection } from "$stores/misc.js";
     export let infoVisible;
 
     const copy = getContext("copy");
+    let scrollY = 0;
+    let innerWidth = 0;
 
-    const icons = [spotifyIcon, appleIcon, bandcampIcon, youtubeIcon, instagramIcon];
+    function stripCharacters(string) {
+        let stripped = string.replace(/[^A-Z0-9]/ig, '').toLowerCase();
+        return stripped;
+    } 
+
+    function tabClick() {
+        let id = (this.id).split("-")[1];
+        currAboutSection.set(id)
+    }
+
+    $: console.log(scrollY);
+
+    let notesArray = [copy.note0, copy.note1, copy.note2, copy.note3, copy.note4]
+
+    let tabOptions = ["about this project", "lyrics"];
+
+    $: translate = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
+		? "translate(0vw, 0px)"
+		: "translate(-96vw, 0px)";
 </script>
 
-<section class="info" class:infoVisible={infoVisible}>
-    <div class="inner">
-        <div class="left">
-            <div class="photo-wrapper">
-                <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
-                <img class="album-img" src="assets/images/LADDER.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
-                <div class="stamp">{@html stamp}</div>
-            </div>
-            <span class="caption">{@html copy.caption}</span>
+<svelte:window bind:innerWidth={innerWidth} bind:scrollY={scrollY} />
+
+<div class="slider-options">
+    {#each tabOptions as option, i}
+        {@const isActive = stripCharacters($currAboutSection) == stripCharacters(option) ? true : false}
+        <button on:click={tabClick}
+            id="tab-{stripCharacters(option)}"
+            class:isActive={isActive}>
+            {option}
+        </button>
+    {/each}
+</div>
+<section class="slider">
+    <div class="slider-inner" style="transform:{translate};">
+        <div id="notes" class="panel">
+            {#each notesArray as note, i}
+                <div class="page-wrapper" style="z-index: 1000">
+                    {#if i == 0}
+                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
+                    {/if}
+                    <div class="page" style="transform: rotate(0.5deg)">
+                        {#each note as graf, i}
+                            <p>{@html graf.value}</p>
+                        {/each}
+                    </div>
+                </div>
+            {/each}
         </div>
-        <div class="right">
-            <p>{@html copy.about}</p>
-            <ul class="links">
-                <li class="lead-in">Find them on</li>
-                {#each copy.links as link, i}
-                    <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
-                {/each}
-            </ul>
+        <div id="lyrics" class="panel">
+            <Lyrics />
         </div>
     </div>
-    <Slider />
 </section>
 
 <style>
     section {
-        position: fixed;
-        top: 3.5rem;
-        left: 0;
         width: 100%;
         z-index: 1000;
-        height: 100vh;
-        overflow-y: auto;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
         justify-content: start;
-        background: rgba(0,0,0,0.95);
-        transform: translateX(100%);
-        transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
     }
 
-    section.infoVisible {
-        transform: translateX(0);
+    .slider-inner {
+        transform: translate(0vw, 0px);
+		width: 300vw;
+		display: flex;
+		transition: transform 0.5s;
     }
 
-    .inner {
-        width: 100%;
-        max-width: 900px;
+    .slider-options {
         display: flex;
         flex-direction: row;
-        gap: 3rem;
-        margin-top: 0;
-        padding: 3rem 2rem;
+        gap: 1rem;
+        color: #f1eeec;
+        font-family: "Carnaby Street";
+        text-transform: uppercase;
+        font-size: var(--14px);
+        font-weight: bold;
+    }
+
+    .panel {
+        border: 1px solid red;
+    }
+
+    #notes, #lyrics {
+        width: 96vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
     }
     .note {
         width: 100%;
