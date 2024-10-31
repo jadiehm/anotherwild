@@ -44,7 +44,7 @@
 <style>
     section {
         position: fixed;
-        top: 3.5rem;
+        top: 0;
         left: 0;
         width: 100%;
         z-index: 1000;
@@ -59,6 +59,7 @@
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
+        overflow-x: hidden;
     }
 
     section.infoVisible {
@@ -71,8 +72,8 @@
         display: flex;
         flex-direction: row;
         gap: 3rem;
-        margin-top: 0;
-        padding: 3rem 2rem;
+        margin-top: 3rem;
+        padding: 3rem;
     }
     .note {
         width: 100%;
@@ -263,8 +264,9 @@
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            padding: 2rem 1rem;
+            padding: 4.5rem 2.5rem 2rem 2.5rem;
             align-items: center;
+            margin-top: 3.5rem;
         }
         .left, .right {
             width: 100%;
@@ -276,6 +278,9 @@
         }
     }
     @media(max-width: 600px) {
+        .inner {
+            margin-top: 4rem;
+        }
         .page {
             padding: 1rem 2rem;
         }

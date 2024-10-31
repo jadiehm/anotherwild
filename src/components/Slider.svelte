@@ -2,6 +2,8 @@
     import { getContext, onMount } from "svelte";
     import Lyrics from "$components/Lyrics.svelte";
     import { currAboutSection } from "$stores/misc.js";
+    import Icon from "$components/helpers/Icon.svelte";
+    import * as d3 from "d3";
     export let infoVisible;
 
     const copy = getContext("copy");
@@ -18,7 +20,18 @@
         currAboutSection.set(id)
     }
 
-    $: console.log(scrollY);
+    function getRandomRotate() {
+        const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
+        const randomIndex = Math.floor(Math.random() * increments.length);
+        return increments[randomIndex];
+    }
+
+    let bottomLyrics;
+
+    onMount(() => {
+        bottomLyrics = document.querySelector("#lyrics .page-wrapper").getBoundingClientRect().bottom;
+        console.log(bottomLyrics)
+    })
 
     let notesArray = [copy.note0, copy.note1, copy.note2, copy.note3, copy.note4]
 
@@ -26,7 +39,20 @@
 
     $: translate = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
 		? "translate(0vw, 0px)"
-		: "translate(-96vw, 0px)";
+		: "translate(-80vw, 0px)";
+    $: notePos = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
+        ? "center"
+        : "end"; 
+    $: lyricsPos = $currAboutSection == "lyrics"
+        ? "center"
+        : "start"; 
+
+    function noteClick() {
+        currAboutSection.set("aboutthisproject")
+    }
+    function lyricsClick() {
+        currAboutSection.set("lyrics")
+    }
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} bind:scrollY={scrollY} />
@@ -37,22 +63,31 @@
         <button on:click={tabClick}
             id="tab-{stripCharacters(option)}"
             class:isActive={isActive}>
-            {option}
+            {#if i == 0}
+                <Icon name={"chevron-left"}/> 
+            {/if}
+            {option} 
+            {#if i == 1}
+                <Icon name={"chevron-right"}/> 
+            {/if}       
         </button>
     {/each}
 </div>
 <section class="slider">
     <div class="slider-inner" style="transform:{translate};">
-        <div id="notes" class="panel">
+        <div id="notes" 
+            on:click={noteClick}
+            class="panel" 
+            style="align-items:{notePos}; filter: {$currAboutSection !== "aboutthisproject" ? "brightness(70%)" : "none"}">
             {#each notesArray as note, i}
                 <div class="page-wrapper" style="z-index: 1000">
-                    {#if i == 0}
+                    <!-- {#if i == 0}
                         <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                         <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                         <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
                         <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
-                    {/if}
-                    <div class="page" style="transform: rotate(0.5deg)">
+                    {/if} -->
+                    <div class="page" style="transform: rotate({getRandomRotate()}deg)">
                         {#each note as graf, i}
                             <p>{@html graf.value}</p>
                         {/each}
@@ -60,7 +95,10 @@
                 </div>
             {/each}
         </div>
-        <div id="lyrics" class="panel">
+        <div id="lyrics" 
+            on:click={lyricsClick}
+            class="panel" 
+            style="align-items:{lyricsPos}; filter: {$currAboutSection !== "lyrics" ? "brightness(70%)" : "none"}">
             <Lyrics />
         </div>
     </div>
@@ -75,6 +113,7 @@
         justify-content: start;
         font-family: var(--serif);
         color: #f1eeec;
+        z-index: 999;
     }
 
     .slider-inner {
@@ -85,26 +124,54 @@
     }
 
     .slider-options {
+        position: sticky;
+        top: 3.25rem;
         display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
         flex-direction: row;
-        gap: 1rem;
+        gap: 0;
+        padding: 0;
+        margin-top: 6rem;
         color: #f1eeec;
         font-family: "Carnaby Street";
         text-transform: uppercase;
         font-size: var(--14px);
-        font-weight: bold;
+        font-weight: 700;
+        border-top: 1px solid #f1eeec;
+        border-bottom: 1px solid #f1eeec;
+        z-index: 1000;
     }
 
-    .panel {
-        border: 1px solid red;
+    .slider-options button {
+        width: 50%;
+        font-family: "Carnaby Street";
+        text-transform: uppercase;
+        font-weight: 700; 
+        background-color: rgba(0,0,0,0.95);
+        color: #f1eeec;
+        border-radius: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
     }
+    .slider-options button.isActive {
+        background-color: #f1eeec;
+        color: black;
+    }
+
+    /* .panel {
+        border: 1px solid red;
+    } */
 
     #notes, #lyrics {
-        width: 96vw;
+        width: 90vw;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+        transition: align-items 0.5s;
     }
     .note {
         width: 100%;
@@ -308,6 +375,9 @@
         }
     }
     @media(max-width: 600px) {
+        .slider-options {
+            top: 5.75rem
+        }
         .page {
             padding: 1rem 2rem;
         }
