@@ -3,6 +3,7 @@
     import Lyrics from "$components/Lyrics.svelte";
     import { currAboutSection } from "$stores/misc.js";
     import Icon from "$components/helpers/Icon.svelte";
+    import Folder from "$components/Folder.svelte";
     import * as d3 from "d3";
     export let infoVisible;
 
@@ -39,7 +40,7 @@
 
     $: translate = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
 		? "translate(0vw, 0px)"
-		: "translate(-80vw, 0px)";
+		: "translate(-90vw, 0px)";
     $: notePos = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
         ? "center"
         : "end"; 
@@ -79,27 +80,13 @@
             on:click={noteClick}
             class="panel" 
             style="align-items:{notePos}; filter: {$currAboutSection !== "aboutthisproject" ? "brightness(70%)" : "none"}">
-            {#each notesArray as note, i}
-                <div class="page-wrapper" style="z-index: 1000">
-                    <!-- {#if i == 0}
-                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
-                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
-                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
-                        <div class="fake-page" class:scrolled={innerWidth < 700 ? scrollY > 600 : scrollY > 150}></div>
-                    {/if} -->
-                    <div class="page" style="transform: rotate({getRandomRotate()}deg)">
-                        {#each note as graf, i}
-                            <p>{@html graf.value}</p>
-                        {/each}
-                    </div>
-                </div>
-            {/each}
+            <Folder folderType={"aboutthisproject"}/>
         </div>
         <div id="lyrics" 
             on:click={lyricsClick}
             class="panel" 
             style="align-items:{lyricsPos}; filter: {$currAboutSection !== "lyrics" ? "brightness(70%)" : "none"}">
-            <Lyrics />
+            <Folder folderType={"lyrics"}/>
         </div>
     </div>
 </section>
@@ -114,6 +101,7 @@
         font-family: var(--serif);
         color: #f1eeec;
         z-index: 999;
+        padding: 4rem 0;
     }
 
     .slider-inner {
@@ -125,7 +113,7 @@
 
     .slider-options {
         position: sticky;
-        top: 3.25rem;
+        top: 3rem;
         display: flex;
         width: 100%;
         align-items: center;
@@ -133,7 +121,7 @@
         flex-direction: row;
         gap: 0;
         padding: 0;
-        margin-top: 6rem;
+        margin-top: 2rem;
         color: #f1eeec;
         font-family: "Carnaby Street";
         text-transform: uppercase;
@@ -156,22 +144,33 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        transition: background-color 0.5s linear;
+    }
+    .slider-options button:hover {
+        background-color: rgba(165, 191, 182, 0.95);
+        color: black;
     }
     .slider-options button.isActive {
         background-color: #f1eeec;
         color: black;
     }
 
+
+
     /* .panel {
         border: 1px solid red;
     } */
 
     #notes, #lyrics {
-        width: 90vw;
+        width: 95vw;
         display: flex;
         flex-direction: column;
-        padding: 2rem 1.5rem;
         transition: align-items 0.5s;
+        cursor: pointer;
+        transition: filter 0.25s linear;
+    }
+    #notes:hover, #lyrics:hover {
+        filter: brightness(100%) !important;
     }
     .note {
         width: 100%;

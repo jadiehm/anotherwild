@@ -8,6 +8,8 @@
     let originalPositions = [];
     let isExpanded = false;
 
+    export let isOpen;
+
     // Function to get a random rotation for each page
     function getRandomRotate() {
         const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
@@ -57,17 +59,46 @@
         });
     }
 
+    function pageMouseOver() {
+        let currTransform = this.style.transform;
+        let newTransform = currTransform.replace("0px)", "-10px)");
+        this.style.transform = newTransform;
+    }
+
+    function pageMouseLeave() {
+        let currTransform = this.style.transform;
+        let newTransform = currTransform.replace("-10px)", "0px)");
+        this.style.transform = newTransform;
+    }
+
+    function setPages(isOpen) {
+        let delay = isOpen ? 500 : 0;
+        setTimeout(() => {
+            pages.forEach((page, i) => {
+                const topPosition = isOpen ? 5 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
+                originalPositions[i] = topPosition; // Store original positions in pixels
+                page.style.top = `${topPosition}px`; // Set the initial top position
+                page.style.height = isOpen ? "auto" : "100%";
+                page.style.overflowY = isOpen ? "visible" : "hidden";
+            });
+        }, delay)
+    }
+
     onMount(() => {
         // Initialize positions for each page on mount
         pages.forEach((page, i) => {
-            const topPosition = 5 * i * 16; // Calculate rem to px (1rem = 16px)
+            const topPosition = isOpen ? 5 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
             originalPositions[i] = topPosition; // Store original positions in pixels
             page.style.top = `${topPosition}px`; // Set the initial top position
+            page.style.height = isOpen ? "auto" : "100%";
+            page.style.overflowY = isOpen ? "visible" : "hidden";
         });
     });
+
+    $: setPages(isOpen);
 </script>
 
-<div class="page-wrapper">
+<div class="page-wrapper" class:isOpen={isOpen}>
     {#each copy.lyrics as song, i}
         <div 
             bind:this={pages[i]}
@@ -75,25 +106,46 @@
             id="lyrics-page-{i}"
             class:isClickable={$currAboutSection == "lyrics"}
             style="transform: translate({getRandomLeft()}%, 0) rotate({getRandomRotate()}deg);
-            filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(70%)'};"
+            filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
             on:click={() => pageClick(i)}
+            on:mouseenter={pageMouseOver}
+            on:mouseleave={pageMouseLeave}
         >
-            <h5>{song.num} {song.songTitle}</h5>
-            {#each song.text as graf, i}
-                <p>{@html graf.value}</p>
-            {/each}
+            {#if i == 17}
+            <div class="page-inset">
+                <h5>{song.num} {song.songTitle}</h5>
+                {#each song.text as graf, i}
+                    <p>{@html graf.value}</p>
+                {/each}
+            </div>
+            <div class="padder"></div>
+            {:else}
+                <h5>{song.num} {song.songTitle}</h5>
+                {#each song.text as graf, i}
+                    <p>{@html graf.value}</p>
+                {/each}
+            {/if}
         </div>
     {/each}
 </div>
 
 <style>
+    .padder {
+        height: 20rem;
+        width: 100%;
+    }
     .page-wrapper {
         width: 100%;
+        height: 100%;
         max-width: 680px;
         display: flex;
         flex-direction: column;
         align-items: center;
         position: relative;
+        overflow-y: hidden;
+    }
+    .page-wrapper.isOpen {
+        overflow-y: visible;
     }
     .page {
         width: 100%;
@@ -111,17 +163,26 @@
         left: 50%;
         position: absolute;
         transform: translate(-50%, 0);
-        transition: top 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.3s ease;;
+        transition: top 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.3s ease;
         cursor: pointer;
-        pointer-events: none;
-    }
-
-    .isClickable {
         pointer-events: auto;
     }
 
-    .isClickable:hover {
-        transform: translate(-50%, -10px)
+    #lyrics-page-17 {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .page-inset {
+        width: 100%;
+        padding: 1rem 2rem 3rem 2rem;
+        background-color: #f1eeec;
+        background-image: url("assets/images/bg_texture.png");
+        background-size: 200px;
+        background-repeat: repeat;
+        border: 1px solid #dfd9d5;
+        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
     }
 
     h5 {
@@ -139,7 +200,7 @@
         margin-left: auto;
     }
     @media(max-width: 600px) {
-        .page {
+        .page, .page-inset {
             padding: 1rem 1rem 3rem 1rem;
         }
         h5 {

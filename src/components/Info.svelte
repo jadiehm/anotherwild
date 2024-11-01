@@ -10,6 +10,7 @@
     import { fly } from 'svelte/transition';
     import { sineInOut } from 'svelte/easing';
     import Slider from "$components/Slider.svelte";
+    import Folder from "$components/Folder.svelte";
 
     export let infoVisible;
 
@@ -38,10 +39,15 @@
             </ul>
         </div>
     </div>
+    <!-- <Folder /> -->
     <Slider />
 </section>
 
 <style>
+    .padder {
+        height: 5rem;
+        width: 100%;
+    }
     section {
         position: fixed;
         top: 0;
