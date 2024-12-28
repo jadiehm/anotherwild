@@ -1,176 +1,81 @@
 <script>
     import { getContext, onMount } from "svelte";
-    import Lyrics from "$components/Lyrics.svelte";
-    import { currAboutSection } from "$stores/misc.js";
-    import Icon from "$components/helpers/Icon.svelte";
-    import Folder from "$components/Folder.svelte";
-    import * as d3 from "d3";
-    export let infoVisible;
+    import spotifyIcon from "$svg/spotify.svg";
+    import appleIcon from "$svg/itunes.svg";
+    import bandcampIcon from "$svg/bandcamp.svg";
+    import instagramIcon from "$svg/instagram.svg";
+    import youtubeIcon from "$svg/youtube.svg";
+    import stamp from "$svg/stamp.svg";
+
+    import { aboutVisible } from "$stores/misc.js";
 
     const copy = getContext("copy");
-    let scrollY = 0;
-    let innerWidth = 0;
 
-    function stripCharacters(string) {
-        let stripped = string.replace(/[^A-Z0-9]/ig, '').toLowerCase();
-        return stripped;
-    } 
+    const icons = [spotifyIcon, appleIcon, bandcampIcon, youtubeIcon, instagramIcon];
 
-    function tabClick() {
-        let id = (this.id).split("-")[1];
-        currAboutSection.set(id)
-    }
-
-    function getRandomRotate() {
-        const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
-        const randomIndex = Math.floor(Math.random() * increments.length);
-        return increments[randomIndex];
-    }
-
-    let bottomLyrics;
-
-    onMount(() => {
-        bottomLyrics = document.querySelector("#lyrics .page-wrapper").getBoundingClientRect().bottom;
-        console.log(bottomLyrics)
-    })
-
-    let notesArray = [copy.note0, copy.note1, copy.note2, copy.note3, copy.note4]
-
-    let tabOptions = ["about this project", "lyrics"];
-
-    $: translate = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
-		? "translate(0vw, 0px)"
-		: "translate(-90vw, 0px)";
-    $: notePos = $currAboutSection == "aboutthisproject" || $currAboutSection == undefined
-        ? "center"
-        : "end"; 
-    $: lyricsPos = $currAboutSection == "lyrics"
-        ? "center"
-        : "start"; 
-
-    function noteClick() {
-        currAboutSection.set("aboutthisproject")
-    }
-    function lyricsClick() {
-        currAboutSection.set("lyrics")
+    function backClick() {
+        aboutVisible.set(false);
     }
 </script>
 
-<svelte:window bind:innerWidth={innerWidth} bind:scrollY={scrollY} />
-
-<div class="slider-options">
-    {#each tabOptions as option, i}
-        {@const isActive = stripCharacters($currAboutSection) == stripCharacters(option) ? true : false}
-        <button on:click={tabClick}
-            id="tab-{stripCharacters(option)}"
-            class:isActive={isActive}>
-            {#if i == 0}
-                <Icon name={"chevron-left"}/> 
-            {/if}
-            {option} 
-            {#if i == 1}
-                <Icon name={"chevron-right"}/> 
-            {/if}       
-        </button>
-    {/each}
-</div>
-<section class="slider">
-    <div class="slider-inner" style="transform:{translate};">
-        <!-- <div id="notes" 
-            on:click={noteClick}
-            class="panel" 
-            style="align-items:{notePos}; filter: {$currAboutSection !== "aboutthisproject" ? "brightness(70%)" : "none"}">
-            <Folder folderType={"aboutthisproject"}/>
-        </div> -->
-        <div id="lyrics" 
-            on:click={lyricsClick}
-            class="panel" 
-            style="align-items:{lyricsPos}; filter: {$currAboutSection !== "lyrics" ? "brightness(70%)" : "none"}">
-            <Folder folderType={"lyrics"}/>
+<section class="info" class:aboutVisible={$aboutVisible}>
+    <div class="inner">
+        <div class="left">
+            <div class="photo-wrapper">
+                <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+                <img class="album-img" src="assets/images/LADDER.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+                <div class="stamp">{@html stamp}</div>
+            </div>
+            <span class="caption">{@html copy.caption}</span>
+        </div>
+        <div class="right">
+            <p>{@html copy.about}</p>
+            <ul class="links">
+                <li class="lead-in">Find them on</li>
+                {#each copy.links as link, i}
+                    <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
+                {/each}
+            </ul>
         </div>
     </div>
 </section>
 
 <style>
+    .padder {
+        height: 5rem;
+        width: 100%;
+    }
     section {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        z-index: 1000;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        font-family: var(--serif);
-        color: #f1eeec;
         z-index: 999;
-        padding: 4rem 0;
-    }
-
-    .slider-inner {
-        transform: translate(0vw, 0px);
-		width: 300vw;
-		display: flex;
-		transition: transform 0.5s;
-    }
-
-    .slider-options {
-        position: sticky;
-        top: 3rem;
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        gap: 0;
-        padding: 0;
-        margin-top: 2rem;
-        color: #f1eeec;
-        font-family: "Carnaby Street";
-        text-transform: uppercase;
-        font-size: var(--14px);
-        font-weight: 700;
-        border-top: 1px solid #f1eeec;
-        border-bottom: 1px solid #f1eeec;
-        z-index: 1000;
-    }
-
-    .slider-options button {
-        width: 50%;
-        font-family: "Carnaby Street";
-        text-transform: uppercase;
-        font-weight: 700; 
-        background-color: rgba(0,0,0,0.95);
-        color: #f1eeec;
-        border-radius: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.5s linear;
-    }
-    .slider-options button:hover {
-        background-color: rgba(165, 191, 182, 0.95);
-        color: black;
-    }
-    .slider-options button.isActive {
-        background-color: #f1eeec;
-        color: black;
-    }
-
-
-
-    /* .panel {
-        border: 1px solid red;
-    } */
-
-    #notes, #lyrics {
-        width: 95vw;
+        height: 100svh;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
-        transition: align-items 0.5s;
-        cursor: pointer;
-        transition: filter 0.25s linear;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-100%);
+        transition: transform 500ms linear;
+        font-family: var(--serif);
+        color: #f1eeec;
+        overflow-x: hidden;
     }
-    #notes:hover, #lyrics:hover {
-        filter: brightness(100%) !important;
+
+    section.aboutVisible {
+        transform: translateY(0);
+    }
+
+    .inner {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+        margin-top: 3rem;
+        padding: 3rem;
     }
     .note {
         width: 100%;
@@ -361,8 +266,9 @@
     @media(max-width: 700px) {
         .inner {
             flex-direction: column;
-            padding: 2rem 1rem;
+            padding: 4.5rem 2.5rem 2rem 2.5rem;
             align-items: center;
+            margin-top: 3.5rem;
         }
         .left, .right {
             width: 100%;
@@ -374,8 +280,8 @@
         }
     }
     @media(max-width: 600px) {
-        .slider-options {
-            top: 5.75rem
+        .inner {
+            margin-top: 4rem;
         }
         .page {
             padding: 1rem 2rem;

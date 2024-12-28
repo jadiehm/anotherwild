@@ -8,6 +8,7 @@
 	export let height = "1.25em";
 	export let strokeWidth = undefined;
 	export let stroke = undefined;
+	export let fill = "none";
 
 	$: icon = feather.icons[name];
 	$: rotation = directions.indexOf(direction) * 45;

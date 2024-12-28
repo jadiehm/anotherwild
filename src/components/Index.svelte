@@ -2,6 +2,7 @@
 	import { getContext, onMount } from "svelte";
 	import Album from "$components/Album.svelte";
 	import Info from "$components/Info.svelte";
+	import PhotoClick from "$components/PhotoClick.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import spotifyIcon from "$svg/spotify.svg";
     import appleIcon from "$svg/itunes.svg";
@@ -156,7 +157,8 @@
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-<Info {infoVisible}/>
+<PhotoClick />
+<!-- <Info {infoVisible}/>
 <audio id="bg-audio" loop>
 	<source id="audioSource" src="assets/audio/preview/01FINALLY.mp3" type="audio/mpeg">
 </audio>
@@ -201,7 +203,7 @@
 <footer>
 	<p>{copy.copyright}</p>
 	<div class="stamp">{@html stamp}</div>
-</footer>
+</footer> -->
 
 <style>
 	.refer {
