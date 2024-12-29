@@ -1,5 +1,5 @@
 <script>
-    import { currTrack } from "$stores/misc.js";
+    import { currTrack, radioVisible } from "$stores/misc.js";
     import { onMount } from "svelte";
     import * as d3 from 'd3';
 
@@ -110,6 +110,13 @@
             isPlaying = true;
             animate();
         } else if (!active && isPlaying) {
+            // Stop audio and reset animation when inactive
+            currAudio.pause();
+            isPlaying = false;
+
+            // Fade out the path
+            d3.selectAll(`#path1-${id}, #path2-${id}`).style("opacity", 0);
+        } else if (!$radioVisible) {
             // Stop audio and reset animation when inactive
             currAudio.pause();
             isPlaying = false;

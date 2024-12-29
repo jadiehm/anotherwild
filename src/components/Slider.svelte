@@ -58,36 +58,11 @@
 
 <svelte:window bind:innerWidth={innerWidth} bind:scrollY={scrollY} />
 
-<div class="slider-options">
-    {#each tabOptions as option, i}
-        {@const isActive = stripCharacters($currAboutSection) == stripCharacters(option) ? true : false}
-        <button on:click={tabClick}
-            id="tab-{stripCharacters(option)}"
-            class:isActive={isActive}>
-            {#if i == 0}
-                <Icon name={"chevron-left"}/> 
-            {/if}
-            {option} 
-            {#if i == 1}
-                <Icon name={"chevron-right"}/> 
-            {/if}       
-        </button>
-    {/each}
-</div>
 <section class="slider">
-    <div class="slider-inner" style="transform:{translate};">
-        <!-- <div id="notes" 
-            on:click={noteClick}
-            class="panel" 
-            style="align-items:{notePos}; filter: {$currAboutSection !== "aboutthisproject" ? "brightness(70%)" : "none"}">
-            <Folder folderType={"aboutthisproject"}/>
-        </div> -->
-        <div id="lyrics" 
-            on:click={lyricsClick}
-            class="panel" 
-            style="align-items:{lyricsPos}; filter: {$currAboutSection !== "lyrics" ? "brightness(70%)" : "none"}">
-            <Folder folderType={"lyrics"}/>
-        </div>
+    <div id="lyrics" 
+        on:click={lyricsClick}
+        class="panel">
+        <Folder folderType={"lyrics"}/>
     </div>
 </section>
 
@@ -97,80 +72,22 @@
         z-index: 1000;
         display: flex;
         flex-direction: row;
-        justify-content: start;
+        justify-content: center;
+        align-items: center;
         font-family: var(--serif);
         color: #f1eeec;
         z-index: 999;
-        padding: 4rem 0;
+        padding: 1rem;
     }
 
-    .slider-inner {
-        transform: translate(0vw, 0px);
-		width: 300vw;
-		display: flex;
-		transition: transform 0.5s;
-    }
-
-    .slider-options {
-        position: sticky;
-        top: 3rem;
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        gap: 0;
-        padding: 0;
-        margin-top: 2rem;
-        color: #f1eeec;
-        font-family: "Carnaby Street";
-        text-transform: uppercase;
-        font-size: var(--14px);
-        font-weight: 700;
-        border-top: 1px solid #f1eeec;
-        border-bottom: 1px solid #f1eeec;
-        z-index: 1000;
-    }
-
-    .slider-options button {
-        width: 50%;
-        font-family: "Carnaby Street";
-        text-transform: uppercase;
-        font-weight: 700; 
-        background-color: rgba(0,0,0,0.95);
-        color: #f1eeec;
-        border-radius: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.5s linear;
-    }
-    .slider-options button:hover {
-        background-color: rgba(165, 191, 182, 0.95);
-        color: black;
-    }
-    .slider-options button.isActive {
-        background-color: #f1eeec;
-        color: black;
-    }
-
-
-
-    /* .panel {
-        border: 1px solid red;
-    } */
-
-    #notes, #lyrics {
+    #lyrics {
         width: 95vw;
         display: flex;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
-        transition: align-items 0.5s;
         cursor: pointer;
         transition: filter 0.25s linear;
-    }
-    #notes:hover, #lyrics:hover {
-        filter: brightness(100%) !important;
     }
     .note {
         width: 100%;

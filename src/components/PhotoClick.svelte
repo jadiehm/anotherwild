@@ -1,25 +1,37 @@
 <script>
+    import { getContext, onMount } from "svelte";
     import InfoOverlay from "$components/InfoOverlay.svelte";
     import FolderOverlay from "$components/FolderOverlay.svelte";
+    import NotesOverlay from "$components/NotesOverlay.svelte";
+    import RadioVisualizer from "$components/RadioVisualizer.svelte";
     import photoClickSVG from "$svg/photoclick.svg";
     import Icon from "$components/helpers/Icon.svelte";
+    import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, bckBtnVisible } from "$stores/misc.js";
 
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
         let target = event.target.closest('g');
-        if (target && target.id) {
+
+        setTimeout(() => {
+            if (target && target.id) {
             let id = target.id;
+            bckBtnVisible.set(true)
             if (id == "light") {
                 aboutVisible.set(true);
             } else if (id == "folder") {
                 folderVisible.set(true); 
+            } else if (id == "radio") {
+                radioVisible.set(true); 
+            } else if (id == "paper") {
+                notesVisible.set(true)
             }
         } else {
             console.log("No valid ID found for clicked element");
         }
+        }, 500)
     }
 
     function handleMouseOver(event) {
@@ -36,12 +48,50 @@
         d3.selectAll('.overlays img').style("opacity", 0);
     }
 
-    function backClick() {aboutVisible.set(false);}
+    function backClick() {
+        aboutVisible.set(false);
+        folderVisible.set(false);
+        radioVisible.set(false);
+        notesVisible.set(false);
+        bckBtnVisible.set(false);
+    }
+
+    onMount (() => {
+        document.body.style.overflow = 'hidden';
+    })
+
+    export let typewriterText = "afangintherough";
+    let visibleText = '';
+
+    // Animate the text display
+    let index = 0;
+    const delay = 100; // Time delay between each character (in ms)
+
+    const typeText = async () => {
+        while (index < typewriterText.length) {
+            visibleText += typewriterText[index]; // Add one character at a time
+            index++;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+    };
+
+    // Start the typewriter animation when the component is initialized
+    typeText();
+
+    // function setOverflow($bckBtnVisible) {
+    //     document.body.style.overflow = $bckBtnVisible == true ? "auto" : "hidden";
+    // }
+    // $: setOverflow($bckBtnVisible)
 </script>
 
-<div id="photo-click" class:aboutVisible={$aboutVisible}>
-    <div class="vignette" class:aboutVisible={$aboutVisible}></div>
-    <div class="vignette dark" class:aboutVisible={$aboutVisible}></div>
+<!-- <h1>
+    {#each visibleText.split("") as char, i}
+        <span in:fade={{duration:200, delay: 200}}>{char}</span>
+    {/each}
+</h1> -->
+<div id="photo-click" class:bckBtnVisible={$bckBtnVisible}>
+    <div class="vignette" class:bckBtnVisible={$bckBtnVisible}></div>
+    <div class="vignette dark" class:bckBtnVisible={$bckBtnVisible}></div>
     <div class="overlays">
         <img id="tape-overlay" src="/assets/images/tape-overlay.png" />
         <img id="typewriter-overlay" src="/assets/images/typewriter-overlay.png" />
@@ -60,14 +110,25 @@
     </div>
     <img src="/assets/images/photoclick.jpg" />
 </div>
-<button class="back" class:aboutVisible={$aboutVisible} on:click={backClick}>
+<button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick}>
     <Icon name="arrow-left" width="1rem"/>
     Back home to desk
 </button>
 <InfoOverlay />
 <FolderOverlay />
+<NotesOverlay />
+<RadioVisualizer />
 
 <style>
+    h1 {
+        position: absolute;
+        left: 4rem;
+        top: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 20px;
+        color: #f1eeec;
+        z-index: 1000;
+    }
     #photo-click {
         width: 100%;
         height: 100svh;
@@ -78,6 +139,7 @@
         transform: scale(1);
         transition: transform 0.5s ease;
         position: fixed;
+        overflow: hidden;
     }
 
     #photo-click img {
@@ -85,12 +147,14 @@
         aspect-ratio: 1.75/1;
     }
 
-    #photo-click.aboutVisible {
+    #photo-click.bckBtnVisible {
         pointer-events: none;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .back {
-        position: absolute;
+        position: fixed;
         top: 1rem;
         right: 1rem;
         font-family:'Courier New', Courier, monospace;
@@ -107,7 +171,7 @@
         align-items: center;
     }
 
-    .back.aboutVisible {
+    .back.bckBtnVisible {
         opacity: 1;
         pointer-events: auto;
     }
@@ -149,7 +213,7 @@
         margin-top: 1rem;
     }
 
-    :global(.svg-wrapper svg path, .svg-wrapper svg polygon) {
+    :global(.svg-wrapper svg path, .svg-wrapper svg polygon, .svg-wrapper svg polyline) {
         cursor: pointer;
     }
 
@@ -158,23 +222,23 @@
         height: 100svh;
         position: absolute;
         background: radial-gradient(circle, rgba(1,1,14,0) 0%, rgba(1,1,14,0.5) 100%);
-        transition: opacity 0.5 ease;
+        transition: opacity 1s ease;
         opacity: 1;
         pointer-events: none;
     }
 
-    .vignette.aboutVisible {
+    .vignette.bckBtnVisible {
         opacity: 0;
     }
 
     .vignette.dark {
         pointer-events: none;
         background: radial-gradient(circle, rgba(1,1,14,0.90) 0%, rgba(1,1,14,0.90) 100%);
-        transition: opacity 0.5 ease;  
+        transition: opacity 1s ease;  
         opacity: 0;
     }
 
-    .vignette.dark.aboutVisible {
+    .vignette.dark.bckBtnVisible {
         opacity: 1;
     }
 </style>

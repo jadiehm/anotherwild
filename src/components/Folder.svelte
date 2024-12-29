@@ -1,23 +1,20 @@
 <script>
     import Lyrics from "$components/Lyrics.svelte";
-    import AboutNote from "$components/AboutNote.svelte";
+    import Dispatches from "$components/Dispatches.svelte";
     import stamp from "$svg/stamp.svg";
     import { currAboutSection } from "$stores/misc.js";
     import Icon from "$components/helpers/Icon.svelte";
 
     let isOpen = false;
+
     export let folderType;
 
     function folderClick() {
         isOpen = !isOpen;
     }
-    function sectionSwitch() {
-        isOpen = false;
-    }
-    $: sectionSwitch($currAboutSection)
 </script>
 
-<div id="folder" class:isOpen={isOpen} class:isClickable={$currAboutSection == folderType}>
+<div id="folder" class:isOpen={isOpen}>
     <div class="folder-inner">
         <div 
             class="folder-left"
@@ -26,19 +23,10 @@
         >
             <div class="sticky-note">
                 <div class="note-paper">
-                    {#if $currAboutSection == "aboutthisproject"}
-                        <p>From the desk of T F P W C</p>
-                        <p>Subject(s) relate a series of memory in and out of sequence:</p>
-                    {:else}
-                        <p>A N O T H E R W I L D</p>
-                        <p>A  F A N G  I N  T H E  R O U G H lyrics:</p>
-                    {/if}
+                    <p>A N O T H E R W I L D</p>
+                    <p>A  F A N G  I N  T H E  R O U G H lyrics:</p>
                 </div>
                 <img class="paperclip" src="assets/images/paperclip.png" />
-            </div>
-            <div class="instructions">
-                <Icon name={"folder-plus"} width={"1rem"}/>
-                <p>Tap to open</p>
             </div>
             <div class="stamp">{@html stamp}</div>
             <div class="folder-block"></div>
@@ -47,14 +35,14 @@
             </div>
         </div>
         <div class="folder-right">
-            {#if folderType == "lyrics"}
-                <div class="lyrics-wrapper">
-                    <Lyrics {isOpen} />
-                </div>
+            {#if folderType == "dispatches"}
+            <div class="dispatches-wrapper">
+                <Dispatches {isOpen} />
+            </div>
             {:else}
-                <div class="notes-wrapper">
-                    <AboutNote {isOpen} />
-                </div>
+            <div class="lyrics-wrapper">
+                <Lyrics {isOpen} />
+            </div>
             {/if}
             <div class="folder-back" on:click={folderClick}>
                 <div class="folder-block"></div>
@@ -75,7 +63,6 @@
         transform: translate3d(0%, 0px, 0px);
         transition: all 0.5s linear;
         transform-style: preserve-3d;
-        pointer-events: none;
     }
 
     #folder.isOpen {
@@ -192,6 +179,7 @@
         height: 100%;
         background-color: #f1d592;
         position: relative;
+        pointer-events: none;
     }
     .folder-tab {
         height: 100%;
@@ -232,7 +220,7 @@
         background-color: #e2c88b;
     }
 
-    .lyrics-wrapper, .notes-wrapper {
+    .lyrics-wrapper, .dispatches-wrapper {
         width: 90%;
         height: 100%;
     }

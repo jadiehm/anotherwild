@@ -57,7 +57,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        transform: translateY(-100%);
+        transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;

@@ -99,31 +99,40 @@
 </script>
 
 <div class="page-wrapper" class:isOpen={isOpen}>
-    {#each copy.lyrics as song, i}
+    {#each copy.dispatches as dispatch, i}
         <div 
             bind:this={pages[i]}
             class="page" 
-            id="lyrics-page-{i}"
+            id="dispatch-page-{i}"
             style="transform: translate({getRandomLeft()}%, 0) rotate({getRandomRotate()}deg);
             filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
             on:click={() => pageClick(i)}
             on:mouseenter={pageMouseOver}
             on:mouseleave={pageMouseLeave}
         >
-            {#if i == 17}
+            <!-- {#if i == copy.dispatches.length-1} -->
             <div class="page-inset">
-                <h5>{song.num} {song.songTitle}</h5>
-                {#each song.text as graf, i}
-                    <p>{@html graf.value}</p>
-                {/each}
+                <p class="bolded">Dispatch // Ephermera {dispatch.id}</p>
+                <div class="intro">
+                    {#each dispatch.intro as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
+                <div class="text">
+                    {#each dispatch.text as graf, i}
+                        <p>{@html graf.value}</p>
+                    {/each}
+                </div>
             </div>
-            <div class="padder"></div>
+            <!-- <div class="padder"></div>
             {:else}
-                <h5>{song.num} {song.songTitle}</h5>
-                {#each song.text as graf, i}
+                {#each dispatch.intro as graf, i}
                     <p>{@html graf.value}</p>
                 {/each}
-            {/if}
+                {#each dispatch.text as graf, i}
+                    <p>{@html graf.value}</p>
+                {/each}
+            {/if} -->
         </div>
     {/each}
 </div>
@@ -141,17 +150,13 @@
         flex-direction: column;
         align-items: center;
         position: relative;
-        overflow-y: hidden;
-    }
-    .page-wrapper.isOpen {
-        overflow-y: scroll;
     }
     .page {
         width: 100%;
         max-width: 660px;
         background-color: #f1eeec;
         color: #151515;
-        padding: 1rem 2rem 3rem 2rem;
+        padding: 1rem;
         margin: 1rem auto;
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
@@ -166,7 +171,7 @@
         cursor: pointer;
     }
 
-    #lyrics-page-17 {
+    #dispatch-page-17 {
         background-color: transparent;
         border: none;
         padding: 0;
@@ -179,8 +184,6 @@
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
-        border: 1px solid #dfd9d5;
-        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
     }
 
     h5 {
@@ -191,6 +194,28 @@
     p {
         display: flex;
         margin: 0;
+        font-size: 14px;
+    }
+
+    .bolded {
+        font-family:'Courier New', Courier, monospace;
+        line-height: 1;  
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .intro p {
+        font-family:'Courier New', Courier, monospace;
+        line-height: 1;
+        margin: 1rem 0;
+    }
+
+    .intro {
+        margin-bottom: 4rem;
+    }
+
+    .text p {
+        margin: 1rem 0;
     }
 
     :global(.right-align) {

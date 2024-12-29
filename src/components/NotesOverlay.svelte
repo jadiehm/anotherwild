@@ -1,17 +1,14 @@
 <script>
     import { getContext, onMount } from "svelte";
-    import Folder from "$components/Folder.svelte";
+    import Slider from "$components/Slider.svelte";
 
-    import { folderVisible } from "$stores/misc.js";
+    import { notesVisible } from "$stores/misc.js";
 
     const copy = getContext("copy");
 </script>
 
-<section class="dispatches" class:folderVisible={$folderVisible}>
-    <div id="contents" 
-        class="panel">
-        <Folder folderType={"dispatches"}/>
-    </div>
+<section class="lyrics" class:notesVisible={$notesVisible}>
+    <Slider />
 </section>
 
 <style>
@@ -22,6 +19,7 @@
         width: 100%;
         z-index: 999;
         height: 100svh;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -30,20 +28,10 @@
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
-        overflow-y: scroll;
+        overflow: hidden;
     }
 
-    section.folderVisible {
+    section.notesVisible {
         transform: translateY(0);
-    }
-
-    #contents {
-        width: 95vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        cursor: pointer;
-        transition: filter 0.25s linear;
     }
 </style>
