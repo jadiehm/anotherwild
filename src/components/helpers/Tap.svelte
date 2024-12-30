@@ -9,11 +9,13 @@
 	export let showArrows = false; // boolean or array of directions
 	export let disable = [];
 	export let directions = ["left", "right"];
-	export let size = "64px";
+	export let size = "48px";
 	export let arrowSize = "48px";
 	export let arrowStroke = "#000";
 	export let arrowStrokeWidth = "2";
 	export let arrowPosition = "center"; // start, center, end
+	export let activeFolder;
+	export let lettersLen;
 
 	const dispatch = createEventDispatcher();
 	let innerHeight;
@@ -40,26 +42,26 @@
 <svelte:window on:keydown={onKeyDown} bind:innerHeight />
 
 <section class:debug style="height: {innerHeight}px;">
-	{#each directions as dir}
-		<button
-			on:click={dispatch("tap", dir)}
-			style="width: {getW(dir)}; height: {getH(dir)};"
-			aria-label={dir}
-			class="{dir} {arrowPosition}"
-			class:full
-			disabled={disable.includes(dir)}
-		>
-			{#if visibleArrows.includes(dir)}
-				<span style="font-size: {arrowSize};">
-					{#if dir === "left"}
-						<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
-					{:else if dir === "right"}
-						<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
-					{/if}
-				</span>
-			{/if}
-		</button>
-	{/each}
+	<button
+		on:click={() => dispatch("tap", "left")}
+		style="width: {getW("left")}; height: {getH("left")};"
+		aria-label={"left"}
+		class="{"left"} {arrowPosition}"
+		class:full
+		disabled={activeFolder == 0}
+	>
+		<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+	</button>
+	<button
+		on:click={() => dispatch("tap", "right")}
+		style="width: {getW("right")}; height: {getH("right")};"
+		aria-label={"right"}
+		class="{"right"} {arrowPosition}"
+		class:full
+		disabled={activeFolder == lettersLen-1}
+	>
+		<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+	</button>
 </section>
 
 <style>
@@ -67,7 +69,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		width: 100%;
+		width: 100vw;
 		height: 100%;
 		z-index: var(--z-overlay);
 		pointer-events: none;
@@ -76,10 +78,12 @@
 	button {
 		position: absolute;
 		cursor: pointer;
-		background: none;
-		border-radius: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #f1eeec;
+		border-radius: 3px;
 		outline: none;
-		border: none;
 		box-shadow: none;
 		pointer-events: auto;
 		display: flex;
@@ -88,20 +92,25 @@
 	button:disabled {
 		opacity: 0.2;
 		cursor: not-allowed;
+		pointer-events: none;
 	}
 
 	button:hover {
-		background-color: rgba(255, 255, 255, 0.2);
+		opacity: 0.8;
+	}
+
+	:global(.left span svg path, .right span svg path) {
+		fill: none;
 	}
 
 	.left {
-		left: 0;
+		left: 1rem;
 		top: 0;
 		/* text-align: left; */
 	}
 
 	.right {
-		right: 0;
+		right: 1rem;
 		top: 0;
 		/* text-align: right; */
 	}
@@ -181,7 +190,6 @@
 	span {
 		display: inline-block;
 		line-height: 1;
-		opacity: 0.5;
 	}
 
 	.debug .left {

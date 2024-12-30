@@ -1,17 +1,23 @@
 <script>
-    import Lyrics from "$components/Lyrics.svelte";
-    import Dispatches from "$components/Dispatches.svelte";
+    import Letters from "$components/Letters.svelte";
     import stamp from "$svg/stamp.svg";
-    import { currAboutSection } from "$stores/misc.js";
-    import Icon from "$components/helpers/Icon.svelte";
 
     let isOpen = false;
 
     export let folderType;
+    export let folderIndex;
+    export let activeFolder;
 
     function folderClick() {
         isOpen = !isOpen;
     }
+
+    function folderChange(activeFolder) {
+        isOpen = false;
+    }
+
+
+    $: folderChange(activeFolder);
 </script>
 
 <div id="folder" class:isOpen={isOpen}>
@@ -21,13 +27,18 @@
             class:isOpen={isOpen}
             on:click={folderClick}
         >
-            <div class="sticky-note">
-                <div class="note-paper">
-                    <p>A N O T H E R W I L D</p>
-                    <p>A  F A N G  I N  T H E  R O U G H lyrics:</p>
+            {#if folderIndex !== 0}
+                <div class="sticky-note">
+                    <div class="note-paper">
+                        <p>Dispatch // Ephemera {folderIndex == 1 ? "two" : "one"}</p>
+                        <p>{folderIndex == 1 ? "12.18.24" : "10.18.24"}</p>
+                        <p>The Forest Park Wildlife Corridor</p>
+                    </div>
+                    <img class="paperclip" src="assets/images/paperclip.png" />
                 </div>
-                <img class="paperclip" src="assets/images/paperclip.png" />
-            </div>
+            {:else}
+                <p class="classified" class:isOpen={isOpen}>Classified</p>
+            {/if}
             <div class="stamp">{@html stamp}</div>
             <div class="folder-block"></div>
             <div class="folder-tab">
@@ -35,15 +46,9 @@
             </div>
         </div>
         <div class="folder-right">
-            {#if folderType == "dispatches"}
-            <div class="dispatches-wrapper">
-                <Dispatches {isOpen} />
+            <div class="letter-wrapper">
+                <Letters {isOpen} folderIndex={folderIndex} />
             </div>
-            {:else}
-            <div class="lyrics-wrapper">
-                <Lyrics {isOpen} />
-            </div>
-            {/if}
             <div class="folder-back" on:click={folderClick}>
                 <div class="folder-block"></div>
                 <div class="folder-tab">
@@ -56,21 +61,26 @@
 
 <style>
     #folder {
-        width: calc(50% - 2rem);
-        max-width: 660px;
+        width: 100%;
+        max-width: 600px;
         aspect-ratio: 1 / 1.3;
         position: relative;
         transform: translate3d(0%, 0px, 0px);
         transition: all 0.5s linear;
         transform-style: preserve-3d;
+        cursor: pointer;
+        pointer-events: auto;
     }
 
     #folder.isOpen {
         transform: translate3d(50%, 0px, 0px);
+        pointer-events: auto;
+        cursor: pointer;
     }
 
     #folder.isClickable {
         pointer-events: auto;
+        cursor: pointer;
     }
 
     .folder-inner {
@@ -78,6 +88,25 @@
         height: 100%;
         position: relative;
         transform-style: preserve-3d;
+    }
+
+    .classified {
+        position: absolute;
+        left: 45%;
+        transform: translate(-50%, 0);
+        color:black;
+        font-family:'Courier New', Courier, monospace;
+        font-weight: 700;
+        font-size: 36px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        top: 20%; 
+        z-index: 1000;
+        opacity: 1;
+    }
+
+    .classified.isOpen {
+        opacity: 0;
     }
 
     .sticky-note {
@@ -99,6 +128,8 @@
         font-size: 10px;
         padding: 1rem;
         transition: opacity 0.5s;
+        font-family: 'Courier New', Courier, monospace;
+        text-transform: uppercase;
     }
 
     .note-paper p:first-of-type {
@@ -179,7 +210,7 @@
         height: 100%;
         background-color: #f1d592;
         position: relative;
-        pointer-events: none;
+        /* pointer-events: none; */
     }
     .folder-tab {
         height: 100%;
@@ -220,7 +251,7 @@
         background-color: #e2c88b;
     }
 
-    .lyrics-wrapper, .dispatches-wrapper {
+    .letter-wrapper {
         width: 90%;
         height: 100%;
     }

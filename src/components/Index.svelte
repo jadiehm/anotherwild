@@ -138,9 +138,9 @@
 		const video = document.querySelector('#bg-video');
 		const backupPhoto = document.querySelector('#video-backup');
 
-		video.addEventListener('canplay', () => {
-			backupPhoto.style.display = 'none';
-		});
+		// video.addEventListener('canplay', () => {
+		// 	backupPhoto.style.display = 'none';
+		// });
     })
 
 	function infoClick() {

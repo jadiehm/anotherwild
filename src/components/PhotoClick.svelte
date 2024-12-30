@@ -114,10 +114,10 @@
     <Icon name="arrow-left" width="1rem"/>
     Back home to desk
 </button>
-<InfoOverlay />
+<!-- <InfoOverlay /> -->
 <FolderOverlay />
-<NotesOverlay />
-<RadioVisualizer />
+<!-- <NotesOverlay /> -->
+<!-- <RadioVisualizer /> -->
 
 <style>
     h1 {
@@ -148,7 +148,7 @@
     }
 
     #photo-click.bckBtnVisible {
-        pointer-events: none;
+        /* pointer-events: none; */
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -166,7 +166,7 @@
         opacity: 0;
         transition: opacity 0.5s ease;
         z-index: 1000;
-        pointer-events: none;
+        /* pointer-events: none; */
         display: flex;
         align-items: center;
     }

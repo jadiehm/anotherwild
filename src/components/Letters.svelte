@@ -9,6 +9,9 @@
     let isExpanded = false;
 
     export let isOpen;
+    export let folderIndex;
+
+    let letterCopy = copy.letters[folderIndex];
 
     // Function to get a random rotation for each page
     function getRandomRotate() {
@@ -75,7 +78,7 @@
         let delay = isOpen ? 500 : 0;
         setTimeout(() => {
             pages.forEach((page, i) => {
-                const topPosition = isOpen ? 5 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
+                const topPosition = isOpen ? 2 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
                 originalPositions[i] = topPosition; // Store original positions in pixels
                 page.style.top = `${topPosition}px`; // Set the initial top position
                 page.style.height = isOpen ? "auto" : "100%";
@@ -87,7 +90,7 @@
     onMount(() => {
         // Initialize positions for each page on mount
         pages.forEach((page, i) => {
-            const topPosition = isOpen ? 5 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
+            const topPosition = isOpen ? 2 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
             originalPositions[i] = topPosition; // Store original positions in pixels
             page.style.top = `${topPosition}px`; // Set the initial top position
             page.style.height = isOpen ? "auto" : "100%";
@@ -99,47 +102,51 @@
 </script>
 
 <div class="page-wrapper" class:isOpen={isOpen}>
-    {#each copy.dispatches as dispatch, i}
+    {#each letterCopy.pages.slice().reverse() as page, i}
         <div 
             bind:this={pages[i]}
             class="page" 
-            id="dispatch-page-{i}"
+            id="letter-page-{i}"
             style="transform: translate({getRandomLeft()}%, 0) rotate({getRandomRotate()}deg);
             filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
             on:click={() => pageClick(i)}
             on:mouseenter={pageMouseOver}
             on:mouseleave={pageMouseLeave}
         >
-            <!-- {#if i == copy.dispatches.length-1} -->
             <div class="page-inset">
-                <p class="bolded">Dispatch // Ephermera {dispatch.id}</p>
-                <div class="intro">
-                    {#each dispatch.intro as graf, i}
-                        <p>{@html graf.value}</p>
-                    {/each}
-                </div>
-                <div class="text">
-                    {#each dispatch.text as graf, i}
-                        <p>{@html graf.value}</p>
-                    {/each}
-                </div>
+                {#if folderIndex == 0}
+                    <div class="topper">
+                            <p>The Forest Park Wildlife Cooridor</p>
+                            <p>Multimodal Visual Debrief <strong>PG{letterCopy.pages.length - i}</strong></p>
+                    </div>
+                {:else}
+                    <div class="topper right-align">
+                        <p><strong>PG{letterCopy.pages.length - i}</strong></p>
+                    </div>
+                {/if}
+                {#if folderIndex !== 0 && i == letterCopy.pages.length - 1 && letterCopy.intro !== undefined}
+                    <div class="intro">
+                        {#each letterCopy.intro as graf, i}
+                            <p>{@html graf.value}</p>
+                        {/each}
+                    </div>
+                    <p class="date">{letterCopy.date}</p>
+                {/if}
+                {#each page.text as graf, i}
+                    <p class:letter={folderIndex !== 0}>{@html graf.value}</p>
+                {/each}
             </div>
-            <!-- <div class="padder"></div>
-            {:else}
-                {#each dispatch.intro as graf, i}
-                    <p>{@html graf.value}</p>
-                {/each}
-                {#each dispatch.text as graf, i}
-                    <p>{@html graf.value}</p>
-                {/each}
-            {/if} -->
+            {#if i == letterCopy.pages.length - 1}
+                <div class="padder"></div>
+            {/if}
         </div>
     {/each}
 </div>
 
+
 <style>
     .padder {
-        height: 20rem;
+        height: 10rem;
         width: 100%;
     }
     .page-wrapper {
@@ -150,25 +157,66 @@
         flex-direction: column;
         align-items: center;
         position: relative;
+        pointer-events: auto;
+    }
+    :global(strong) {
+        display: inline-block;
     }
     .page {
         width: 100%;
         max-width: 660px;
-        background-color: #f1eeec;
         color: #151515;
-        padding: 1rem;
         margin: 1rem auto;
-        background-image: url("assets/images/bg_texture.png");
-        background-size: 200px;
-        background-repeat: repeat;
-        border: 1px solid #dfd9d5;
-        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
         z-index: 1000;
         left: 50%;
         position: absolute;
         transform: translate(-50%, 0);
         transition: top 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.3s ease;
         cursor: pointer;
+        pointer-events: auto;
+    }
+
+    .topper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .topper.right-align {
+        justify-content: flex-end;
+    }
+
+    .topper p {
+        font-size: 10px;
+        margin: 1rem 0 0 0;
+    }
+
+    .intro {
+        border: 1px solid black;
+        margin-top: 1rem;
+        padding: 0 1rem;
+    }
+
+    .date {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 5px;
+    }
+
+    :global(span.class-hed) {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+    }
+
+    :global(span.right-align) {
+        width: 100%;
+        display: inline-block;
+        text-align: right;
     }
 
     #dispatch-page-17 {
@@ -179,11 +227,13 @@
 
     .page-inset {
         width: 100%;
-        padding: 1rem 2rem 3rem 2rem;
+        padding: 0 2rem 1rem 2rem;
         background-color: #f1eeec;
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
+        border: 1px solid #dfd9d5;
+        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
     }
 
     h5 {
@@ -192,9 +242,13 @@
     }
 
     p {
-        display: flex;
-        margin: 0;
-        font-size: 14px;
+        margin: 1rem 0;
+        font-size: 12px;
+        font-family:'Courier New', Courier, monospace;
+    }
+
+    p.letter {
+        font-family: var(--serif);
     }
 
     .bolded {
