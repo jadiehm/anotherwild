@@ -20,7 +20,7 @@
     $: folderChange(activeFolder);
 </script>
 
-<div id="folder-{folderIndex}" class="folder" class:isOpen={isOpen}>
+<div id="folder-{folderIndex}" class="folder" class:isOpen={isOpen} class:isActive={activeFolder == folderIndex}>
     <div class="folder-inner">
         <div 
             class="folder-left"
@@ -68,19 +68,11 @@
         transform: translate3d(0%, 0px, 0px);
         transition: all 0.5s linear;
         transform-style: preserve-3d;
-        cursor: pointer;
-        pointer-events: auto;
+        pointer-events: none;
     }
 
     .folder.isOpen {
         transform: translate3d(50%, 0px, 0px);
-        pointer-events: auto;
-        cursor: pointer;
-    }
-
-    .folder.isClickable {
-        pointer-events: auto;
-        cursor: pointer;
     }
 
     .folder-inner {
@@ -88,6 +80,11 @@
         height: 100%;
         position: relative;
         transform-style: preserve-3d;
+        pointer-events: none;
+    }
+
+    .folder.isActive .folder-inner {
+        pointer-events: auto;
     }
 
     .classified {
@@ -261,11 +258,11 @@
         height: 100%;
     }
 
-    @media(max-width: 900px) {
-        #folder {
-            width: 85%;
+    @media(max-width: 1000px) {
+        .folder {
+            width: 90%;
         }
-        #folder.isOpen {
+        .folder.isOpen {
             transform: translate3d(0, 0px, 0px);
         }
     }
@@ -282,6 +279,9 @@
         }
         .note-paper p {
             margin:0.5rem 0
+        }
+        .classified {
+            font-size: 18px;
         }
     }
 </style>

@@ -18,14 +18,14 @@
         } else if (dir.detail === "right" && activeFolder < lettersLen - 1) {
             activeFolder++;
         }
-        horizTransform = `${-activeFolder*80}vw`
+        horizTransform = `${-activeFolder*90}vw`
     }
 </script>
 
 {#if $folderVisible}
     <Tap showArrows={true} on:tap={handleTap} activeFolder={activeFolder} lettersLen={lettersLen}/>
 {/if}
-<section class="dispatches" class:folderVisible={$folderVisible} style="width: {100*lettersLen}%; transform: translate({horizTransform},{$folderVisible ? "0" : "100%"})">
+<section class="dispatches" class:folderVisible={$folderVisible} style="width: {100*lettersLen}%; transform: translate({horizTransform},{$folderVisible ? "32px" : "100%"})">
     {#each copy.letters as letter, i}
         <div id="contents-{i}" class="contents">
             <Folder folderType={"letter"} folderIndex={i} activeFolder={activeFolder} />
@@ -48,7 +48,6 @@
         font-family: var(--serif);
         color: #f1eeec;
         overflow-x: hidden;
-        cursor: pointer;
         pointer-events: none;
     }
 
@@ -58,13 +57,14 @@
 
     .contents {
         height: 100%;
-        width: 80vw; /* Ensure each content block has a consistent width */
+        width: 90vw; /* Ensure each content block has a consistent width */
         display: flex;
         align-items: center;
         flex-shrink: 0;
         justify-content: center;
         flex-direction: column;
-        cursor: pointer;
+        pointer-events: none;
         transition: filter 0.25s linear;
+        padding: 0 0 0 1rem;
     }
 </style>

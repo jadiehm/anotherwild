@@ -138,7 +138,6 @@
         position: absolute;
         transform: translate(-50%, 0);
         transition: all 0.5s ease-in-out;
-        cursor: pointer;
         pointer-events: auto;
     }
 
@@ -208,7 +207,7 @@
 
     p {
         margin: 1rem 0;
-        font-size: 12px;
+        font-size: 14px;
         font-family:'Courier New', Courier, monospace;
     }
 
@@ -227,6 +226,7 @@
         font-family:'Courier New', Courier, monospace;
         line-height: 1;
         margin: 1rem 0;
+        font-style: normal;
     }
 
     .intro {
@@ -235,21 +235,33 @@
 
     .text p {
         margin: 1rem 0;
+        font-style: normal;
     }
 
     :global(.right-align) {
         text-align: right;
         margin-left: auto;
     }
+
+    @media(max-width: 750px) {
+        .topper {
+            flex-direction: column;
+            padding-top: 1rem;
+        }
+        .topper p {
+            margin: 0;
+        }
+    }
+
     @media(max-width: 600px) {
-        .page, .page-inset {
-            padding: 1rem 1rem 3rem 1rem;
+        .page-inset {
+            padding: 0rem 1rem 2rem 1rem;
         }
         h5 {
             font-size: var(--16px);
         }
         p {
-            font-size: var(--14px);
+            font-size: var(--12px);
         }
     }
 </style>

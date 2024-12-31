@@ -16,12 +16,6 @@
     .album {
         border-top: 1px solid #f1eeec;
     }
-    .album:first-of-type {
-        border-top: none; 
-    }
-    #album-1 {
-        border-top: none; 
-    }
     .albumNum {
         position: relative;
         top: 0.5rem;

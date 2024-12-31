@@ -60,45 +60,57 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: #f1eeec;
         overflow-x: hidden;
-        cursor: pointer;
         pointer-events: none;
+        margin-top: 4rem;
     }
 
     section.viewfinderVisible {
-        transform: translateY(0);
+        transform: translateY(32px);
         pointer-events: auto;
     }
 
     .controls {
-        position: absolute;
-        top: 2rem;
-        left: 50%;
-        transform: translate(-50%, 0);
+        width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
-        margin-top: 2rem;
+        margin: 0 0 1rem 0;
     }
 
     .controls button {
-        margin-top: 2.5rem;
+        margin-top: 1rem;
+        height: 3rem;
+        width: 3rem;
+        background: transparent;
+        border: 1px solid #f1eeec;
+        z-index: 1000;
+    }
+
+    .controls button:first-of-type {
+        margin-right: -5rem;
+    }
+
+    .controls button:last-of-type {
+        margin-left: -5rem;
+    }
+
+    .controls button:hover {
+        background: #2e2e2e;
     }
 
     :global(.controls button svg path) {
-        stroke-width: 3px;
-        stroke: black;
+        stroke-width: 2px;
+        stroke: #f1eeec;
         fill: none;
     }
 
     .wheel {
-        width: 200px;
+        width: 300px;
         position: relative;
     }
 
@@ -117,10 +129,9 @@
         display: flex;
         flex-direction: row;
         width: 100%;
-        padding: 0 4rem;
+        padding: 0 1rem;
         max-width: 1000px;
         margin: 0 auto;
-        height: 100svh;
         align-items: center;
         gap: 2rem;
     }
@@ -131,7 +142,6 @@
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-        filter: blur(0.75px);
         background: black;
     }
 
@@ -141,12 +151,12 @@
         left: 0;
         width: 100%;
         height: 100%;
-        box-shadow: 0 0 8px 8px black inset;
+        box-shadow: 0 0 12px 12px black inset;
     }
 
     .left img, .right img {
         position: absolute;
-        transition: top 0.5s ease, transform 0.5s ease;
+        transition: top 0.75s ease, transform 0.75s ease, filter 0.75s ease;
         height: 100%;
         width: auto;
         object-fit: cover;
@@ -164,28 +174,47 @@
         top: 0;
         left: 0;
         transform: rotate(0deg);
+        filter: blur(0.75px);
     }
 
     .right img.active {
         top: 0;
         right: 0;
         transform: rotate(0deg);
+        filter: blur(0.75px);
     }
 
     .left img:not(.active) {
         top: -120%;
         left: 0;
         transform: rotate(-45deg);
+        filter: blur(10px);
     }
 
     .right img:not(.active) {
         top: 120%;
         right: 0;
         transform: rotate(45deg);
+        filter: blur(10px);
+
     }
 
     .grain {
         mix-blend-mode: multiply;
         opacity: 0.5;
+    }
+
+    @media(max-width: 750px) {
+        .view {
+            gap: 1rem;
+        }
+        .wheel {
+            width: 250px;
+        }
+
+        .controls button {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
     }
 </style>
