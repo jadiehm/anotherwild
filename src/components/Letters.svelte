@@ -26,105 +26,69 @@
         return increments[randomIndex];
     }
 
-    function pageClick(index) {
-        if (clickedIndex === index && isExpanded) {
-            // Revert back to the original positions (collapse)
-            revertPositions();
-            clickedIndex = null; // Clear the clicked index
-            isExpanded = false;
-        } else {
-            // Expand and adjust positions for the clicked page
-            clickedIndex = index;
-            adjustPositions();
-            isExpanded = true;
-        }
-    }
-
-    function adjustPositions() {
-        const clickedHeight = pages[clickedIndex].clientHeight;
-        pages.forEach((page, i) => {
-            if (i > clickedIndex) {
-                // Calculate the new top value based on the original top position
-                const originalTop = originalPositions[i];
-                const newTop = originalTop + clickedHeight;
-                page.style.top = `${newTop}px`; // Move the page down
-            } else {
-                // Reset the pages before the clicked one to their original positions
-                page.style.top = `${originalPositions[i]}px`;
-            }
-        });
-    }
-
-    function revertPositions() {
-        // Revert all pages to their original top positions
-        pages.forEach((page, i) => {
-            page.style.top = `${originalPositions[i]}px`;
-        });
-    }
-
-    function pageMouseOver() {
-        let currTransform = this.style.transform;
-        let newTransform = currTransform.replace("0px)", "-10px)");
-        this.style.transform = newTransform;
-    }
-
-    function pageMouseLeave() {
-        let currTransform = this.style.transform;
-        let newTransform = currTransform.replace("-10px)", "0px)");
-        this.style.transform = newTransform;
-    }
-
     function setPages(isOpen) {
-        let delay = isOpen ? 500 : 0;
-        setTimeout(() => {
-            pages.forEach((page, i) => {
-                const topPosition = isOpen ? 2 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
-                originalPositions[i] = topPosition; // Store original positions in pixels
-                page.style.top = `${topPosition}px`; // Set the initial top position
-                page.style.height = isOpen ? "auto" : "100%";
-                page.style.overflowY = isOpen ? "visible" : "hidden";
-            });
-        }, delay)
+            let cumulativeHeight = 0; // Initialize cumulative height
+            let delay = isOpen ? 250 : 0;
+            setTimeout(() => {
+                pages.forEach((page, i) => {
+                    const fullHeight = page.scrollHeight; // Includes content not visible due to clipping
+                    const pageHeight = fullHeight; // Full height of the page
+
+                    if (isOpen) {
+                        // Calculate the top position with padding
+                        const topPosition = cumulativeHeight;
+                        console.log({topPosition})
+                        originalPositions[i] = topPosition; // Store original positions in pixels
+
+                        // Apply styles for open state
+                        page.style.top = `${topPosition}px`; // Set the top position
+                        page.style.height = "auto";
+                        page.style.overflowY = "visible";
+
+                        // Update cumulative height with padding for all pages except the first
+                        cumulativeHeight += pageHeight + 32;
+                    } else {
+                        // Reset all pages to their original closed position
+                        originalPositions[i] = 0; // Reset stored position to 0
+                        page.style.top = `0px`; // Set top position to 0
+                    }
+                });
+            }, delay);
     }
 
     onMount(() => {
         // Initialize positions for each page on mount
-        pages.forEach((page, i) => {
-            const topPosition = isOpen ? 2 * i * 16 : 0; // Calculate rem to px (1rem = 16px)
-            originalPositions[i] = topPosition; // Store original positions in pixels
-            page.style.top = `${topPosition}px`; // Set the initial top position
-            page.style.height = isOpen ? "auto" : "100%";
-            page.style.overflowY = isOpen ? "visible" : "hidden";
-        });
+
+            pages.forEach((page, i) => {
+
+                page.style.top = `0px`; // Set the initial top position
+            });
     });
 
     $: setPages(isOpen);
 </script>
 
 <div class="page-wrapper" class:isOpen={isOpen}>
-    {#each letterCopy.pages.slice().reverse() as page, i}
+    {#each letterCopy.pages as page, i}
         <div 
             bind:this={pages[i]}
             class="page" 
             id="letter-page-{i}"
             style="transform: translate({getRandomLeft()}%, 0) rotate({getRandomRotate()}deg);
             filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
-            on:click={() => pageClick(i)}
-            on:mouseenter={pageMouseOver}
-            on:mouseleave={pageMouseLeave}
         >
             <div class="page-inset">
-                {#if folderIndex == 0}
+                {#if folderIndex == 2}
                     <div class="topper">
                             <p>The Forest Park Wildlife Cooridor</p>
-                            <p>Multimodal Visual Debrief <strong>PG{letterCopy.pages.length - i}</strong></p>
+                            <p>Multimodal Visual Debrief <strong>PG{i+1}</strong></p>
                     </div>
                 {:else}
                     <div class="topper right-align">
-                        <p><strong>PG{letterCopy.pages.length - i}</strong></p>
+                        <p><strong>PG{i+1}</strong></p>
                     </div>
                 {/if}
-                {#if folderIndex !== 0 && i == letterCopy.pages.length - 1 && letterCopy.intro !== undefined}
+                {#if folderIndex !== 2 && i == 0 && letterCopy.intro !== undefined}
                     <div class="intro">
                         {#each letterCopy.intro as graf, i}
                             <p>{@html graf.value}</p>
@@ -133,7 +97,7 @@
                     <p class="date">{letterCopy.date}</p>
                 {/if}
                 {#each page.text as graf, i}
-                    <p class:letter={folderIndex !== 0}>{@html graf.value}</p>
+                    <p class:letter={folderIndex !== 2}>{@html graf.value}</p>
                 {/each}
             </div>
             {#if i == letterCopy.pages.length - 1}
@@ -142,6 +106,7 @@
         </div>
     {/each}
 </div>
+
 
 
 <style>
@@ -165,15 +130,21 @@
     .page {
         width: 100%;
         max-width: 660px;
+        height: 100%;
         color: #151515;
         margin: 1rem auto;
         z-index: 1000;
         left: 50%;
         position: absolute;
         transform: translate(-50%, 0);
-        transition: top 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.3s ease;
+        transition: all 0.5s ease-in-out;
         cursor: pointer;
         pointer-events: auto;
+    }
+
+    .page.isOpen {
+        position: absolute;
+        height: auto;
     }
 
     .topper {
@@ -217,12 +188,6 @@
         width: 100%;
         display: inline-block;
         text-align: right;
-    }
-
-    #dispatch-page-17 {
-        background-color: transparent;
-        border: none;
-        padding: 0;
     }
 
     .page-inset {

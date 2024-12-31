@@ -2,6 +2,7 @@
     import { getContext, onMount } from "svelte";
     import InfoOverlay from "$components/InfoOverlay.svelte";
     import FolderOverlay from "$components/FolderOverlay.svelte";
+    import ViewfinderOverlay from "$components/ViewfinderOverlay.svelte";
     import NotesOverlay from "$components/NotesOverlay.svelte";
     import RadioVisualizer from "$components/RadioVisualizer.svelte";
     import photoClickSVG from "$svg/photoclick.svg";
@@ -9,7 +10,7 @@
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, bckBtnVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, bckBtnVisible } from "$stores/misc.js";
 
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
@@ -27,6 +28,8 @@
                 radioVisible.set(true); 
             } else if (id == "paper") {
                 notesVisible.set(true)
+            } else if (id == "viewfinder") {
+                viewfinderVisible.set(true)
             }
         } else {
             console.log("No valid ID found for clicked element");
@@ -53,6 +56,7 @@
         folderVisible.set(false);
         radioVisible.set(false);
         notesVisible.set(false);
+        viewfinderVisible.set(false);
         bckBtnVisible.set(false);
     }
 
@@ -114,10 +118,11 @@
     <Icon name="arrow-left" width="1rem"/>
     Back home to desk
 </button>
-<!-- <InfoOverlay /> -->
+<!-- <InfoOverlay />
+<NotesOverlay />
+<RadioVisualizer /> -->
 <FolderOverlay />
-<!-- <NotesOverlay /> -->
-<!-- <RadioVisualizer /> -->
+<ViewfinderOverlay />
 
 <style>
     h1 {
@@ -148,7 +153,7 @@
     }
 
     #photo-click.bckBtnVisible {
-        /* pointer-events: none; */
+        pointer-events: none;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -166,7 +171,7 @@
         opacity: 0;
         transition: opacity 0.5s ease;
         z-index: 1000;
-        /* pointer-events: none; */
+        pointer-events: none;
         display: flex;
         align-items: center;
     }
@@ -211,6 +216,7 @@
         aspect-ratio: 1.75/1;
         position: absolute;
         margin-top: 1rem;
+        cursor: pointer;
     }
 
     :global(.svg-wrapper svg path, .svg-wrapper svg polygon, .svg-wrapper svg polyline) {

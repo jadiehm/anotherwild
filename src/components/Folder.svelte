@@ -20,14 +20,14 @@
     $: folderChange(activeFolder);
 </script>
 
-<div id="folder" class:isOpen={isOpen}>
+<div id="folder-{folderIndex}" class="folder" class:isOpen={isOpen}>
     <div class="folder-inner">
         <div 
             class="folder-left"
             class:isOpen={isOpen}
             on:click={folderClick}
         >
-            {#if folderIndex !== 0}
+            {#if folderIndex !== 2}
                 <div class="sticky-note">
                     <div class="note-paper">
                         <p>Dispatch // Ephemera {folderIndex == 1 ? "two" : "one"}</p>
@@ -45,7 +45,7 @@
                 <img src="assets/images/left-edge.png" />
             </div>
         </div>
-        <div class="folder-right">
+        <div class="folder-right" class:isOpen={isOpen}>
             <div class="letter-wrapper">
                 <Letters {isOpen} folderIndex={folderIndex} />
             </div>
@@ -60,7 +60,7 @@
 </div>
 
 <style>
-    #folder {
+    .folder {
         width: 100%;
         max-width: 600px;
         aspect-ratio: 1 / 1.3;
@@ -72,13 +72,13 @@
         pointer-events: auto;
     }
 
-    #folder.isOpen {
+    .folder.isOpen {
         transform: translate3d(50%, 0px, 0px);
         pointer-events: auto;
         cursor: pointer;
     }
 
-    #folder.isClickable {
+    .folder.isClickable {
         pointer-events: auto;
         cursor: pointer;
     }
@@ -161,7 +161,7 @@
         transition: opacity 0.5s;
     }
 
-    :global(#folder .stamp svg path) {
+    :global(.folder .stamp svg path) {
         fill: black;
     } 
 
@@ -210,7 +210,7 @@
         height: 100%;
         background-color: #f1d592;
         position: relative;
-        /* pointer-events: none; */
+        pointer-events: none;
     }
     .folder-tab {
         height: 100%;
@@ -233,6 +233,11 @@
         padding: 2rem;
         transform-style: preserve-3d;
         cursor: auto;
+        overflow-y: hidden;
+    }
+
+    .folder-right.isOpen {
+        overflow-y: visible;
     }
 
     .folder-back {

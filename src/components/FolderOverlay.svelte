@@ -49,6 +49,10 @@
         color: #f1eeec;
         overflow-x: hidden;
         cursor: pointer;
+        pointer-events: none;
+    }
+
+    section.folderVisible {
         pointer-events: auto;
     }
 
