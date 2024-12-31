@@ -56,7 +56,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 2rem;
+        padding-top: 4rem;
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
@@ -65,7 +65,7 @@
     }
 
     section.aboutVisible {
-        transform: translateY(32px);
+        transform: translateY(0);
     }
 
     .inner {

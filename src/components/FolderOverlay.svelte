@@ -25,7 +25,7 @@
 {#if $folderVisible}
     <Tap showArrows={true} on:tap={handleTap} activeFolder={activeFolder} lettersLen={lettersLen}/>
 {/if}
-<section class="dispatches" class:folderVisible={$folderVisible} style="width: {100*lettersLen}%; transform: translate({horizTransform},{$folderVisible ? "32px" : "100%"})">
+<section class="dispatches" class:folderVisible={$folderVisible} style="width: {100*lettersLen}%; transform: translate({horizTransform},{$folderVisible ? "0px" : "100%"})">
     {#each copy.letters as letter, i}
         <div id="contents-{i}" class="contents">
             <Folder folderType={"letter"} folderIndex={i} activeFolder={activeFolder} />

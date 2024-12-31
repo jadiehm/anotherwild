@@ -5,18 +5,23 @@
     import ViewfinderOverlay from "$components/ViewfinderOverlay.svelte";
     import NotesOverlay from "$components/NotesOverlay.svelte";
     import RadioVisualizer from "$components/RadioVisualizer.svelte";
+    import LogsOverlay from "$components/LogsOverlay.svelte";
     import photoClickSVG from "$svg/photoclick.svg";
     import Icon from "$components/helpers/Icon.svelte";
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, bckBtnVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, bckBtnVisible } from "$stores/misc.js";
 
+    let width;
+    let height;
     let activeSection = "afangintherough";
     let showHintText = false;
     let hintText;
-    let hintTextX;
-    let hintTextY;
+    let hintTextX = 0;
+    let hintTextY = 0;
+    let hintWidth = 0; // Width of the hint element
+    let hintOffsetY = 10; // Vertical offset
 
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
@@ -41,6 +46,9 @@
                 } else if (id == "viewfinder") {
                     viewfinderVisible.set(true);
                     activeSection = "viewfinder";
+                } else if (id == "tape") {
+                    logsVisible.set(true);
+                    activeSection = "log excerpts";
                 }
             } 
         }, 500)
@@ -66,14 +74,22 @@
             } else if (id == "typewriter") {
                 hintText = "story";
             } else if (id == "tape") {
-                hintText = "audio logs"
+                hintText = "log excerpts"
             }
         }
     }
 
     function handleMouseMove(event) {
-        hintTextX = event.pageX; // Offset slightly to the right
-        hintTextY = event.pageY; // Offset slightly below
+        const hintElement = document.getElementById('hover-hint');
+        if (hintElement) {
+            hintWidth = hintElement.offsetWidth; // Dynamically get the hint width
+        }
+
+        const isRightSide = event.pageX > width / 2;
+        hintTextX = isRightSide
+            ? event.pageX - hintWidth// Offset to the left if on the right side
+            : event.pageX; // Offset to the right if on the left side
+        hintTextY = event.pageY; // Slight offset below the cursor
     }
 
     function handleMouseOut(event) {
@@ -88,6 +104,7 @@
         radioVisible.set(false);
         notesVisible.set(false);
         viewfinderVisible.set(false);
+        logsVisible.set(false);
         bckBtnVisible.set(false);
         activeSection = "afangintherough";
     }
@@ -117,6 +134,8 @@
         typeText(activeSection); // Retrigger animation on `activeSection` change
     }
 </script>
+
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 <nav>
     <div class="sec-name">
@@ -169,6 +188,7 @@
 <RadioVisualizer />
 <FolderOverlay />
 <ViewfinderOverlay />
+<LogsOverlay />
 
 <style>
     nav {

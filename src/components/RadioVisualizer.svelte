@@ -193,7 +193,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         overflow-y: scroll;
-		margin-top: 4rem;
+		padding-top: 4rem;
     }
 
     section.radioVisible {

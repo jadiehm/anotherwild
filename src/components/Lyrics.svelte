@@ -191,6 +191,7 @@
     p {
         display: flex;
         margin: 0;
+        font-family: var(--serif) !important;
     }
 
     :global(.right-align) {

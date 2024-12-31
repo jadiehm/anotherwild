@@ -8,4 +8,5 @@ export const folderVisible = writable(false);
 export const radioVisible = writable(false);
 export const notesVisible = writable(false);
 export const viewfinderVisible = writable(false);
+export const logsVisible = writable(false);
 export const bckBtnVisible = writable(false);

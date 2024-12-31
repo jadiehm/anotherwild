@@ -66,11 +66,11 @@
         color: #f1eeec;
         overflow-x: hidden;
         pointer-events: none;
-        margin-top: 4rem;
+        padding-top: 8rem;
     }
 
     section.viewfinderVisible {
-        transform: translateY(32px);
+        transform: translateY(0);
         pointer-events: auto;
     }
 

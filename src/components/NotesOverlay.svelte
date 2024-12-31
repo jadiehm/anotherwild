@@ -104,12 +104,11 @@
         font-family: var(--serif);
         color: #f1eeec;
         overflow: hidden;
-        margin-top: 2rem;
-        padding: 1rem;
+        padding: 6rem 1rem 1rem 1rem;
     }
 
     section.notesVisible {
-        transform: translateY(32px);
+        transform: translateY(0);
         overflow:auto;
     }
     .padder {
@@ -167,7 +166,6 @@
     p {
         margin: 0;
         font-size: 14px;
-        font-family:'Courier New', Courier, monospace;
     }
 
     p.letter {
@@ -175,7 +173,6 @@
     }
 
     .bolded {
-        font-family:'Courier New', Courier, monospace;
         line-height: 1;  
         font-weight: 700;
         text-transform: uppercase;
