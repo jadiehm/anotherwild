@@ -14,18 +14,18 @@
 
 <style>
     .album {
-        border-top: 1px solid #f1eeec;
+        border-top: 1px solid var(--fang-light);
     }
     .albumNum {
         position: relative;
         top: 0.5rem;
         left: 0.5rem;
-        color: #f1eeec;
+        color: var(--fang-light);
         font-family: "Carnaby Street";
         text-transform: uppercase;
         padding: 0;
         margin: 0;
-        text-shadow: 1px 1px 4px black;
+        text-shadow: 1px 1px 4px var(--fang-dark);
     }
 
     @media(max-width: 600px) {

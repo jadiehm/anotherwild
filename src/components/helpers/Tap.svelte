@@ -9,7 +9,7 @@
 	export let showArrows = false; // boolean or array of directions
 	export let disable = [];
 	export let directions = ["left", "right"];
-	export let size = "48px";
+	export let size = "2.5rem";
 	export let arrowSize = "48px";
 	export let arrowStroke = "#000";
 	export let arrowStrokeWidth = "2";
@@ -81,7 +81,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: #f1eeec;
+		background: var(--fang-light);
 		border-radius: 3px;
 		outline: none;
 		box-shadow: none;

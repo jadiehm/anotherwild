@@ -60,7 +60,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
-        color: #f1eeec;
+        color: var(--fang-light);
         overflow-x: hidden;
     }
 
@@ -106,7 +106,7 @@
         width: 100%;
         height: calc(100% - 2rem);
         position: absolute;
-        background-color: #f1eeec;
+        background-color: var(--fang-light);
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
@@ -141,7 +141,7 @@
     }
     .page {
         max-width: 660px;
-        background-color: #f1eeec;
+        background-color: var(--fang-light);
         color: #151515;
         padding: 3rem;
         margin: 1rem 0;
@@ -161,7 +161,7 @@
 		justify-content: center;
 		width: 6rem;
 		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-        color: black;
+        color: var(--fang-dark);
 		font-family: "Carnaby Street", var(--sans), sans;
 		text-transform: uppercase;
     }
@@ -170,7 +170,7 @@
     }
 
     .right, .right a, .right p {
-        color: #f1eeec;
+        color: var(--fang-light);
     }
 
     .right p {
@@ -183,7 +183,7 @@
     }
 
     .left span, .left a {
-        color: #f1eeec;
+        color: var(--fang-light);
     }
     .photo-wrapper {
         position: relative;
@@ -195,7 +195,7 @@
         right: -1.75rem;
         width: 40%;
         aspect-ratio: 1;
-        border: 5px solid black;
+        border: 5px solid var(--fang-dark);
     }
 
     .links {
@@ -237,20 +237,20 @@
         transform: rotate(20deg);
     }
     :global(.stamp svg path) {
-        fill: #f1eeec;
+        fill: var(--fang-light);
     }
     .caption {
         font-family: "Carnaby Street";
     }
     :global(.caption a) {
-       color: #f1eeec; 
+       color: var(--fang-light); 
     }
 
     :global(.left a:hover, .right .links a:hover) {
         color: rgba(165, 191, 182, 0.95);
     }
     :global(.links .icon svg path) {
-        fill: #f1eeec;
+        fill: var(--fang-light);
     }
 
     img:hover {

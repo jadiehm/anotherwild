@@ -26,12 +26,12 @@
 
 <section class="viewfinder" class:viewfinderVisible={$viewfinderVisible}>
     <div class="controls">
-        <button on:click={prevClick}><ChevronLeft color={"black"} strokeWidth={3} fill={"none"} /></button>
+        <button on:click={prevClick}><ChevronLeft color={"#01010f"} strokeWidth={3} fill={"none"} /></button>
         <div class="wheel">
             <img class="wheel-nums" style="transform: rotate({wheelRotation}deg)" src="assets/images/viewfinder-wheel.png" />
             <img src="assets/images/viewfinder-cover.png" />
         </div>
-        <button on:click={nextClick}><ChevronRight color={"black"} strokeWidth={1} /></button>
+        <button on:click={nextClick}><ChevronRight color={"#01010f"} strokeWidth={1} /></button>
     </div>
     <div class="view">
         <div class="left">
@@ -63,7 +63,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
-        color: #f1eeec;
+        color: var(--fang-light);
         overflow-x: hidden;
         pointer-events: none;
         padding-top: 8rem;
@@ -84,10 +84,10 @@
 
     .controls button {
         margin-top: 1rem;
-        height: 3rem;
-        width: 3rem;
-        background: transparent;
-        border: 1px solid #f1eeec;
+        height: 2.5rem;
+        width: 2.5rem;
+        background: var(--fang-light);
+        border: none;
         z-index: 1000;
     }
 
@@ -100,12 +100,12 @@
     }
 
     .controls button:hover {
-        background: #2e2e2e;
+        opacity: 0.8;
     }
 
     :global(.controls button svg path) {
         stroke-width: 2px;
-        stroke: #f1eeec;
+        stroke: var(--fang-dark);
         fill: none;
     }
 
@@ -142,7 +142,7 @@
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-        background: black;
+        background: var(--fang-dark);
     }
 
     .vignette {
@@ -151,7 +151,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        box-shadow: 0 0 12px 12px black inset;
+        box-shadow: 0 0 12px 12px var(--fang-dark) inset;
     }
 
     .left img, .right img {

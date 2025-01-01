@@ -46,7 +46,7 @@
         justify-content: flex-start;
         transition: transform 500ms linear;
         font-family: var(--serif);
-        color: #f1eeec;
+        color: var(--fang-light);
         overflow-x: hidden;
         pointer-events: none;
     }

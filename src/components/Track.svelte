@@ -3,7 +3,7 @@
     import PlayIcon from "$svg/play.svg";
     import PauseIcon from "$svg/pause.svg";
     import { onMount } from "svelte";
-    import { currTrack } from "$stores/misc.js";
+    import { currTrack, bckBtnVisible } from "$stores/misc.js";
     import { get } from 'svelte/store';
     import { createEventDispatcher } from 'svelte';
 
@@ -55,7 +55,12 @@
 
     const splitAt = (index, xs) => [xs.slice(0, index)];
 
-    $: active = $currTrack == trackData.id;
+    $: active = $currTrack == trackData.id && $bckBtnVisible;
+
+    $: if (!$bckBtnVisible) {
+        currTrack.set(null);
+        active = false;
+    }
     let svgWidth, svgHeight;
 </script>
 
@@ -110,7 +115,7 @@
     }
     .trackNum {
         display: inline-block;
-        color: #f1eeec;
+        color: var(--fang-light);
         border-radius: 50%;
         width: 2rem;
         height: 2rem;
@@ -123,16 +128,16 @@
         top: -1rem;
         left: 0rem;
         font-size: 16px;
-        text-shadow: 1px 1px 4px black;
+        text-shadow: 1px 1px 4px var(--fang-dark);
     }
     .trackTitle {
         font-family: "Hoefler Text";
         text-transform: uppercase;
         font-size: 46px;
         margin: 0;
-        color: #f1eeec;
+        color: var(--fang-light);
         transition: 500ms letter-spacing linear;
-        text-shadow: 2px 2px 6px black;
+        text-shadow: 2px 2px 6px var(--fang-dark);
     }
     .active {
         height: 40rem;
@@ -152,7 +157,7 @@
         height: 100%;
     }
     :global(button svg path) {
-        fill: #f1eeec;
+        fill: var(--fang-light);
     }
 
     @media(max-width: 800px) {
@@ -164,7 +169,7 @@
         }
         .trackTitle {
             font-size: 36px;
-            text-shadow: 2px 2px 6px black;
+            text-shadow: 2px 2px 6px var(--fang-dark);
         }
 
         .track:hover .trackTitle {
@@ -173,7 +178,7 @@
 
         .trackNum {
             top: -0.5rem;
-            text-shadow: 1px 1px 2px black;
+            text-shadow: 1px 1px 2px var(--fang-dark);
         }
         button {
             height: 2.5rem;
@@ -190,7 +195,7 @@
         }
         .trackTitle {
             font-size: 24px;
-            text-shadow: 2px 2px 6px black;
+            text-shadow: 2px 2px 6px var(--fang-dark);
         }
 
         .track:hover .trackTitle {

@@ -120,7 +120,7 @@
     .page {
         width: 100%;
         max-width: 660px;
-        background-color: #f1eeec;
+        background-color: var(--fang-light);
         color: #151515;
         padding: 1rem 2rem 3rem 2rem;
         margin: 1rem auto;
@@ -147,7 +147,7 @@
     .page-inset {
         width: 100%;
         padding: 1rem 2rem 3rem 2rem;
-        background-color: #f1eeec;
+        background-color: var(--fang-light);
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;

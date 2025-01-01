@@ -102,7 +102,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
-        color: #f1eeec;
+        color: var(--fang-light);
         overflow: hidden;
         padding: 6rem 1rem 1rem 1rem;
     }
@@ -150,7 +150,7 @@
     .page-inset {
         width: 100%;
         padding: 1rem 2rem 2rem 2rem;
-        background-color: #f1eeec;
+        background-color: var(--fang-light);
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;

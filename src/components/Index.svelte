@@ -267,7 +267,7 @@
 	}
 	:global(.bg-topography svg path) {
 		fill: none;
-		stroke: #f1eeec;
+		stroke: var(--fang-light);
 		stroke-width: 0.5px;
 	}
 	.infoBtn {
@@ -291,24 +291,24 @@
 	:global(.links-header a) {
 		width: 1.5rem;
 		height: 1.5rem;
-		color: #f1eeec;
+		color: var(--fang-light);
 		border-bottom: none;
 	}
 	:global(.links-header a:hover) {
 		opacity: 0.8;
 	}
 	:global(.links-header a svg path) {
-		fill: #f1eeec;
+		fill: var(--fang-light);
 	}
 	.infoBtn p {
-		color: black;
+		color: var(--fang-dark);
 		margin: 0 0.25rem 0 0;
 		font-family: "Carnaby Street", var(--sans), sans;
 		text-transform: uppercase;
 	}
 	.bg-movie {
 		position: fixed;
-		background: black;
+		background: var(--fang-dark);
 		top: 0;
 		left: 0;
 		width: 100vw;     
@@ -361,13 +361,13 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 0 0.5rem;
-		border-bottom: 1px solid #f1eeec;
+		border-bottom: 1px solid var(--fang-light);
 	}
 	h1 {
 		margin: 0;
 		font-family: var(--serif);
 		text-transform: uppercase;
-		color: #f1eeec;
+		color: var(--fang-light);
 		font-size: 20px;
 		display: flex;
 		flex-direction: row;

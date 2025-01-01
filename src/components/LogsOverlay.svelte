@@ -10,6 +10,7 @@
     let audioDuration = 0;
     let activeDelay = 0;
     let highlightedIndex = 0; // Tracks the currently highlighted paragraph
+    let isPlaying;
 
     function handleClick(event) {
         const target = event.target.closest('g')?.id;
@@ -23,7 +24,7 @@
             return;
         }
 
-        const isPlaying = !audioElement.paused && !audioElement.ended && audioElement.readyState > 2;
+        isPlaying = !audioElement.paused && !audioElement.ended && audioElement.readyState > 2;
 
         if (isPlaying) {
             audioElement.pause();
@@ -100,19 +101,24 @@
         <source id="logAudioSource" src="assets/audio/logs/LOGMSTR_CH1.mp3" type="audio/mpeg">
     </audio>
     <div class="tape-wrapper">
-        <img src="assets/images/tape.png" />
-        <div class="svg-wrapper"
-        on:click={handleClick}>
-            {@html tapeSVG}
+        <div class="tape-wrapper-inner">
+            <img src="assets/images/tape.png" />
+            <div class="svg-wrapper" on:click={handleClick}>
+                {@html tapeSVG}
+            </div>
         </div>
     </div>
     <div class="log-text">
         <h5>Log Excerpt {currentLogIndex}</h5>
-        {#if activeDelay !== undefined}
-            {#each copy.logs[currentLogIndex-1].text as graf,i}
-                <p class:highlight={i === highlightedIndex}>{@html graf.value}</p>
-            {/each}
-        {/if}
+        <div class="text-wrapper">
+            <div class="text-inner">
+                {#if activeDelay !== undefined}
+                    {#each copy.logs[currentLogIndex-1].text as graf,i}
+                        <p class:highlight={i === highlightedIndex}>{@html graf.value}</p>
+                    {/each}
+                {/if}
+            </div>
+        </div>
     </div>
 </section>
 
@@ -132,7 +138,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         font-family: var(--serif);
-        color: #f1eeec;
+        color: var(--fang-light);
         overflow-x: hidden;
     }
 
@@ -142,10 +148,17 @@
 
     .tape-wrapper {
         width: 100%;
-        aspect-ratio: 1 / 0.5;
         display: flex;
         justify-content: center;
+        height: auto;
+    }
+
+    .tape-wrapper-inner {
         position: relative;
+        width: 100%;
+        max-width: 800px;
+        padding: 0 1rem;
+        aspect-ratio: 1/0.75;
     }
 
     .tape-wrapper img {
@@ -156,6 +169,7 @@
         position: absolute;
         width: 100%;
         max-width: 800px;
+        padding: 0 1rem;
     }
 
     .svg-wrapper {
@@ -172,7 +186,10 @@
     }
 
     .log-text {
+        width: 100%;
         margin-bottom: 4rem;
+        max-width: 600px;
+        padding: 0 1rem;
     }
 
     h5 {
@@ -183,14 +200,18 @@
     }
 
     p {
-        color: white;
+        color: var(--fang-light);
         font-size: 16px;
         margin: 0;
         z-index: 1000;
         opacity: 0.4;
+        filter: blur(1px);
+        transition: all 0.25s ease;
     }
 
     .highlight {
         opacity: 1;
+        font-size: 24px;
+        filter: blur(0px);
     }
 </style>

@@ -91,7 +91,7 @@
         position: absolute;
         left: 45%;
         transform: translate(-50%, 0);
-        color:black;
+        color:var(--fang-dark);
         font-family:'Courier New', Courier, monospace;
         font-weight: 700;
         font-size: 36px;
@@ -118,9 +118,9 @@
         width: 100%;
         z-index: 900;
         position: absolute;
-        background: #f1eeec;
+        background: var(--fang-light);
         transform: rotate(-2deg);
-        color: black;
+        color: var(--fang-dark);
         font-family: var(--serif);
         font-size: 10px;
         padding: 1rem;
@@ -159,7 +159,7 @@
     }
 
     :global(.folder .stamp svg path) {
-        fill: black;
+        fill: var(--fang-dark);
     } 
 
     .instructions {
@@ -168,7 +168,7 @@
         left: 1rem;
         z-index: 901;
         text-transform: uppercase;
-        color: black;
+        color: var(--fang-dark);
         font-weight: 700;
         display: flex;
         flex-direction: row;

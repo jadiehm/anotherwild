@@ -119,7 +119,10 @@
         } else if (!$radioVisible) {
             // Stop audio and reset animation when inactive
             currAudio.pause();
+            currAudio.currentTime = 0;
+            currAudio.load();
             isPlaying = false;
+            active = false;
 
             // Fade out the path
             d3.selectAll(`#path1-${id}, #path2-${id}`).style("opacity", 0);
@@ -131,9 +134,9 @@
 <svg id="audio-wave-{id}" class="audio-wave" width={dimensions[0]} height={dimensions[1]}>
     <!-- Center the group in the middle of the SVG -->
     <g transform={`translate(${dimensions[0]/2}, ${dimensions[1]/2})`}>
-        <path id="path1-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
-        <path id="path2-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
-        <path id="path3-{id}" fill="none" stroke="#f1eeec" stroke-width="2"></path>
+        <path id="path1-{id}" fill="none" stroke="#eae2d9" stroke-width="2"></path>
+        <path id="path2-{id}" fill="none" stroke="#eae2d9" stroke-width="2"></path>
+        <path id="path3-{id}" fill="none" stroke="#eae2d9" stroke-width="2"></path>
     </g>
 </svg>
 {/if}
@@ -146,7 +149,7 @@
 
     path {
         fill: none;
-        stroke: #f1eeec;
+        stroke: var(--fang-light);
         stroke-width: 2;
     }
 </style>

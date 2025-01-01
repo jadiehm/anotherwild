@@ -213,13 +213,13 @@
 	}
 	:global(.bg-topography svg path) {
 		fill: none;
-		stroke: #f1eeec;
+		stroke: var(--fang-light);
 		stroke-width: 0.5px;
 	}
 
     .bg-movie {
 		position: fixed;
-		background: black;
+		background: var(--fang-dark);
 		top: 0;
 		left: 0;
 		width: 100vw;     

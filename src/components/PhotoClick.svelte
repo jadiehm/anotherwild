@@ -7,6 +7,7 @@
     import RadioVisualizer from "$components/RadioVisualizer.svelte";
     import LogsOverlay from "$components/LogsOverlay.svelte";
     import photoClickSVG from "$svg/photoclick.svg";
+    import touchSVG from "$svg/touch.svg";
     import Icon from "$components/helpers/Icon.svelte";
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
@@ -21,7 +22,10 @@
     let hintTextX = 0;
     let hintTextY = 0;
     let hintWidth = 0; // Width of the hint element
-    let hintOffsetY = 10; // Vertical offset
+    let isMounted;
+    let audioLogElement;
+    let audioSongElement;
+    let touchVisible = true;
 
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
@@ -61,6 +65,7 @@
             let overlay = d3.select(`#${id}-overlay`)
             overlay.style("opacity", 0.75);
             showHintText = true;
+            touchVisible = false;
             if (id == "light") {
                 hintText = "about";
             } else if (id == "folder") {
@@ -110,16 +115,20 @@
     }
     let visibleText = '';
     let showCursor = false; // Controls cursor visibility
-
-
-    // Animate the text display
     let index = 0;
     const delay = 100; // Time delay between each character (in ms)
+    let typingTask; // Holds the current typing task for cancellation
 
-    const typeText = async (text) => {
+    const typeText = async (text, cancelToken) => {
         visibleText = ''; // Clear existing text
         index = 0; // Reset index
+        showCursor = false;
+
         while (index < text.length) {
+            if (cancelToken.cancelled) {
+                return; // Exit the function if cancelled
+            }
+
             visibleText += text[index]; // Add one character at a time
             index++;
             await new Promise((resolve) => setTimeout(resolve, delay));
@@ -128,11 +137,39 @@
         showCursor = true;
     };
 
-    // Start the typewriter animation when the component is initialized
+    // Start the typewriter animation whenever `activeSection` changes
     $: if (activeSection) {
-        showCursor = false;
-        typeText(activeSection); // Retrigger animation on `activeSection` change
+        // Cancel the previous typing animation if one is ongoing
+        if (typingTask) {
+            typingTask.cancelled = true;
+        }
+
+        typingTask = { cancelled: false }; // Create a new cancel token
+        typeText(activeSection, typingTask);
     }
+
+    $: if (isMounted && !$bckBtnVisible) {
+        const audioLogElement = d3.select('#log-audio');
+        const audioSongElement = d3.select('#bg-audio');
+
+        if (audioLogElement) {
+            audioLogElement.node().pause();
+            audioLogElement.node().currentTime = 0;
+            audioLogElement.node().load();
+        }
+
+        if (audioSongElement) {
+            audioSongElement.node().pause();
+            audioLogElement.node().currentTime = 0;
+            audioLogElement.node().load();
+        } 
+    }
+
+    onMount(() => {
+        isMounted = true;
+        audioLogElement = d3.select('#log-audio');
+        audioSongElement = d3.select('#bg-audio');
+    });
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
@@ -150,14 +187,13 @@
     </div>
     <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick}>
         <Icon name="arrow-left" width="1rem"/>
-        Back home to desk
+        {#if width >= 500}
+            Back home to desk
+        {/if}
     </button>
 </nav>
 
-<p
-    id="hover-hint"
-    style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;"
->
+<p id="hover-hint" style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;">
     {hintText}
 </p>
 
@@ -172,6 +208,10 @@
         <img id="folder-overlay" src="/assets/images/folder-overlay.png" />
         <img id="viewfinder-overlay" src="/assets/images/viewfinder-overlay.png" />
         <img id="light-overlay" src="/assets/images/light-overlay.png" />
+    </div>
+    <div class="touch-hint" class:touchVisible={touchVisible}>
+        {@html touchSVG}
+        <p>Explore the desk</p>
     </div>
     <div class="svg-wrapper" 
         on:click={handleClick}
@@ -190,6 +230,10 @@
 <ViewfinderOverlay />
 <LogsOverlay />
 
+<footer class:bckBtnVisible={$bckBtnVisible}>
+    <p>©Ⓟ October 18, 2024 Noah Fagan, H O R S E A N D H O U N D</p>
+</footer>
+
 <style>
     nav {
         position: fixed;
@@ -206,7 +250,7 @@
 
     .sec-name h3 {
         font-family:'Courier New', Courier, monospace;
-        color: #f1eeec;
+        color: #eae2d9;
         position: relative;
     }
 
@@ -221,10 +265,63 @@
         right: -4px;
     }
 
+    footer {
+        position: absolute;
+        font-family:'Courier New', Courier, monospace;
+        color: #eae2d9;
+        left: 1rem;
+        bottom: 0;
+        width: 100%;
+        font-size: 12px;
+        opacity: 0.5;
+        transition: opacity 0.5s ease;
+    }
+
+    footer.bckBtnVisible {
+        opacity: 0;
+    }
+
     @keyframes blink {
         50% {
             opacity: 0;
         }
+    }
+
+    .touch-hint {
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+        color: #eae2d9;
+        font-family:'Courier New', Courier, monospace;
+        text-transform: uppercase;
+        z-index: 1000;
+        font-weight: 700;
+        font-size: 14px;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+    }
+
+    .touch-hint.touchVisible {
+        opacity: 1;
+    }
+
+    :global(.touch-hint svg) {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.25rem;
+        animation: shake 0.75s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(-1px); }
+        50% { transform: translateX(1px); }
+        100% { transform: translateX(-1px); }
     }
 
     #hover-hint {
@@ -232,7 +329,7 @@
         font-family:'Courier New', Courier, monospace;
         text-transform: uppercase;
         font-weight: 700;
-        color: #f1eeec;
+        color: #eae2d9;
         z-index: 1000;
         pointer-events: none;
         transition: opacity 0.25s ease;
@@ -244,7 +341,7 @@
         top: 2rem;
         text-transform: uppercase;
         letter-spacing: 20px;
-        color: #f1eeec;
+        color: #eae2d9;
         z-index: 1000;
     }
     #photo-click {
@@ -275,9 +372,9 @@
         font-family:'Courier New', Courier, monospace;
         font-weight: 700;
         font-size: 12px;
-        border: 1px solid #f1eeec;
-        background: transparent;
-        color: #f1eeec;
+        border: none;
+        background: #eae2d9;
+        color: var(--fang-dark);
         opacity: 0;
         transition: opacity 0.5s ease;
         z-index: 1000;
@@ -287,7 +384,7 @@
     }
 
     .back:hover {
-        background: #2e2e2e;
+        opacity: 0.8 !important;
     }
 
     :global(.back:hover svg g) {
@@ -364,5 +461,11 @@
 
     .vignette.dark.bckBtnVisible {
         opacity: 1;
+    }
+
+    @media(max-width: 500px) {
+        :global(.back svg) {
+            margin: 0;
+        }
     }
 </style>
