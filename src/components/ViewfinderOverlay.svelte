@@ -89,14 +89,23 @@
         background: var(--fang-light);
         border: none;
         z-index: 1000;
+        transition: all 0.5s ease;
     }
 
     .controls button:first-of-type {
         margin-right: -5rem;
     }
 
+    .controls button:first-of-type:hover {
+        transform: translate(-4px, 0);
+    }
+
     .controls button:last-of-type {
         margin-left: -5rem;
+    }
+
+    .controls button:last-of-type:hover {
+        transform: translate(4px, 0);
     }
 
     .controls button:hover {

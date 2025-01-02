@@ -87,6 +87,7 @@
 		box-shadow: none;
 		pointer-events: auto;
 		display: flex;
+		transition: all 0.5s ease;
 	}
 
 	button:disabled {
@@ -113,6 +114,14 @@
 		right: 1rem;
 		top: 0;
 		/* text-align: right; */
+	}
+
+	button.left:hover {
+		transform: translate(-4px, -50%);
+	}
+
+	button.right:hover {
+		transform: translate(4px, -50%);
 	}
 
 	.left.start,

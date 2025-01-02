@@ -176,19 +176,19 @@
 
 <nav>
     <div class="sec-name">
-        <h3>
+        <h1>
             {#each visibleText.split("") as char, i}
                 <span in:fade={{duration:200, delay: 200}}>{char}</span>
             {/each}
             {#if showCursor}
                 <span class="cursor"></span>
             {/if}
-        </h3>
+        </h1>
     </div>
     <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
-            Back home to desk
+            Back to desk
         {/if}
     </button>
 </nav>
@@ -248,32 +248,34 @@
         z-index: 1000;
     }
 
-    .sec-name h3 {
-        font-family:'Courier New', Courier, monospace;
+    .sec-name h1 {
+        font-family: var(--mono);
         color: #eae2d9;
         position: relative;
+        line-height: 1;
+        font-size: 40px;
     }
 
     .cursor {
         display: inline-block;
         width: 2px;
-        height: 2rem;
+        height: 2.5rem;
         background-color: currentColor;
         animation: blink 1s step-start infinite;
         position: absolute;
         top: 0px;
-        right: -4px;
+        right: -6px;
     }
 
     footer {
         position: absolute;
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         color: #eae2d9;
         left: 1rem;
         bottom: 0;
         width: 100%;
         font-size: 12px;
-        opacity: 0.5;
+        opacity: 1;
         transition: opacity 0.5s ease;
     }
 
@@ -290,10 +292,10 @@
     .touch-hint {
         position: absolute;
         left: 50%;
-        top: 40%;
-        transform: translate(-50%, -50%);
+        top: 30svh;
+        transform: translate(-50%, 0);
         color: #eae2d9;
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         text-transform: uppercase;
         z-index: 1000;
         font-weight: 700;
@@ -326,23 +328,14 @@
 
     #hover-hint {
         position: absolute;
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         text-transform: uppercase;
         font-weight: 700;
         color: #eae2d9;
         z-index: 1000;
         pointer-events: none;
         transition: opacity 0.25s ease;
-    }
-
-    h1 {
-        position: absolute;
-        left: 4rem;
-        top: 2rem;
-        text-transform: uppercase;
-        letter-spacing: 20px;
-        color: #eae2d9;
-        z-index: 1000;
+        text-shadow: 2px 2px 10px var(--fang-dark);
     }
     #photo-click {
         width: 100%;
@@ -355,6 +348,7 @@
         transition: transform 0.5s ease;
         position: fixed;
         overflow: hidden;
+        padding-bottom: 15svh;
     }
 
     #photo-click img {
@@ -369,26 +363,24 @@
     }
 
     .back {
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         font-weight: 700;
         font-size: 12px;
         border: none;
         background: #eae2d9;
         color: var(--fang-dark);
         opacity: 0;
-        transition: opacity 0.5s ease;
+        transition: all 0.5s ease;
         z-index: 1000;
         pointer-events: none;
         display: flex;
         align-items: center;
+        text-transform: uppercase;
     }
 
     .back:hover {
         opacity: 0.8 !important;
-    }
-
-    :global(.back:hover svg g) {
-        transform: translateX(-3px);
+        transform: translate(-4px, 0);
     }
 
     .back.bckBtnVisible {
@@ -463,9 +455,41 @@
         opacity: 1;
     }
 
+    :global(span.break) {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        left: 50%;
+        transform: translate(-2%, 0);
+    }
+
+    @media(max-width: 600px) {
+        .sec-name h1 {
+            font-size: 30px;
+        }
+
+        .cursor {
+            height: 2rem;
+        }
+
+        nav {
+            padding: 0 0.5rem;
+        }
+    }
+
     @media(max-width: 500px) {
         :global(.back svg) {
             margin: 0;
+        }
+    }
+
+    @media(max-width: 400px) {
+        .sec-name h1 {
+            font-size: 28px;
+        }
+
+        .cursor {
+            height: 1.75rem;
         }
     }
 </style>

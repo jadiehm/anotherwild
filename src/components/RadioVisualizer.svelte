@@ -193,7 +193,7 @@
         transform: translateY(100%);
         transition: transform 500ms linear;
         overflow-y: scroll;
-		padding-top: 4rem;
+		padding-top: 5rem;
     }
 
     section.radioVisible {
@@ -258,4 +258,10 @@
 		background: url("https://afangintherough.com/assets/images/bg-pattern-dark.png");
 		opacity: .5;
 	}
+
+	@media(max-width: 600px) {
+        section {
+			padding-top: 4rem;
+		}
+    }
 </style>

@@ -11,6 +11,7 @@
     let activeDelay = 0;
     let highlightedIndex = 0; // Tracks the currently highlighted paragraph
     let isPlaying;
+    let wheelSpin = false;
 
     function handleClick(event) {
         const target = event.target.closest('g')?.id;
@@ -28,16 +29,20 @@
 
         if (isPlaying) {
             audioElement.pause();
+            wheelSpin = false;
         }
 
         if (target === "play") {
             audioElement.play();
+            wheelSpin = true;
         } else if (target === "next") {
             currentLogIndex = currentLogIndex === totalLogs ? 1 : currentLogIndex + 1;
             updateAudioSource(audioElement, audioSource);
+            wheelSpin = true;
         } else if (target === "prev") {
             currentLogIndex = currentLogIndex === 1 ? totalLogs : currentLogIndex - 1;
             updateAudioSource(audioElement, audioSource);
+            wheelSpin = true;
         }
     }
 
@@ -100,9 +105,10 @@
     <audio id="log-audio" loop>
         <source id="logAudioSource" src="assets/audio/logs/LOGMSTR_CH1.mp3" type="audio/mpeg">
     </audio>
+    <img class="wheel" class:wheelSpin={wheelSpin} src="assets/images/tape-wheel.png" />
     <div class="tape-wrapper">
         <div class="tape-wrapper-inner">
-            <img src="assets/images/tape.png" />
+            <img class="tape" src="assets/images/tape.png" />
             <div class="svg-wrapper" on:click={handleClick}>
                 {@html tapeSVG}
             </div>
@@ -165,11 +171,37 @@
         pointer-events: none;
     }
 
-    .tape-wrapper img, .svg-wrapper {
+    .tape-wrapper .tape, .svg-wrapper {
         position: absolute;
-        width: 100%;
+        width: calc(100% - 1rem);
         max-width: 800px;
-        padding: 0 1rem;
+        padding: 0 1rem 0 0;
+    }
+
+    .wheel {
+        position: absolute;
+        left: -10%;
+        width: 50%;
+        max-width: 500px;
+        aspect-ratio: 1/1;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        mix-blend-mode: multiply;
+    }
+
+    .wheel.wheelSpin {
+        opacity: 0.1;
+        animation: rotate 2s linear infinite;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
     .svg-wrapper {

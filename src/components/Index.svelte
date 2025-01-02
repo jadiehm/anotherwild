@@ -303,7 +303,7 @@
 	.infoBtn p {
 		color: var(--fang-dark);
 		margin: 0 0.25rem 0 0;
-		font-family: "Carnaby Street", var(--sans), sans;
+		font-family:  var(--mono), var(--sans), sans;
 		text-transform: uppercase;
 	}
 	.bg-movie {
@@ -375,7 +375,7 @@
 		gap: 0.5rem
 	}
 	h1 span {
-		font-family: "Carnaby Street", var(--sans);
+		font-family:  var(--mono), var(--sans);
 		letter-spacing: 0;
 		font-size: var(--14px);
 	}

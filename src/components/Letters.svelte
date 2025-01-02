@@ -208,7 +208,7 @@
     p {
         margin: 1rem 0;
         font-size: 14px;
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
     }
 
     p.letter {
@@ -216,14 +216,14 @@
     }
 
     .bolded {
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         line-height: 1;  
         font-weight: 700;
         text-transform: uppercase;
     }
 
     .intro p {
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         line-height: 1;
         margin: 1rem 0;
         font-style: normal;

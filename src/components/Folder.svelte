@@ -92,7 +92,7 @@
         left: 45%;
         transform: translate(-50%, 0);
         color:var(--fang-dark);
-        font-family:'Courier New', Courier, monospace;
+        font-family: var(--mono);
         font-weight: 700;
         font-size: 36px;
         letter-spacing: 5px;
@@ -125,7 +125,7 @@
         font-size: 10px;
         padding: 1rem;
         transition: opacity 0.5s;
-        font-family: 'Courier New', Courier, monospace;
+        font-family:  var(--mono);
         text-transform: uppercase;
     }
 
@@ -182,7 +182,7 @@
         margin: 0;
         padding: 0;
         font-size: var(--14px);   
-        font-family: "Carnaby Street"; 
+        font-family:  var(--mono); 
     }
 
     :global(.instructions svg) {

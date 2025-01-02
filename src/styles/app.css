@@ -8,7 +8,7 @@
 	/* font */
 	--sans: "National 2 Narrow Web", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 	--serif: "Hoefler Text", Iowan Old Style, Times New Roman, Times, serif;
-	--mono: Menlo, Consolas, Monaco, monospace;
+	--mono: "Courier New", Courier, monospace;
 
 	/* z-index */
 	--z-bottom: -100;

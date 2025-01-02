@@ -21,7 +21,9 @@
         top: 0.5rem;
         left: 0.5rem;
         color: var(--fang-light);
-        font-family: "Carnaby Street";
+        font-family:  var(--mono);
+        font-weight: 700;
+        font-size: 14px;
         text-transform: uppercase;
         padding: 0;
         margin: 0;

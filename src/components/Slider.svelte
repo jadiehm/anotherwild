@@ -101,7 +101,7 @@
     }
     .note .lead-in {
         font-size: var(--14px);
-        font-family: "Carnaby Street";
+        font-family:  var(--mono);
         text-transform: uppercase;
     }
     .center-itals {
@@ -174,7 +174,7 @@
 		width: 6rem;
 		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
         color: var(--fang-dark);
-		font-family: "Carnaby Street", var(--sans), sans;
+		font-family:  var(--mono), var(--sans), sans;
 		text-transform: uppercase;
     }
     .left, .right {
@@ -232,7 +232,7 @@
     }
     .links .lead-in {
         font-size: var(--14px);
-        font-family: "Carnaby Street";
+        font-family:  var(--mono);
         text-transform: uppercase;
     }
 
@@ -252,7 +252,7 @@
         fill: var(--fang-light);
     }
     .caption {
-        font-family: "Carnaby Street";
+        font-family:  var(--mono);
     }
     :global(.caption a) {
        color: var(--fang-light); 

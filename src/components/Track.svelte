@@ -119,7 +119,7 @@
         border-radius: 50%;
         width: 2rem;
         height: 2rem;
-        font-family: "Carnaby Street";
+        font-family:  var(--mono);
         text-align: center;
         font-weight: 700;
         padding: 0.25rem;
@@ -133,7 +133,8 @@
     .trackTitle {
         font-family: "Hoefler Text";
         text-transform: uppercase;
-        font-size: 46px;
+        font-weight: 700;
+        font-size: 28px;
         margin: 0;
         color: var(--fang-light);
         transition: 500ms letter-spacing linear;
@@ -188,13 +189,13 @@
 
     @media(max-width: 600px) {
         .track {
-            height: 5rem;
+            height: 4rem;
         }
         .active {
             height: 35rem;
         }
         .trackTitle {
-            font-size: 24px;
+            font-size: 18px;
             text-shadow: 2px 2px 6px var(--fang-dark);
         }
 
@@ -217,7 +218,7 @@
             height: 4rem;
         }
         .trackTitle {
-            font-size: 18px;
+            font-size: 16px;
         }
         .active {
             height: 32rem;
