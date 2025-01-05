@@ -198,7 +198,7 @@
     </button>
 </nav>
 
-<p id="hover-hint" style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;">
+<p id="hover-hint" class:bckBtnVisible={bckBtnVisible} style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;">
     {hintText}
 </p>
 
@@ -342,6 +342,10 @@
         pointer-events: none;
         transition: opacity 0.25s ease;
         text-shadow: 2px 2px 10px var(--fang-dark);
+    }
+
+    #hover-hint.bckBtnVisible {
+        opacity: 0;
     }
     #photo-click {
         width: 100%;
