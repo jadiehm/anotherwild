@@ -12,6 +12,7 @@
     let activeChapter = 0;
     let horizTransform = 0;
     let width;
+    let scrollContainer;
 
     let chapPages = []; // Store the DOM elements of each page
     let originalPositions = [];
@@ -89,6 +90,8 @@
         } else if (dir.detail === "right" && activeChapter < chaptersLen - 1) {
             activeChapter++;
         }
+
+        scrollContainer.scrollTop = 0;
         horizTransform = `${-activeChapter*85}vw`
     }
 
@@ -96,9 +99,9 @@
         mounted = true;
     });
 
-    $: if ($typewriterVisible && mounted) {
-        setPages(activeChapter, $typewriterVisible);
-    }
+    // $: if ($typewriterVisible && mounted) {
+    //     setPages(activeChapter, $typewriterVisible);
+    // }
 </script>
 
 <svelte:window bind:innerWidth={width}/>
@@ -106,7 +109,7 @@
 {#if $typewriterVisible}
     <Tap tapType={"story"} showArrows={true} on:tap={handleTap} activeChapter={activeChapter} chaptersLen={chaptersLen}/>
 {/if}
-<section class="story" class:typewriterVisible={$typewriterVisible} style="width: {100*chaptersLen}%; transform: translate({horizTransform},{$typewriterVisible ? "0px" : "100%"})">
+<section bind:this={scrollContainer} class="story" class:typewriterVisible={$typewriterVisible} style="width: {100*chaptersLen}%; transform: translate({horizTransform},{$typewriterVisible ? "0px" : "100%"})">
     {#each story.chapters as chapter, i}
         <div id="contents-{i}" class="contents">
             <div id="page-wrapper-{i}" class="story-page-wrapper" class:typewriterVisible={$typewriterVisible}>
@@ -115,7 +118,7 @@
                         bind:this={chapPages[i]}
                         class="story-page" 
                         id="story-page-{i}"
-                        style="transform: translateX(-50%) rotate({getRandomRotate()}deg)"
+                        style="transform: rotate({getRandomRotate()}deg)"
                     >
                         <div class="page-inset">
                             <div class="page-topper">
@@ -206,15 +209,15 @@
     .story-page {
         width: 100%;
         max-width: 660px;
-        /* height: 100%; */
+        height: auto;
         color: #151515;
         margin: 1rem auto;
         z-index: 1000;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translate(0, 0);
         transition: all 0.75s ease-in-out;
         pointer-events: auto;
-        position: absolute;
+        /* position: absolute; */
         padding: 0 1rem;
     }
 
