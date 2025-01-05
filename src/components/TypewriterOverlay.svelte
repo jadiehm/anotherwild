@@ -153,6 +153,7 @@
         color: var(--fang-light);
         overflow: hidden;
         padding: 6rem 1rem 1rem 1rem;
+        gap: 3rem;
     }
 
     section.typewriterVisible {
@@ -162,7 +163,7 @@
 
     .contents {
         height: 100%;
-        width: 90vw; /* Ensure each content block has a consistent width */
+        width: 85vw; /* Ensure each content block has a consistent width */
         display: flex;
         align-items: center;
         flex-shrink: 0;
@@ -296,7 +297,7 @@
 
     @media(max-width: 600px) {
         .page-inset {
-            padding: 0rem 1rem 2rem 1rem;
+            padding: 2rem 1rem;
         }
         h5 {
             font-size: var(--16px);

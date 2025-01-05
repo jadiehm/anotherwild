@@ -481,6 +481,10 @@
         nav {
             padding: 0 0.5rem;
         }
+
+        #hover-hint {
+            display: none;
+        }
     }
 
     @media(max-width: 500px) {
@@ -491,7 +495,7 @@
 
     @media(max-width: 400px) {
         .sec-name h1 {
-            font-size: 28px;
+            font-size: 24px;
         }
 
         .cursor {
