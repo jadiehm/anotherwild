@@ -233,6 +233,8 @@
     </div>
     <div class="svg-wrapper" 
         on:click={handleClick}
+        on:tap={handleClick} 
+        on:touchstart|preventDefault={handleClick}
         on:mouseover={handleMouseOver}
         on:mouseout={handleMouseOut}
         on:mousemove={handleMouseMove}
