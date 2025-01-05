@@ -28,70 +28,70 @@
         return increments[randomIndex];
     }
 
-    function setPages($typewriterVisible, activeChapter) {
-    let cumulativeHeight = 0;
-    let delay = $typewriterVisible ? 250 : 0;
+    // function setPages($typewriterVisible, activeChapter) {
+    // let cumulativeHeight = 0;
+    // let delay = $typewriterVisible ? 250 : 0;
 
-    setTimeout(() => {
+    // setTimeout(() => {
         // Select the specific wrapper for the active chapter
-        const activeWrapper = document.querySelector(`#page-wrapper-${activeChapter}`);
-        if (!activeWrapper) {
-            return;
-        }
+        // const activeWrapper = document.querySelector(`#page-wrapper-${activeChapter}`);
+        // if (!activeWrapper) {
+        //     return;
+        // }
 
         // Only select pages within the active wrapper
-        const pagesInWrapper = Array.from(activeWrapper.querySelectorAll('.story-page'));
+        // const pagesInWrapper = Array.from(activeWrapper.querySelectorAll('.story-page'));
 
 
-        pagesInWrapper.forEach((page, i) => {
-            if ($typewriterVisible) {
+        // pagesInWrapper.forEach((page, i) => {
+            // if ($typewriterVisible) {
                 // Handle active chapter pages
-                page.style.height = "auto";
-                const fullHeight = page.scrollHeight;
-                const pageHeight = fullHeight;
+        //         page.style.height = "auto";
+        //         const fullHeight = page.scrollHeight;
+        //         const pageHeight = fullHeight;
 
-                const topPosition = cumulativeHeight;
-                page.style.top = `${topPosition}px`;
-                page.style.overflowY = "visible";
+        //         const topPosition = cumulativeHeight;
+        //         page.style.top = `${topPosition}px`;
+        //         page.style.overflowY = "visible";
 
-                cumulativeHeight += pageHeight + 32; // Add padding
-            } else {
-                // Reset to default positions
-                page.style.top = `${i * 32}px`;
-                page.style.height = "";
-                page.style.overflowY = "hidden";
-            }
-        });
+        //         cumulativeHeight += pageHeight + 32; // Add padding
+        //     } else {
+        //         // Reset to default positions
+        //         page.style.top = `${i * 32}px`;
+        //         page.style.height = "";
+        //         page.style.overflowY = "hidden";
+        //     }
+        // });
 
         // Reset pages in non-active chapters
-        const nonActiveWrappers = Array.from(document.querySelectorAll(`.story-page-wrapper:not(#page-wrapper-${activeChapter})`));
-        nonActiveWrappers.forEach(wrapper => {
-            const nonActivePages = Array.from(wrapper.querySelectorAll('.story-page'));
-            nonActivePages.forEach((page, i) => {
-                page.style.top = `${i * 32}px`; // Reset to default stacked position
-                page.style.height = "";
-                page.style.overflowY = "hidden";
-            });
-        });
-    }, delay);
-}
+//         const nonActiveWrappers = Array.from(document.querySelectorAll(`.story-page-wrapper:not(#page-wrapper-${activeChapter})`));
+//         nonActiveWrappers.forEach(wrapper => {
+//             const nonActivePages = Array.from(wrapper.querySelectorAll('.story-page'));
+//             nonActivePages.forEach((page, i) => {
+//                 page.style.top = `${i * 32}px`; // Reset to default stacked position
+//                 page.style.height = "";
+//                 page.style.overflowY = "hidden";
+//             });
+//         });
+//     }, delay);
+// }
 
 
 
     // Initialize the function after mount
-    onMount(() => {
-        // Initialize positions for each page on mount
-        chapPages.forEach((page, i) => {
-            page.style.top = `0px`; // Set the initial top position
-        });
-    });
+    // onMount(() => {
+    //     // Initialize positions for each page on mount
+    //     chapPages.forEach((page, i) => {
+    //         page.style.top = `0px`; // Set the initial top position
+    //     });
+    // });
 
     // Reactive block to re-run when dependencies change
-    $: {
-        if (typeof window !== "undefined") {
-            setPages($typewriterVisible, activeChapter);
-        }
-    }
+    // $: {
+    //     if (typeof window !== "undefined") {
+    //         setPages($typewriterVisible, activeChapter);
+    //     }
+    // }
 
     function handleTap(dir) {
         if (dir.detail === "left" && activeChapter > 0) {
@@ -115,7 +115,7 @@
                         bind:this={chapPages[i]}
                         class="story-page" 
                         id="story-page-{i}"
-                        style="transform: translate({getRandomLeft()}%, {i*32}px) rotate({getRandomRotate()}deg); transition-delay: {(chaptersLen-i)*0.025}s;"
+                        style="transform: rotate({getRandomRotate()}deg); transition-delay: {(chaptersLen-i)*0.025}s;"
                     >
                         <div class="page-inset">
                             <div class="page-topper">
@@ -206,13 +206,12 @@
     .story-page {
         width: 100%;
         max-width: 660px;
-        height: 100%;
+        height: auto;
         color: #151515;
         margin: 1rem auto;
         z-index: 1000;
         left: 50%;
-        position: absolute;
-        transform: translate(-50%, 0);
+        transform: translate(0, 0);
         transition: all 0.75s ease-in-out;
         pointer-events: auto;
     }
