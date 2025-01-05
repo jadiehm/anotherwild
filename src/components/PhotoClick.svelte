@@ -358,7 +358,7 @@
     }
 
     #hover-hint.bckBtnVisible {
-        opacity: 0;
+        display: none;
     }
     #photo-click {
         width: 100%;
