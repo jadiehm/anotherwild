@@ -469,6 +469,12 @@
         transform: translate(-2%, 0);
     }
 
+    @media(max-width: 700px) {
+        .sec-name h1 {
+            font-size: 30px;
+        }
+    }
+
     @media(max-width: 600px) {
         .sec-name h1 {
             font-size: 30px;
@@ -488,6 +494,9 @@
     }
 
     @media(max-width: 500px) {
+        .sec-name h1 {
+            font-size: 24px;
+        }
         :global(.back svg) {
             margin: 0;
         }

@@ -99,7 +99,7 @@
         } else if (dir.detail === "right" && activeChapter < chaptersLen - 1) {
             activeChapter++;
         }
-        horizTransform = `${-activeChapter*90}vw`
+        horizTransform = `${-activeChapter*85}vw`
     }
 </script>
 
@@ -153,7 +153,6 @@
         color: var(--fang-light);
         overflow: hidden;
         padding: 6rem 1rem 1rem 1rem;
-        gap: 3rem;
     }
 
     section.typewriterVisible {
@@ -187,6 +186,7 @@
         align-items: center;
         position: relative;
         pointer-events: auto;
+        padding-right: 2rem;
     }
     :global(strong) {
         display: inline-block;
