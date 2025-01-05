@@ -107,9 +107,9 @@
     }
 
     onMount(() => {
-        countEls();
-        const audioElement = document.getElementById('log-audio');
-        attachHighlightHandler(audioElement);
+        // countEls();
+        // const audioElement = document.getElementById('log-audio');
+        // attachHighlightHandler(audioElement);
     });
 </script>
 
@@ -132,7 +132,7 @@
             <div class="text-inner">
                 {#if activeDelay !== undefined}
                     {#each copy.logs[currentLogIndex-1].text as graf,i}
-                        <p class:highlight={i === highlightedIndex}>{@html graf.value}</p>
+                        <p>{@html graf.value}</p>
                     {/each}
                 {/if}
             </div>
@@ -248,8 +248,8 @@
         font-size: 16px;
         margin: 0;
         z-index: 1000;
-        opacity: 0.4;
-        filter: blur(1px);
+        /* opacity: 0.4;
+        filter: blur(1px); */
         transition: all 0.25s ease;
     }
 
