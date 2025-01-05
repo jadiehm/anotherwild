@@ -178,6 +178,7 @@
         transition: transform 500ms linear;
         width: 100%;
         height: 100svh;
+		overflow-x: hidden;
     }
 
     .locked.radioVisible {
@@ -194,6 +195,7 @@
         transition: transform 500ms linear;
         overflow-y: scroll;
 		padding-top: 5rem;
+		overflow-x: hidden;
     }
 
     section.radioVisible {

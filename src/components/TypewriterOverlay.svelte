@@ -2,22 +2,23 @@
     import { getContext, onMount } from "svelte";
     import Folder from "$components/Folder.svelte";
     import Tap from "$components/helpers/Tap.svelte";
-
     import { typewriterVisible } from "$stores/misc.js";
+    import * as d3 from "d3";
 
     const story = getContext("story");
-
     const chaptersLen = story.chapters.length;
+    let mounted = false;
 
     let activeChapter = 0;
     let horizTransform = 0;
+    let width;
 
     let chapPages = []; // Store the DOM elements of each page
     let originalPositions = [];
 
     // Function to get a random rotation for each page
     function getRandomRotate() {
-        const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
+        const increments = width >= 720 ? [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1] : [-0.125, 0, 0.125];
         const randomIndex = Math.floor(Math.random() * increments.length);
         return increments[randomIndex];
     }
@@ -28,70 +29,59 @@
         return increments[randomIndex];
     }
 
-    // function setPages($typewriterVisible, activeChapter) {
-    // let cumulativeHeight = 0;
-    // let delay = $typewriterVisible ? 250 : 0;
+    function setPages(activeChapter, visible) {
+        const activePages = d3.selectAll(`#page-wrapper-${activeChapter} .story-page`);
+        const nonActivePages = d3.selectAll(`.story-page:not(#page-wrapper-${activeChapter} .story-page)`);
 
-    // setTimeout(() => {
-        // Select the specific wrapper for the active chapter
-        // const activeWrapper = document.querySelector(`#page-wrapper-${activeChapter}`);
-        // if (!activeWrapper) {
-        //     return;
-        // }
+        if (visible) {
+            resetPages(nonActivePages)
+            calcHeight(activePages)  
+        } else {
+            console.log("yep")
+            resetPages(nonActivePages)
+            resetPages(activePages)
+            activeChapter = 0;
+        }
+    }
 
-        // Only select pages within the active wrapper
-        // const pagesInWrapper = Array.from(activeWrapper.querySelectorAll('.story-page'));
+    function calcHeight(pages) {
+        let cumulativeHeight = 0;
 
+        pages.each(function(d,i) {
+            const page = d3.select(this);
+            page
+                    .style("height", "auto")
+                    .style("overflow-y", "visible")
+        })
 
-        // pagesInWrapper.forEach((page, i) => {
-            // if ($typewriterVisible) {
-                // Handle active chapter pages
-        //         page.style.height = "auto";
-        //         const fullHeight = page.scrollHeight;
-        //         const pageHeight = fullHeight;
+        setTimeout(() => {
+            pages.each(function(d, i) {
+                const page = d3.select(this);
+                const fullHeight = this.scrollHeight;
+                const currTransform = page.style("transform");
+                const newTransform = currTransform + ` translateY(${cumulativeHeight}px)`;
 
-        //         const topPosition = cumulativeHeight;
-        //         page.style.top = `${topPosition}px`;
-        //         page.style.overflowY = "visible";
+                page
+                    .style("transform", `${newTransform}`)
+                    .style("transition-delay", `${(page.length-i)*0.025}s`)
 
-        //         cumulativeHeight += pageHeight + 32; // Add padding
-        //     } else {
-        //         // Reset to default positions
-        //         page.style.top = `${i * 32}px`;
-        //         page.style.height = "";
-        //         page.style.overflowY = "hidden";
-        //     }
-        // });
+                cumulativeHeight += fullHeight + 32;
+            });
+        }, 750);
+    }
 
-        // Reset pages in non-active chapters
-//         const nonActiveWrappers = Array.from(document.querySelectorAll(`.story-page-wrapper:not(#page-wrapper-${activeChapter})`));
-//         nonActiveWrappers.forEach(wrapper => {
-//             const nonActivePages = Array.from(wrapper.querySelectorAll('.story-page'));
-//             nonActivePages.forEach((page, i) => {
-//                 page.style.top = `${i * 32}px`; // Reset to default stacked position
-//                 page.style.height = "";
-//                 page.style.overflowY = "hidden";
-//             });
-//         });
-//     }, delay);
-// }
+    function resetPages(pages) {
+        pages.each(function(d, i) {
+            const page = d3.select(this);
 
+            const currTransform = page.style("transform").replace(/translateY\([^)]+\)\s*/, '').trim();
 
-
-    // Initialize the function after mount
-    // onMount(() => {
-    //     // Initialize positions for each page on mount
-    //     chapPages.forEach((page, i) => {
-    //         page.style.top = `0px`; // Set the initial top position
-    //     });
-    // });
-
-    // Reactive block to re-run when dependencies change
-    // $: {
-    //     if (typeof window !== "undefined") {
-    //         setPages($typewriterVisible, activeChapter);
-    //     }
-    // }
+            page
+                .style("height", "100%")
+                .style("overflow-y", "hidden")
+                .style("transform", `${currTransform}`)
+        })
+    }
 
     function handleTap(dir) {
         if (dir.detail === "left" && activeChapter > 0) {
@@ -101,10 +91,20 @@
         }
         horizTransform = `${-activeChapter*85}vw`
     }
+
+    onMount(() => {
+        mounted = true;
+    });
+
+    $: if ($typewriterVisible && mounted) {
+        setPages(activeChapter, $typewriterVisible);
+    }
 </script>
 
+<svelte:window bind:innerWidth={width}/>
+
 {#if $typewriterVisible}
-    <Tap showArrows={true} on:tap={handleTap} activeChapter={activeChapter} chaptersLen={chaptersLen}/>
+    <Tap tapType={"story"} showArrows={true} on:tap={handleTap} activeChapter={activeChapter} chaptersLen={chaptersLen}/>
 {/if}
 <section class="story" class:typewriterVisible={$typewriterVisible} style="width: {100*chaptersLen}%; transform: translate({horizTransform},{$typewriterVisible ? "0px" : "100%"})">
     {#each story.chapters as chapter, i}
@@ -115,11 +115,11 @@
                         bind:this={chapPages[i]}
                         class="story-page" 
                         id="story-page-{i}"
-                        style="transform: rotate({getRandomRotate()}deg); transition-delay: {(chaptersLen-i)*0.025}s;"
+                        style="transform: translateX(-50%) rotate({getRandomRotate()}deg)"
                     >
                         <div class="page-inset">
                             <div class="page-topper">
-                                <p class="kicker">{chapter.title}</p>
+                                <p class="kicker">CH{chapter.chapID} - {chapter.title}</p>
                                 <p class="page-num">{i+1}</p>
                             </div>
                             {#each page.text as graf, i}
@@ -186,7 +186,6 @@
         align-items: center;
         position: relative;
         pointer-events: auto;
-        padding-right: 2rem;
     }
     :global(strong) {
         display: inline-block;
@@ -207,20 +206,22 @@
     .story-page {
         width: 100%;
         max-width: 660px;
-        height: auto;
+        /* height: 100%; */
         color: #151515;
         margin: 1rem auto;
         z-index: 1000;
         left: 50%;
-        transform: translate(0, 0);
+        transform: translate(-50%, 0);
         transition: all 0.75s ease-in-out;
         pointer-events: auto;
+        position: absolute;
+        padding: 0 1rem;
     }
 
     .page-inset {
         width: 100%;
         padding: 2rem;
-        background-color: var(--fang-light);
+        background-color: var(--fang-paper);
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;

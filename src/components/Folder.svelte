@@ -118,7 +118,7 @@
         width: 100%;
         z-index: 900;
         position: absolute;
-        background: var(--fang-light);
+        background: var(--fang-paper);
         transform: rotate(-2deg);
         color: var(--fang-dark);
         font-family: var(--serif);

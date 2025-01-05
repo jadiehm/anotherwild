@@ -6,7 +6,7 @@
 </script>
 
 <div class="album" id="album-{data[0]}">
-    <p class="albumNum">Album {data[0]}</p>
+    <p class="albumNum">Disc {data[0]}</p>
     {#each data[1] as track}
         <Track trackData={track}/>
     {/each}

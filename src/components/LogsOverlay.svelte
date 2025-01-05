@@ -80,13 +80,27 @@
     function attachHighlightHandler(audioElement) {
         if (!audioElement) return;
 
-        audioElement.addEventListener('timeupdate', () => {
-            if (activeDelay > 0) {
-                const currentIndex = Math.floor(audioElement.currentTime / activeDelay);
-                // console.log("Current Time:", audioElement.currentTime, "Index:", currentIndex);
+        const highlightDelay = 5; // 3-second delay before highlights start
+        const highlightPause = 1; // Pause of 0.5 seconds between switching highlights
+        let lastHighlightTime = 0; // Tracks the last time a highlight was updated
 
-                if (currentIndex !== highlightedIndex && currentIndex < logParaCount) {
-                    highlightedIndex = currentIndex;
+        audioElement.addEventListener("timeupdate", () => {
+            if (activeDelay > 0) {
+                const currentTime = audioElement.currentTime;
+
+                // Only start highlights after the 3-second delay
+                if (currentTime > highlightDelay) {
+                    const adjustedTime = currentTime - highlightDelay; // Adjust time to start after delay
+
+                    // Throttle highlight switching based on highlightPause
+                    if (adjustedTime - lastHighlightTime >= highlightPause) {
+                        const currentIndex = Math.floor(adjustedTime / activeDelay);
+
+                        if (currentIndex !== highlightedIndex && currentIndex < logParaCount) {
+                            highlightedIndex = currentIndex;
+                            lastHighlightTime = adjustedTime; // Update the last highlight switch time
+                        }
+                    }
                 }
             }
         });
@@ -160,7 +174,7 @@
     .tape-wrapper-inner {
         position: relative;
         width: 100%;
-        max-width: 800px;
+        max-width: 600px;
         padding: 0 1rem;
         aspect-ratio: 1/0.75;
     }

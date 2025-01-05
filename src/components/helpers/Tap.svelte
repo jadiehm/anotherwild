@@ -9,7 +9,6 @@
 	export let showArrows = false; // boolean or array of directions
 	export let disable = [];
 	export let directions = ["left", "right"];
-	export let size = "2.5rem";
 	export let arrowSize = "48px";
 	export let arrowStroke = "#000";
 	export let arrowStrokeWidth = "2";
@@ -18,6 +17,7 @@
 	export let lettersLen;
 	export let activeChapter;
 	export let chaptersLen;
+	export let tapType;
 
 	const dispatch = createEventDispatcher();
 	let innerHeight;
@@ -43,26 +43,30 @@
 
 <svelte:window on:keydown={onKeyDown} bind:innerHeight />
 
-<section class:debug style="height: {innerHeight}px;">
+<section class:tapType={tapType} class:debug style="height: {innerHeight}px;">
 	<button
 		on:click={() => dispatch("tap", "left")}
-		style="width: {getW("left")}; height: {getH("left")};"
 		aria-label={"left"}
 		class="{"left"} {arrowPosition}"
 		class:full
 		disabled={activeFolder == 0 || activeChapter == 0}
-	>
-		<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+	>	
+			<div class="svg-wrapper">
+				<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+			</div>
+			<p>{tapType == "story" ? "Previous Chapter" : "Previous Folder"}</p>
 	</button>
 	<button
 		on:click={() => dispatch("tap", "right")}
-		style="width: {getW("right")}; height: {getH("right")};"
 		aria-label={"right"}
 		class="{"right"} {arrowPosition}"
 		class:full
 		disabled={activeFolder == lettersLen-1 || activeChapter == chaptersLen-1}
 	>
-		<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+		<div class="svg-wrapper">
+			<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+		</div>
+		<p>{tapType == "story" ? "Next Chapter" : "Next Folder"}</p>
 	</button>
 </section>
 
@@ -78,12 +82,15 @@
 	}
 
 	button {
+		width: 4.5rem;
+		height: 4.5rem;
 		position: absolute;
 		cursor: pointer;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: var(--fang-light);
+		background: #a6bfc2;
 		border-radius: 3px;
 		outline: none;
 		box-shadow: none;
@@ -91,6 +98,12 @@
 		display: flex;
 		transition: all 0.5s ease;
 		border: 2px solid var(--fang-dark);
+		line-height: 1;
+		font-family: var(--mono);
+		font-weight: 700;
+		font-size: 12px;
+		gap: 0.25rem;
+		text-transform: uppercase;
 	}
 
 	button:disabled {
@@ -103,8 +116,13 @@
 		opacity: 0.8;
 	}
 
-	:global(.left span svg path, .right span svg path) {
-		fill: none;
+	button p {
+		margin: 0;
+	}
+
+	.svg-wrapper {
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 
 	.left {

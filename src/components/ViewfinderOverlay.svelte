@@ -86,7 +86,7 @@
         margin-top: 1rem;
         height: 2.5rem;
         width: 2.5rem;
-        background: var(--fang-light);
+        background: #a6bfc2;
         border: none;
         z-index: 1000;
         transition: all 0.5s ease;
@@ -183,14 +183,12 @@
         top: 0;
         left: 0;
         transform: rotate(0deg);
-        filter: blur(0.75px);
     }
 
     .right img.active {
         top: 0;
         right: 0;
         transform: rotate(0deg);
-        filter: blur(0.75px);
     }
 
     .left img:not(.active) {

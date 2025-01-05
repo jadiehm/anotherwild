@@ -29,14 +29,16 @@
             <span class="caption">{@html copy.caption}</span>
         </div>
         <div class="right">
-            <p>{@html copy.about}</p>
-            <p class="copyright">©Ⓟ October 18, 2024 <br>Noah Fagan, HORSEANDHOUND</p>
+            {#each copy.about as graf, i}
+                <p>{@html graf.value}</p>
+            {/each}
             <ul class="links">
                 <li class="lead-in">Find them on</li>
                 {#each copy.links as link, i}
                     <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
                 {/each}
             </ul>
+            <p class="copyright">©Ⓟ October 18, 2024 <br>Noah Fagan, HORSEANDHOUND</p>
         </div>
     </div>
 </section>
@@ -74,8 +76,7 @@
         max-width: 900px;
         display: flex;
         flex-direction: row;
-        gap: 3rem;
-        margin-top: 3rem;
+        gap: 5rem;
         padding: 3rem;
     }
     .note {
@@ -175,7 +176,13 @@
     }
 
     .right p {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    :global(.expand) {
+        font-weight:700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
     }
 
     .left img {
@@ -272,7 +279,6 @@
             flex-direction: column;
             padding: 4.5rem 2.5rem 2rem 2.5rem;
             align-items: center;
-            margin-top: 3.5rem;
         }
         .left, .right {
             width: 100%;
@@ -284,9 +290,6 @@
         }
     }
     @media(max-width: 600px) {
-        .inner {
-            margin-top: 4rem;
-        }
         .page {
             padding: 1rem 2rem;
         }
@@ -319,8 +322,8 @@
         .right p {
             font-size: 18px;
         }
-        caption, .links .lead-in {
-            font-size: var(--12px);
+        caption, .links .lead-in, .copyright {
+            font-size: var(--12px) !important;
         }
         .links p {
             font-size: var(--16px);

@@ -191,7 +191,7 @@
     .page-inset {
         width: 100%;
         padding: 0 2rem 1rem 2rem;
-        background-color: var(--fang-light);
+        background-color: var(--fang-paper);
         background-image: url("assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;

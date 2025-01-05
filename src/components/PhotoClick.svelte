@@ -174,6 +174,19 @@
         isMounted = true;
         audioLogElement = d3.select('#log-audio');
         audioSongElement = d3.select('#bg-audio');
+
+        const handleKeyUp = () => {
+            // Hide the hint text on key release
+            showHintText = false;
+        };
+
+        // Add keyup listener
+        window.addEventListener("keyup", handleKeyUp);
+
+        // Cleanup on component destroy
+        return () => {
+            window.removeEventListener("keyup", handleKeyUp);
+        };
     });
 </script>
 
@@ -226,7 +239,9 @@
     >
         {@html photoClickSVG}
     </div>
-    <img src="/assets/images/photoclick.jpg" />
+    <div class="photo-wrapper">
+        <img src="/assets/images/photoclick.jpg" />
+    </div>
 </div>
 <InfoOverlay />
 <NotesOverlay />
@@ -248,11 +263,13 @@
         align-items: center;
         padding: 0 1rem;
         z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
     }
 
     .sec-name h1 {
         font-family: var(--mono);
-        color: #eae2d9;
+        color: var(--fang-paper);
         position: relative;
         line-height: 1;
         font-size: 40px;
@@ -272,7 +289,7 @@
     footer {
         position: absolute;
         font-family: var(--mono);
-        color: #eae2d9;
+        color: var(--fang-paper);
         left: 1rem;
         bottom: 0;
         width: 100%;
@@ -296,7 +313,7 @@
         left: 50%;
         top: 30svh;
         transform: translate(-50%, 0);
-        color: #eae2d9;
+        color: var(--fang-paper);
         font-family: var(--mono);
         text-transform: uppercase;
         z-index: 1000;
@@ -333,7 +350,7 @@
         font-family: var(--mono);
         text-transform: uppercase;
         font-weight: 700;
-        color: #eae2d9;
+        color: var(--fang-paper);
         z-index: 1000;
         pointer-events: none;
         transition: opacity 0.25s ease;
@@ -373,7 +390,7 @@
         font-weight: 700;
         font-size: 12px;
         border: none;
-        background: #eae2d9;
+        background: #a6bfc2;
         color: var(--fang-dark);
         opacity: 0;
         transition: all 0.5s ease;
@@ -382,6 +399,8 @@
         display: flex;
         align-items: center;
         text-transform: uppercase;
+        border-radius: 3px;
+        border: 2px solid var(--fang-dark);
     }
 
     .back:hover {
@@ -410,6 +429,7 @@
         margin-top: 1rem; 
         filter: blur(20px);
         pointer-events: none;
+        z-index:1000;
     }
 
     .overlays img {
@@ -418,6 +438,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        z-index:1000;
     }
 
     .highlight {
@@ -425,11 +446,20 @@
         transition: opacity 0.5s ease;
     }
 
-    .svg-wrapper {
+    .svg-wrapper, .photo-wrapper {
         width: 100%; 
         aspect-ratio: 1.75/1;
         position: absolute;
         margin-top: 1rem;
+    }
+
+    .svg-wrapper {
+        z-index: 1000;
+    }
+
+    .photo-wrapper {
+        pointer-events: none;
+        z-index: 0;
     }
 
     :global(.svg-wrapper svg path, .svg-wrapper svg polygon, .svg-wrapper svg polyline) {
@@ -444,6 +474,7 @@
         transition: opacity 1s ease;
         opacity: 1;
         pointer-events: none;
+        z-index: 1000
     }
 
     .vignette.bckBtnVisible {
@@ -455,6 +486,7 @@
         background: radial-gradient(circle, rgba(1,1,14,0.90) 0%, rgba(1,1,14,0.90) 100%);
         transition: opacity 1s ease;  
         opacity: 0;
+        z-index: 1000
     }
 
     .vignette.dark.bckBtnVisible {
@@ -488,8 +520,8 @@
             padding: 0 0.5rem;
         }
 
-        #hover-hint {
-            display: none;
+        .svg-wrapper, .photo-wrapper, .overlays {
+            width: 150%;
         }
     }
 

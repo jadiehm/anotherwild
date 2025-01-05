@@ -157,8 +157,8 @@
         width: 100%;
         height: 100%;
     }
-    :global(button svg path) {
-        fill: var(--fang-light);
+    :global(.track button svg path) {
+        fill: #a6bfc2;
     }
 
     @media(max-width: 800px) {
