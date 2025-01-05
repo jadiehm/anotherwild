@@ -236,10 +236,6 @@
 <LogsOverlay />
 <TypewriterOverlay />
 
-<footer class:bckBtnVisible={$bckBtnVisible}>
-    <p>©Ⓟ October 18, 2024 Noah Fagan, H O R S E A N D H O U N D</p>
-</footer>
-
 <style>
     nav {
         position: fixed;

@@ -30,6 +30,7 @@
         </div>
         <div class="right">
             <p>{@html copy.about}</p>
+            <p class="copyright">©Ⓟ October 18, 2024 <br>Noah Fagan, HORSEANDHOUND</p>
             <ul class="links">
                 <li class="lead-in">Find them on</li>
                 {#each copy.links as link, i}
@@ -240,9 +241,9 @@
     :global(.stamp svg path) {
         fill: var(--fang-light);
     }
-    .caption {
+    .caption, .copyright {
         font-family:  var(--mono);
-        font-size: 14px;
+        font-size: 14px !important;
         font-weight: 700;
     }
     :global(.caption a) {
