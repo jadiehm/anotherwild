@@ -19,7 +19,6 @@
     })
 
     function btnClick() {
-        console.log(playing)
         playing = !playing
         if (playing) { wave.play()  
         } else { wave.pause() }

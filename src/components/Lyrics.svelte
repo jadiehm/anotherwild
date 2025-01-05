@@ -23,54 +23,6 @@
         return increments[randomIndex];
     }
 
-    function pageClick(index) {
-        if (clickedIndex === index && isExpanded) {
-            // Revert back to the original positions (collapse)
-            revertPositions();
-            clickedIndex = null; // Clear the clicked index
-            isExpanded = false;
-        } else {
-            // Expand and adjust positions for the clicked page
-            clickedIndex = index;
-            adjustPositions();
-            isExpanded = true;
-        }
-    }
-
-    function adjustPositions() {
-        const clickedHeight = pages[clickedIndex].clientHeight;
-        pages.forEach((page, i) => {
-            if (i > clickedIndex) {
-                // Calculate the new top value based on the original top position
-                const originalTop = originalPositions[i];
-                const newTop = originalTop + clickedHeight;
-                page.style.top = `${newTop}px`; // Move the page down
-            } else {
-                // Reset the pages before the clicked one to their original positions
-                page.style.top = `${originalPositions[i]}px`;
-            }
-        });
-    }
-
-    function revertPositions() {
-        // Revert all pages to their original top positions
-        pages.forEach((page, i) => {
-            page.style.top = `${originalPositions[i]}px`;
-        });
-    }
-
-    function pageMouseOver() {
-        let currTransform = this.style.transform;
-        let newTransform = currTransform.replace("0px)", "-10px)");
-        this.style.transform = newTransform;
-    }
-
-    function pageMouseLeave() {
-        let currTransform = this.style.transform;
-        let newTransform = currTransform.replace("-10px)", "0px)");
-        this.style.transform = newTransform;
-    }
-
     function setPages(isOpen) {
         let delay = isOpen ? 500 : 0;
         setTimeout(() => {
@@ -106,9 +58,6 @@
             id="lyrics-page-{i}"
             style="transform: translate({getRandomLeft()}%, 0) rotate({getRandomRotate()}deg);
             filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
-            on:click={() => pageClick(i)}
-            on:mouseenter={pageMouseOver}
-            on:mouseleave={pageMouseLeave}
         >
             {#if i == 17}
             <div class="page-inset">

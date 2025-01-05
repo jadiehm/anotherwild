@@ -16,7 +16,6 @@
     onMount (() => {
         context = new (window.AudioContext || window.webkitAudioContext)();
         audioFile = document.getElementById(`${id}`);
-        console.log(audioFile)
         source = context.createMediaElementSource(audioFile);
         analyser = context.createAnalyser();
         

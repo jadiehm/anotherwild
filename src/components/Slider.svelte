@@ -31,7 +31,6 @@
 
     onMount(() => {
         bottomLyrics = document.querySelector("#lyrics .page-wrapper").getBoundingClientRect().bottom;
-        console.log(bottomLyrics)
     })
 
     let notesArray = [copy.note0, copy.note1, copy.note2, copy.note3, copy.note4]

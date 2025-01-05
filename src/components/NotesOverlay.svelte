@@ -32,7 +32,6 @@
                     if ($notesVisible) {
                         // Calculate the top position with padding
                         const topPosition = cumulativeHeight;
-                        console.log({topPosition})
                         originalPositions[i] = topPosition; // Store original positions in pixels
 
                         // Apply styles for open state

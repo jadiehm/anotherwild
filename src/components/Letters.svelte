@@ -37,7 +37,6 @@
                     if (isOpen) {
                         // Calculate the top position with padding
                         const topPosition = cumulativeHeight;
-                        console.log({topPosition})
                         originalPositions[i] = topPosition; // Store original positions in pixels
 
                         // Apply styles for open state
@@ -81,11 +80,11 @@
                 {#if folderIndex == 2}
                     <div class="topper">
                             <p>The Forest Park Wildlife Cooridor</p>
-                            <p>Multimodal Visual Debrief <strong>PG{i+1}</strong></p>
+                            <p>Multimodal Visual Debrief <strong>{i+1}</strong></p>
                     </div>
                 {:else}
                     <div class="topper right-align">
-                        <p><strong>PG{i+1}</strong></p>
+                        <p><strong>{i+1}</strong></p>
                     </div>
                 {/if}
                 {#if folderIndex !== 2 && i == 0 && letterCopy.intro !== undefined}

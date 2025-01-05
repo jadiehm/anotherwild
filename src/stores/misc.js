@@ -9,4 +9,5 @@ export const radioVisible = writable(false);
 export const notesVisible = writable(false);
 export const viewfinderVisible = writable(false);
 export const logsVisible = writable(false);
+export const typewriterVisible = writable(false);
 export const bckBtnVisible = writable(false);

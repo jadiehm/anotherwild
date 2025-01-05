@@ -16,6 +16,8 @@
 	export let arrowPosition = "center"; // start, center, end
 	export let activeFolder;
 	export let lettersLen;
+	export let activeChapter;
+	export let chaptersLen;
 
 	const dispatch = createEventDispatcher();
 	let innerHeight;
@@ -48,7 +50,7 @@
 		aria-label={"left"}
 		class="{"left"} {arrowPosition}"
 		class:full
-		disabled={activeFolder == 0}
+		disabled={activeFolder == 0 || activeChapter == 0}
 	>
 		<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
 	</button>
@@ -58,7 +60,7 @@
 		aria-label={"right"}
 		class="{"right"} {arrowPosition}"
 		class:full
-		disabled={activeFolder == lettersLen-1}
+		disabled={activeFolder == lettersLen-1 || activeChapter == chaptersLen-1}
 	>
 		<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
 	</button>
@@ -88,6 +90,7 @@
 		pointer-events: auto;
 		display: flex;
 		transition: all 0.5s ease;
+		border: 2px solid var(--fang-dark);
 	}
 
 	button:disabled {

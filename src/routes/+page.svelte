@@ -4,6 +4,7 @@
 	import Meta from "$components/Meta.svelte";
 	import Index from "$components/Index.svelte";
 	import copy from "$data/copy.json";
+	import story from "$data/adbd.json";
 	import version from "$utils/version.js";
 
 	export let data;
@@ -19,6 +20,7 @@
 
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
+	setContext("story", story);
 	setContext("data", data.data);
 </script>
 

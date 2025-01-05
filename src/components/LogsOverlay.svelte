@@ -15,13 +15,11 @@
 
     function handleClick(event) {
         const target = event.target.closest('g')?.id;
-        console.log({ target });
 
         const audioElement = document.getElementById('log-audio');
         const audioSource = document.getElementById('logAudioSource');
 
         if (!audioElement || !audioSource) {
-            console.error("Audio element or source not found");
             return;
         }
 
@@ -52,10 +50,10 @@
 
         audioElement.addEventListener('loadedmetadata', () => {
             audioDuration = audioElement.duration;
-            console.log("Audio Duration:", audioDuration);
+            // console.log("Audio Duration:", audioDuration);
 
             activeDelay = audioDuration / logParaCount;
-            console.log("Active Delay:", activeDelay);
+            // console.log("Active Delay:", activeDelay);
 
             highlightedIndex = 0; // Reset the highlight index
             attachHighlightHandler(audioElement);
@@ -67,15 +65,15 @@
     function countEls() {
         const logTextElements = document.querySelectorAll('.log-text p');
         logParaCount = logTextElements.length;
-        console.log("Paragraph Count:", logParaCount);
+        // console.log("Paragraph Count:", logParaCount);
 
         const audioElement = document.getElementById('log-audio');
         if (audioElement && audioElement.readyState > 0) {
             audioDuration = audioElement.duration;
-            console.log("Audio Duration (preloaded):", audioDuration);
+            // console.log("Audio Duration (preloaded):", audioDuration);
 
             activeDelay = audioDuration / logParaCount;
-            console.log("Active Delay (preloaded):", activeDelay);
+            // console.log("Active Delay (preloaded):", activeDelay);
         }
     }
 
@@ -85,7 +83,7 @@
         audioElement.addEventListener('timeupdate', () => {
             if (activeDelay > 0) {
                 const currentIndex = Math.floor(audioElement.currentTime / activeDelay);
-                console.log("Current Time:", audioElement.currentTime, "Index:", currentIndex);
+                // console.log("Current Time:", audioElement.currentTime, "Index:", currentIndex);
 
                 if (currentIndex !== highlightedIndex && currentIndex < logParaCount) {
                     highlightedIndex = currentIndex;

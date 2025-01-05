@@ -6,13 +6,14 @@
     import NotesOverlay from "$components/NotesOverlay.svelte";
     import RadioVisualizer from "$components/RadioVisualizer.svelte";
     import LogsOverlay from "$components/LogsOverlay.svelte";
+    import TypewriterOverlay from "$components/TypewriterOverlay.svelte";
     import photoClickSVG from "$svg/photoclick.svg";
     import touchSVG from "$svg/touch.svg";
     import Icon from "$components/helpers/Icon.svelte";
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, bckBtnVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible } from "$stores/misc.js";
 
     let width;
     let height;
@@ -53,6 +54,9 @@
                 } else if (id == "tape") {
                     logsVisible.set(true);
                     activeSection = "log excerpts";
+                } else if (id == "typewriter") {
+                    typewriterVisible.set(true);
+                    activeSection = "a deer between death";
                 }
             } 
         }, 500)
@@ -110,6 +114,7 @@
         notesVisible.set(false);
         viewfinderVisible.set(false);
         logsVisible.set(false);
+        typewriterVisible.set(false);
         bckBtnVisible.set(false);
         activeSection = "afangintherough";
     }
@@ -229,6 +234,7 @@
 <FolderOverlay />
 <ViewfinderOverlay />
 <LogsOverlay />
+<TypewriterOverlay />
 
 <footer class:bckBtnVisible={$bckBtnVisible}>
     <p>©Ⓟ October 18, 2024 Noah Fagan, H O R S E A N D H O U N D</p>
