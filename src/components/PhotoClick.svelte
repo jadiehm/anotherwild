@@ -203,7 +203,7 @@
             {/if}
         </h1>
     </div>
-    <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick}>
+    <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick} on:touchstart|preventDefault={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
             Back to desk
