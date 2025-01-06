@@ -6,19 +6,45 @@
     import instagramIcon from "$svg/instagram.svg";
     import youtubeIcon from "$svg/youtube.svg";
     import stamp from "$svg/stamp.svg";
-
+    import topography from "$svg/topography.svg";
     import { aboutVisible } from "$stores/misc.js";
+    import * as d3 from "d3";
 
     const copy = getContext("copy");
 
     const icons = [spotifyIcon, appleIcon, bandcampIcon, youtubeIcon, instagramIcon];
+    let mounted = false;
 
-    function backClick() {
-        aboutVisible.set(false);
+    onMount(() => {
+        mounted = true;
+    })
+
+    $: if ($aboutVisible && mounted) {
+        console.log("running")
+        let topoPaths = d3.selectAll(".bg-topography svg path");
+
+		let shuffledPaths = d3.shuffle(topoPaths);
+
+		shuffledPaths.each(function(d, i) {
+			const path = d3.select(this);
+			const length = this.getTotalLength();
+
+			// Set up the path for drawing effect
+			path.attr("stroke-dasharray", length)
+				.attr("stroke-dashoffset", length)
+				.transition()                      // Apply a transition
+				.delay(i * 100)                    // Stagger each path by 300ms
+				.duration(3000)                    // Set the duration of the draw effect
+				.ease(d3.easeLinear)               // Use a linear easing for smooth drawing
+				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
+		});
     }
 </script>
 
 <section class="info" class:aboutVisible={$aboutVisible}>
+    <div class="bg-topography">
+		{@html topography}
+	</div>
     <div class="inner">
         <div class="left">
             <div class="photo-wrapper">
@@ -30,6 +56,10 @@
         </div>
         <div class="right">
             {#each copy.about as graf, i}
+                <p>{@html graf.value}</p>
+            {/each}
+            <hr>
+            {#each copy.about2 as graf, i}
                 <p>{@html graf.value}</p>
             {/each}
             <ul class="links">
@@ -44,6 +74,23 @@
 </section>
 
 <style>
+    .bg-topography {
+		position: absolute;
+		width: 100%;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		opacity: 0.1;
+		transform: scale(4);
+        pointer-events: none;
+	}
+	:global(.bg-topography svg path) {
+		fill: none;
+		stroke: #f1eeec;
+		stroke-width: 0.5px;
+	}
+
     .padder {
         height: 5rem;
         width: 100%;

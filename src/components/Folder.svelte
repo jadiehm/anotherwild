@@ -1,6 +1,7 @@
 <script>
     import Letters from "$components/Letters.svelte";
     import stamp from "$svg/stamp.svg";
+    import touchSVG from "$svg/touch.svg";
 
     let isOpen = false;
 
@@ -37,6 +38,10 @@
                         <p>Dispatch // Ephemera {folderIndex == 1 ? "two" : "one"}</p>
                         <p>{folderIndex == 1 ? "12.18.24" : "10.18.24"}</p>
                         <p>The Forest Park Wildlife Corridor</p>
+                        <div class="touch-hint">
+                            {@html touchSVG}
+                            <p>to open</p>
+                        </div>
                     </div>
                     <img class="paperclip" src="assets/images/paperclip.png" alt="paperclip"/>
                 </div>
@@ -140,6 +145,36 @@
 
     .note-paper p:first-of-type {
         font-weight: 700;
+    }
+
+    .touch-hint {
+        color: var(--fang-dark);
+        font-family: var(--mono);
+        text-transform: uppercase;
+        z-index: 1000;
+        font-weight: 700;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    :global(.sticky-note .touch-hint svg) {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.25rem;
+        animation: shake 0.75s ease-in-out infinite;
+    }
+
+    :global(.sticky-note .touch-hint svg path) {
+        fill: var(--fang-dark);
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(-1px); }
+        50% { transform: translateX(1px); }
+        100% { transform: translateX(-1px); }
     }
 
     .isOpen .note-paper, .isOpen .stamp, .isOpen .instructions {

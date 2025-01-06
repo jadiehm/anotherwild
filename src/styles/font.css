@@ -2,7 +2,6 @@
 	font-family: "Hoefler Text";
 	src: url("https://afangintherough.com/assets/fonts/hoefler-text.woff2") format("woff2");
 	font-weight: 400;
-	font-style: normal;
 	font-stretch: normal;
 	font-display: swap;
 }
@@ -11,7 +10,6 @@
 	font-family: "Hoefler Text";
 	src: url("https://afangintherough.com/assets/fonts/hoefler-text-bold.woff2") format("woff2");
 	font-weight: 700;
-	font-style: normal;
 	font-stretch: normal;
 	font-display: swap;
 }

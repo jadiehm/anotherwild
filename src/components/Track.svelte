@@ -131,7 +131,7 @@
         text-shadow: 1px 1px 4px var(--fang-dark);
     }
     .trackTitle {
-        font-family: "Hoefler Text";
+        font-family: var(--serf);
         text-transform: uppercase;
         font-weight: 700;
         font-size: 28px;
