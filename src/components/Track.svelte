@@ -68,7 +68,7 @@
     <div class="details">
         <p class="trackNum">{splitAt(2, trackData.id)}</p>
         <p class="trackTitle">{trackData.title}</p>
-        <button aria-lable="play/pause">
+        <button aria-label="play or pause">
             {#if active}
                 {@html PauseIcon}
             {:else}

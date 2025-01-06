@@ -26,7 +26,7 @@
 </script>
 
 <div class="chart-container" id="chart-container-{id}"></div>
-<button on:click={btnClick} aria-label="play/pause">
+<button on:click={btnClick} aria-label="play or pause">
     {#if playing}
         <PauseCircle {color} {fill} />
     {:else}

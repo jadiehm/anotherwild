@@ -117,7 +117,7 @@
     <audio id="log-audio" loop>
         <source id="logAudioSource" src="assets/audio/logs/LOGMSTR_CH1.mp3" type="audio/mpeg">
     </audio>
-    <img class="wheel" class:wheelSpin={wheelSpin} src="assets/images/tape-wheel.png" />
+    <img class="wheel" class:wheelSpin={wheelSpin} src="assets/images/tape-wheel.png" alt="tape dexk wheel"/>
     <div class="tape-wrapper">
         <div class="tape-wrapper-inner">
             <img class="tape" 
