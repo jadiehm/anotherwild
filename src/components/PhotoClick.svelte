@@ -220,29 +220,35 @@
     <div class="vignette" class:bckBtnVisible={$bckBtnVisible}></div>
     <div class="vignette dark" class:bckBtnVisible={$bckBtnVisible}></div>
     <div class="overlays">
-        <img id="tape-overlay" src="/assets/images/tape-overlay.png" />
-        <img id="typewriter-overlay" src="/assets/images/typewriter-overlay.png" />
-        <img id="radio-overlay" src="/assets/images/radio-overlay.png" />
-        <img id="paper-overlay" src="/assets/images/paper-overlay.png" />
-        <img id="folder-overlay" src="/assets/images/folder-overlay.png" />
-        <img id="viewfinder-overlay" src="/assets/images/viewfinder-overlay.png" />
-        <img id="light-overlay" src="/assets/images/light-overlay.png" />
+        <img id="tape-overlay" src="/assets/images/tape-overlay.png" alt="black background highlighting tape deck"/>
+        <img id="typewriter-overlay" src="/assets/images/typewriter-overlay.png" alt="black background highlighting typewriter" />
+        <img id="radio-overlay" src="/assets/images/radio-overlay.png" alt="black background highlighting radio" />
+        <img id="paper-overlay" src="/assets/images/paper-overlay.png" alt="black background highlighting stack of paper" />
+        <img id="folder-overlay" src="/assets/images/folder-overlay.png" alt="black background highlighting file folder" />
+        <img id="viewfinder-overlay" src="/assets/images/viewfinder-overlay.png" alt="black background highlighting viewfinder" />
+        <img id="light-overlay" src="/assets/images/light-overlay.png" alt="black background highlighting lamp" />
     </div>
     <div class="touch-hint" class:touchVisible={touchVisible}>
         {@html touchSVG}
         <p>Explore the desk</p>
     </div>
     <div class="svg-wrapper" 
+        role="button"
+        tabindex="0"
+        on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick(e)}
+        aria-label="open item container"
         on:click={handleClick}
         on:tap={handleClick} 
         on:mouseover={handleMouseOver}
+        on:focus={handleMouseOver}
         on:mouseout={handleMouseOut}
+        on:blur={handleMouseOut}
         on:mousemove={handleMouseMove}
     >
         {@html photoClickSVG}
     </div>
     <div class="photo-wrapper">
-        <img src="/assets/images/photoclick.jpg" />
+        <img src="/assets/images/photoclick.jpg" alt="an old wooden desk with a typewriter, a viewfinder, a stack of papers, a file foolder, a knife, a tape deck, a radio, and a lamp"/>
     </div>
 </div>
 <InfoOverlay />

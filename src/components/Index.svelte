@@ -158,52 +158,6 @@
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 <PhotoClick />
-<!-- <Info {infoVisible}/>
-<audio id="bg-audio" loop>
-	<source id="audioSource" src="assets/audio/preview/01FINALLY.mp3" type="audio/mpeg">
-</audio>
-<div class="bg-movie">
-	<img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
-	<video id="bg-video" class="background-video" loop muted playsinline>
-		<source id="videoSource" src="assets/video/01FINALLY.mp4" type="video/mp4">
-	</video>
-	<div class="bg-topography">
-		{@html topography}
-	</div>
-	<div class="video-overlay"></div>
-</div>
-<div class="header">
-	<h1>{copy.title} <span>audio visualizer</span></h1>
-	<div class="links-header">
-		<button class="infoBtn" on:click={infoClick} >
-			{#if infoVisible}
-				<p>Close</p>
-				<Icon name="x" width="1rem"/>
-			{:else}
-				<p>About</p>
-				<Icon name="info" width="1rem"/>
-			{/if}
-		</button>
-	</div>
-</div>
-<div class="album-container">
-	<div class="refer">
-		<p>Listen to the full album on</p>
-		<ul>
-			<li><span>{@html spotifyIcon}</span><a href="https://open.spotify.com/album/7dCZsnk1hRpFGTfNpFXKwT">Spotify</a></li>
-			<li><span>{@html appleIcon}</span><a href="https://music.apple.com/ca/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h/1775466296">Apple Music</a></li>
-			<li><span class="icon">{@html bandcampIcon}</span><a href="https://anotherwild.bandcamp.com/album/a-f-a-n-g-i-n-t-h-e-r-o-u-g-h">Bandcamp</a></li>
-			<li><span>{@html youtubeIcon}</span><a href="https://www.youtube.com/@anotherwild">YouTube</a></li>
-		</ul>
-	</div>
-	{#each albumGroups as album}
-		<Album data={album}/>
-	{/each}
-</div>
-<footer>
-	<p>{copy.copyright}</p>
-	<div class="stamp">{@html stamp}</div>
-</footer> -->
 
 <style>
 	.refer {

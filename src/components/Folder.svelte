@@ -25,7 +25,11 @@
         <div 
             class="folder-left"
             class:isOpen={isOpen}
+            role="button"
+            tabindex="0"
             on:click={folderClick}
+            on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && folderClick(e)}
+            aria-label="open or close the folder"
         >
             {#if folderIndex !== 2}
                 <div class="sticky-note">
@@ -34,7 +38,7 @@
                         <p>{folderIndex == 1 ? "12.18.24" : "10.18.24"}</p>
                         <p>The Forest Park Wildlife Corridor</p>
                     </div>
-                    <img class="paperclip" src="assets/images/paperclip.png" />
+                    <img class="paperclip" src="assets/images/paperclip.png" alt="paperclip"/>
                 </div>
             {:else}
                 <p class="classified" class:isOpen={isOpen}>Classified</p>
@@ -42,17 +46,22 @@
             <div class="stamp">{@html stamp}</div>
             <div class="folder-block"></div>
             <div class="folder-tab">
-                <img src="assets/images/left-edge.png" />
+                <img src="assets/images/left-edge.png" alt="left edge of file folder"/>
             </div>
         </div>
         <div class="folder-right" class:isOpen={isOpen}>
             <div class="letter-wrapper">
                 <Letters {isOpen} folderIndex={folderIndex} />
             </div>
-            <div class="folder-back" on:click={folderClick}>
+            <div class="folder-back" 
+                role="button"
+                tabindex="0"
+                on:click={folderClick}
+                on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && folderClick(e)}
+            >
                 <div class="folder-block"></div>
                 <div class="folder-tab">
-                    <img src="assets/images/right-edge.png" />
+                    <img src="assets/images/right-edge.png" alt="right edge of file folder"/>
                 </div>
             </div>
         </div>

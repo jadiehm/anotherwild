@@ -153,7 +153,7 @@
         <source id="audioSource" src="assets/audio/preview/01FINALLY.mp3" type="audio/mpeg">
     </audio>
     <div class="bg-movie">
-        <img src="assets/images/backup.jpg" alt="mountain" id="video-backup">
+        <img src="assets/images/backup.jpg" alt="an old wooden desk with a typewriter, a viewfinder, a stack of papers, a file foolder, a knife, a tape deck, a radio, and a lamp" id="video-backup">
         <video id="bg-video" class="background-video" loop muted playsinline>
             <source id="videoSource" src="assets/video/01FINALLY.mp4" type="video/mp4">
         </video>

@@ -28,21 +28,21 @@
     <div class="controls">
         <button on:click={prevClick}><ChevronLeft color={"#01010f"} strokeWidth={3} fill={"none"} /></button>
         <div class="wheel">
-            <img class="wheel-nums" style="transform: rotate({wheelRotation}deg)" src="assets/images/viewfinder-wheel.png" />
-            <img src="assets/images/viewfinder-cover.png" />
+            <img class="wheel-nums" style="transform: rotate({wheelRotation}deg)" src="assets/images/viewfinder-wheel.png" alt="viewfinder number wheel"/>
+            <img src="assets/images/viewfinder-cover.png" alt="black background cover for viewfinder number"/>
         </div>
         <button on:click={nextClick}><ChevronRight color={"#01010f"} strokeWidth={1} /></button>
     </div>
     <div class="view">
         <div class="left">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" />
+                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" alt="left side of postcard {postcard+1}"/>
             {/each}
             <div class="vignette"></div>
         </div>
         <div class="right">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" />
+                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" alt="right side of postcard {postcard+1}" />
             {/each}
             <div class="vignette"></div>
         </div>
@@ -204,11 +204,6 @@
         transform: rotate(45deg);
         filter: blur(10px);
 
-    }
-
-    .grain {
-        mix-blend-mode: multiply;
-        opacity: 0.5;
     }
 
     @media(max-width: 750px) {
