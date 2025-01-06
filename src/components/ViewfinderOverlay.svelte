@@ -1,69 +1,97 @@
 <script>
-    import { getContext, onMount } from "svelte";
+    import { getContext } from "svelte";
     import ChevronLeft from "lucide-svelte/icons/chevron-left";
-	import ChevronRight from "lucide-svelte/icons/chevron-right";
-
+    import ChevronRight from "lucide-svelte/icons/chevron-right";
     import { viewfinderVisible } from "$stores/misc.js";
 
     const copy = getContext("copy");
 
-    const postcards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 17];
-
+    const postcards = Array.from({ length: 18 }, (_, i) => i); // Generate an array [0, 1, ..., 17]
     let activePostcard = 0;
     let wheelRotation = 0;
 
     function prevClick() {
-        activePostcard--;
-        wheelRotation = wheelRotation + 20;
+        if (activePostcard > 0) {
+            activePostcard--;
+            wheelRotation += 20;
+        }
     }
 
     function nextClick() {
-        activePostcard++;
-        wheelRotation = wheelRotation - 20;
+        if (activePostcard < postcards.length - 1) {
+            activePostcard++;
+            wheelRotation -= 20;
+        }
     }
 </script>
 
 
+
 <section class="viewfinder" class:viewfinderVisible={$viewfinderVisible}>
     <div class="controls">
-        <button aria-label="previous image" on:click={prevClick}><ChevronLeft color={"#01010f"} strokeWidth={3} fill={"none"} /></button>
+        <button 
+            aria-label="previous image" 
+            on:click={prevClick}
+        >
+            <ChevronLeft color="#01010f" strokeWidth={3} />
+        </button>
         <div class="wheel">
-            <img class="wheel-nums" style="transform: rotate({wheelRotation}deg)" src="assets/images/viewfinder-wheel.png" alt="viewfinder number wheel"/>
-            <img src="assets/images/viewfinder-cover.png" alt="black background cover for viewfinder number"/>
+            <img 
+                class="wheel-nums" 
+                style="transform: rotate({wheelRotation}deg)" 
+                src="assets/images/viewfinder-wheel.png" 
+                alt="viewfinder number wheel"
+            />
+            <img 
+                src="assets/images/viewfinder-cover.png" 
+                alt="black background cover for viewfinder number"
+            />
         </div>
-        <button aria-label="next image" on:click={nextClick}><ChevronRight color={"#01010f"} strokeWidth={1} /></button>
+        <button 
+            aria-label="next image" 
+            on:click={nextClick}
+        >
+            <ChevronRight color="#01010f" strokeWidth={1} />
+        </button>
     </div>
     <div class="view">
         <div class="left">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} 
-                    src="assets/images/postcards/postcard{postcard+1}.jpg" 
+                <img 
+                    class:active={activePostcard === i}
+                    src={`assets/images/postcards/postcard${postcard + 1}.jpg`}
                     srcset="
-                            assets/images/postcards/postcard{postcard+1}.jpg 1000w, 
-                            assets/images/postcards/postcard{postcard+1}-small.jpg 600w" 
-                    sizes="(min-width: 1000px) 1000px, 
-                            (min-width: 600px) 600px, 
-                            100vw"
-                    alt="left side of postcard {postcard+1}"/>
+                        assets/images/postcards/postcard{postcard + 1}.jpg 1000w, 
+                        assets/images/postcards/postcard{postcard + 1}-small.jpg 600w"
+                    sizes="
+                        (min-width: 1000px) 1000px, 
+                        (min-width: 600px) 600px, 
+                        100vw"
+                    alt={`left side of postcard ${postcard + 1}`}
+                />
             {/each}
             <div class="vignette"></div>
         </div>
         <div class="right">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} 
-                src="assets/images/postcards/postcard{postcard+1}.jpg" 
+                <img 
+                    class:active={activePostcard === i}
+                    src={`assets/images/postcards/postcard${postcard + 1}.jpg`}
                     srcset="
-                            assets/images/postcards/postcard{postcard+1}.jpg 1000w, 
-                            assets/images/postcards/postcard{postcard+1}-small.jpg 600w" 
-                    sizes="(min-width: 1000px) 1000px, 
-                            (min-width: 600px) 600px, 
-                            100vw"
-                alt="right side of postcard {postcard+1}" />
+                        assets/images/postcards/postcard{postcard + 1}.jpg 1000w, 
+                        assets/images/postcards/postcard{postcard + 1}-small.jpg 600w"
+                    sizes="
+                        (min-width: 1000px) 1000px, 
+                        (min-width: 600px) 600px, 
+                        100vw"
+                    alt={`right side of postcard ${postcard + 1}`}
+                />
             {/each}
             <div class="vignette"></div>
         </div>
     </div>
 </section>
+
 
 <style>
     section {

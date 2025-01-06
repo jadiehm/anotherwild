@@ -1,27 +1,25 @@
 <script>
-    import { getContext, onMount } from "svelte";
+    import { getContext } from "svelte";
     import { logsVisible } from "$stores/misc.js";
     import tapeSVG from "$svg/tape.svg";
 
     const copy = getContext("copy");
+
     let currentLogIndex = 1; // Tracks the current log index
     const totalLogs = 18; // Total number of logs
     let logParaCount = 0;
     let audioDuration = 0;
     let activeDelay = 0;
     let highlightedIndex = 0; // Tracks the currently highlighted paragraph
-    let isPlaying;
+    let isPlaying = false;
     let wheelSpin = false;
 
     function handleClick(event) {
-        const target = event.target.closest('g')?.id;
-
+        const targetId = event.target.closest('g')?.id;
         const audioElement = document.getElementById('log-audio');
         const audioSource = document.getElementById('logAudioSource');
 
-        if (!audioElement || !audioSource) {
-            return;
-        }
+        if (!audioElement || !audioSource) return;
 
         isPlaying = !audioElement.paused && !audioElement.ended && audioElement.readyState > 2;
 
@@ -30,17 +28,21 @@
             wheelSpin = false;
         }
 
-        if (target === "play") {
-            audioElement.play();
-            wheelSpin = true;
-        } else if (target === "next") {
-            currentLogIndex = currentLogIndex === totalLogs ? 1 : currentLogIndex + 1;
-            updateAudioSource(audioElement, audioSource);
-            wheelSpin = true;
-        } else if (target === "prev") {
-            currentLogIndex = currentLogIndex === 1 ? totalLogs : currentLogIndex - 1;
-            updateAudioSource(audioElement, audioSource);
-            wheelSpin = true;
+        switch (targetId) {
+            case "play":
+                audioElement.play();
+                wheelSpin = true;
+                break;
+            case "next":
+                currentLogIndex = (currentLogIndex % totalLogs) + 1;
+                updateAudioSource(audioElement, audioSource);
+                wheelSpin = true;
+                break;
+            case "prev":
+                currentLogIndex = currentLogIndex === 1 ? totalLogs : currentLogIndex - 1;
+                updateAudioSource(audioElement, audioSource);
+                wheelSpin = true;
+                break;
         }
     }
 
@@ -50,12 +52,8 @@
 
         audioElement.addEventListener('loadedmetadata', () => {
             audioDuration = audioElement.duration;
-            // console.log("Audio Duration:", audioDuration);
-
             activeDelay = audioDuration / logParaCount;
-            // console.log("Active Delay:", activeDelay);
-
-            highlightedIndex = 0; // Reset the highlight index
+            highlightedIndex = 0; // Reset highlight index
             attachHighlightHandler(audioElement);
         });
 
@@ -65,72 +63,73 @@
     function countEls() {
         const logTextElements = document.querySelectorAll('.log-text p');
         logParaCount = logTextElements.length;
-        // console.log("Paragraph Count:", logParaCount);
 
         const audioElement = document.getElementById('log-audio');
         if (audioElement && audioElement.readyState > 0) {
             audioDuration = audioElement.duration;
-            // console.log("Audio Duration (preloaded):", audioDuration);
-
             activeDelay = audioDuration / logParaCount;
-            // console.log("Active Delay (preloaded):", activeDelay);
         }
     }
 
     function attachHighlightHandler(audioElement) {
         if (!audioElement) return;
 
-        const highlightDelay = 5; // 3-second delay before highlights start
-        const highlightPause = 1; // Pause of 0.5 seconds between switching highlights
-        let lastHighlightTime = 0; // Tracks the last time a highlight was updated
+        const highlightDelay = 3; // Delay before highlights start
+        const highlightPause = 0.5; // Pause between switching highlights
+        let lastHighlightTime = 0; // Tracks last highlight update time
 
         audioElement.addEventListener("timeupdate", () => {
             if (activeDelay > 0) {
                 const currentTime = audioElement.currentTime;
 
-                // Only start highlights after the 3-second delay
                 if (currentTime > highlightDelay) {
-                    const adjustedTime = currentTime - highlightDelay; // Adjust time to start after delay
+                    const adjustedTime = currentTime - highlightDelay;
 
-                    // Throttle highlight switching based on highlightPause
                     if (adjustedTime - lastHighlightTime >= highlightPause) {
                         const currentIndex = Math.floor(adjustedTime / activeDelay);
 
                         if (currentIndex !== highlightedIndex && currentIndex < logParaCount) {
                             highlightedIndex = currentIndex;
-                            lastHighlightTime = adjustedTime; // Update the last highlight switch time
+                            lastHighlightTime = adjustedTime;
                         }
                     }
                 }
             }
         });
     }
-
-    onMount(() => {
-        // countEls();
-        // const audioElement = document.getElementById('log-audio');
-        // attachHighlightHandler(audioElement);
-    });
 </script>
+
 
 <section class="logs" class:logsVisible={$logsVisible}>
     <audio id="log-audio" loop>
         <source id="logAudioSource" src="assets/audio/logs/LOGMSTR_CH1.mp3" type="audio/mpeg">
     </audio>
-    <img class="wheel" class:wheelSpin={wheelSpin} src="assets/images/tape-wheel.png" alt="tape dexk wheel"/>
+    <img 
+        class="wheel" 
+        class:wheelSpin={wheelSpin} 
+        src="assets/images/tape-wheel.png" 
+        alt="Tape deck wheel"
+    />
     <div class="tape-wrapper">
         <div class="tape-wrapper-inner">
-            <img class="tape" 
+            <img 
+                class="tape" 
                 src="assets/images/tape.png" 
                 srcset="
                     assets/images/tape.png 1000w, 
                     assets/images/tape-small.png 600w" 
                 sizes="(min-width: 1000px) 1000px, 
-                    (min-width: 600px) 600px, 
-                    100vw"
-                alt="vintage tape deck"
+                        (min-width: 600px) 600px, 
+                        100vw" 
+                alt="Vintage tape deck"
             />
-            <div class="svg-wrapper" on:click={handleClick}>
+            <div class="svg-wrapper" 
+                role="button"
+                tabindex="0"
+                on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick(e)}
+                aria-label="tape deck controls"
+                on:click={handleClick}
+            >
                 {@html tapeSVG}
             </div>
         </div>
@@ -140,14 +139,15 @@
         <div class="text-wrapper">
             <div class="text-inner">
                 {#if activeDelay !== undefined}
-                    {#each copy.logs[currentLogIndex-1].text as graf,i}
-                        <p>{@html graf.value}</p>
+                    {#each copy.logs[currentLogIndex - 1].text as graf, i}
+                        <p class:highlight={i === highlightedIndex}>{@html graf.value}</p>
                     {/each}
                 {/if}
             </div>
         </div>
     </div>
 </section>
+
 
 <style>
     section {

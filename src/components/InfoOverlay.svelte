@@ -11,61 +11,63 @@
     import * as d3 from "d3";
 
     const copy = getContext("copy");
-
     const icons = [spotifyIcon, appleIcon, bandcampIcon, youtubeIcon, instagramIcon];
     let mounted = false;
 
     onMount(() => {
         mounted = true;
-    })
+    });
 
     $: if ($aboutVisible && mounted) {
-        console.log("running")
-        let topoPaths = d3.selectAll(".bg-topography svg path");
+        const topoPaths = d3.selectAll(".bg-topography svg path");
+        d3.shuffle(topoPaths).each(function (d, i) {
+            const path = d3.select(this);
+            const length = this.getTotalLength();
 
-		let shuffledPaths = d3.shuffle(topoPaths);
-
-		shuffledPaths.each(function(d, i) {
-			const path = d3.select(this);
-			const length = this.getTotalLength();
-
-			// Set up the path for drawing effect
-			path.attr("stroke-dasharray", length)
-				.attr("stroke-dashoffset", length)
-				.transition()                      // Apply a transition
-				.delay(i * 100)                    // Stagger each path by 300ms
-				.duration(3000)                    // Set the duration of the draw effect
-				.ease(d3.easeLinear)               // Use a linear easing for smooth drawing
-				.attr("stroke-dashoffset", 0);     // Animate dashoffset to 0 to "draw" the path
-		});
+            path.attr("stroke-dasharray", length)
+                .attr("stroke-dashoffset", length)
+                .transition()
+                .delay(i * 100)
+                .duration(3000)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0);
+        });
     }
 </script>
 
 <section class="info" class:aboutVisible={$aboutVisible}>
     <div class="bg-topography">
-		{@html topography}
-	</div>
+        {@html topography}
+    </div>
     <div class="inner">
         <div class="left">
             <div class="photo-wrapper">
-                <img src="assets/images/portrait.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
-                <img class="album-img" src="assets/images/LADDER.jpg" alt="a double exspoure portait of Noah Fagan against trees and a sky" />
+                <img 
+                    src="assets/images/portrait.jpg" 
+                    alt="A double exposure portrait of Noah Fagan against trees and a sky" />
+                <img 
+                    class="album-img" 
+                    src="assets/images/LADDER.jpg" 
+                    alt="Album artwork for LADDER" />
                 <div class="stamp">{@html stamp}</div>
             </div>
             <span class="caption">{@html copy.caption}</span>
         </div>
         <div class="right">
-            {#each copy.about as graf, i}
+            {#each copy.about as graf}
                 <p>{@html graf.value}</p>
             {/each}
-            <hr>
-            {#each copy.about2 as graf, i}
+            <hr />
+            {#each copy.about2 as graf}
                 <p>{@html graf.value}</p>
             {/each}
             <ul class="links">
                 <li class="lead-in">Find them on</li>
                 {#each copy.links as link, i}
-                    <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
+                    <li>
+                        <span class="icon">{@html icons[i]}</span>
+                        <a href="{link.url}">{link.name}</a>
+                    </li>
                 {/each}
             </ul>
             <p class="copyright">{@html copy.copyright}</p>
@@ -90,11 +92,6 @@
 		stroke: #f1eeec;
 		stroke-width: 0.5px;
 	}
-
-    .padder {
-        height: 5rem;
-        width: 100%;
-    }
     section {
         position: fixed;
         top: 0;
@@ -125,94 +122,6 @@
         flex-direction: row;
         gap: 5rem;
         padding: 3rem;
-    }
-    .note {
-        width: 100%;
-        font-family: var(--serif);
-        margin: 5rem auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 2rem;
-    }
-    .note .lead-in {
-        font-size: var(--14px);
-        font-family:  var(--mono);
-        text-transform: uppercase;
-    }
-    .center-itals {
-        font-style: italic;
-        text-align: center;
-    }
-    .page-wrapper {
-        position: relative;
-        max-width: 660px;
-        height: auto;
-        width: 100%;
-    }
-    .fake-page {
-        width: 100%;
-        height: calc(100% - 2rem);
-        position: absolute;
-        background-color: var(--fang-light);
-        background-image: url("/assets/images/bg_texture.png");
-        background-size: 200px;
-        background-repeat: repeat;
-        border: 1px solid #dfd9d5;
-        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
-        z-index: 600;
-        transition: all 0.125s ease-in;
-    }
-    .fake-page:first-of-type {
-        left: 0rem;
-        transform: rotate(-2deg);
-    }
-    .fake-page:nth-of-type(2) {
-        left: 2rem;
-        top: 1rem;
-        transform: rotate(1deg);
-    }
-    .fake-page:nth-of-type(3) {
-        left: 1rem;
-        top: -0.5rem;
-        transform: rotate(-1deg);
-    }
-    .fake-page:nth-of-type(3) {
-        left: 1rem;
-        top: 0rem;
-        transform: rotate(2deg);
-    }
-    .fake-page.scrolled {
-        left: 0;
-        top: 1rem;
-        transform: rotate(0deg);
-    }
-    .page {
-        max-width: 660px;
-        background-color: var(--fang-light);
-        color: #151515;
-        padding: 3rem;
-        margin: 1rem 0;
-        background-image: url("/assets/images/bg_texture.png");
-        background-size: 200px;
-        background-repeat: repeat;
-        border: 1px solid #dfd9d5;
-        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
-        z-index: 1000;
-        position: relative;
-    }
-    .expand-Btn {
-        background: rgba(165, 191, 182, 1);
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		width: 6rem;
-		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-        color: var(--fang-dark);
-		font-family:  var(--mono), var(--sans), sans;
-		text-transform: uppercase;
     }
     .left, .right {
         width: 50%;
@@ -332,38 +241,6 @@
         .left, .right {
             width: 100%;
             max-width: 400px;
-        }
-        .note {
-            margin-top: 0;
-            padding: 0;
-        }
-    }
-    @media(max-width: 600px) {
-        .page {
-            padding: 1rem 2rem;
-        }
-        .page p {
-            font-size: 14px;
-        }
-
-        .fake-page:first-of-type {
-            left: 1.5rem;
-            transform: rotate(-2deg);
-        }
-        .fake-page:nth-of-type(2) {
-            left: 0.5rem;
-            top: 1rem;
-            transform: rotate(1deg);
-        }
-        .fake-page:nth-of-type(3) {
-            left: 0rem;
-            top: 0rem;
-            transform: rotate(1deg);
-        }
-        .fake-page.scrolled {
-            left: 0;
-            top: 1rem;
-            transform: rotate(0deg);
         }
     }
 

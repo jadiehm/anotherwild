@@ -1,37 +1,47 @@
 <script>
-    import { getContext, onMount } from "svelte";
+    import { getContext } from "svelte";
     import Folder from "$components/Folder.svelte";
     import Tap from "$components/helpers/Tap.svelte";
-
     import { folderVisible } from "$stores/misc.js";
 
     const copy = getContext("copy");
-
     const lettersLen = copy.letters.length;
 
     let activeFolder = 0;
     let horizTransform = 0;
 
-    function handleTap(dir) {
-        if (dir.detail === "left" && activeFolder > 0) {
+    function handleTap(event) {
+        const { detail: direction } = event;
+        if (direction === "left" && activeFolder > 0) {
             activeFolder--;
-        } else if (dir.detail === "right" && activeFolder < lettersLen - 1) {
+        } else if (direction === "right" && activeFolder < lettersLen - 1) {
             activeFolder++;
         }
-        horizTransform = `${-activeFolder*90}vw`
+        horizTransform = `${-activeFolder * 90}vw`;
     }
 </script>
 
 {#if $folderVisible}
-    <Tap showArrows={true} on:tap={handleTap} activeFolder={activeFolder} lettersLen={lettersLen}/>
+    <Tap 
+        showArrows={true} 
+        on:tap={handleTap} 
+        activeFolder={activeFolder} 
+        lettersLen={lettersLen} 
+    />
 {/if}
-<section class="dispatches" class:folderVisible={$folderVisible} style="width: {100*lettersLen}%; transform: translate({horizTransform},{$folderVisible ? "0px" : "100%"})">
+
+<section 
+    class="dispatches" 
+    class:folderVisible={$folderVisible} 
+    style="width: {100 * lettersLen}%; transform: translate({horizTransform}, {$folderVisible ? "0px" : "100%"})"
+>
     {#each copy.letters as letter, i}
         <div id="contents-{i}" class="contents">
-            <Folder folderType={"letter"} folderIndex={i} activeFolder={activeFolder} />
+            <Folder folderType="letter" folderIndex={i} activeFolder={activeFolder} />
         </div>
     {/each}
 </section>
+
 
 <style>
     section {
@@ -57,7 +67,7 @@
 
     .contents {
         height: 100%;
-        width: 90vw; /* Ensure each content block has a consistent width */
+        width: 90vw;
         display: flex;
         align-items: center;
         flex-shrink: 0;

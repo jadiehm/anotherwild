@@ -1,63 +1,53 @@
 <script>
     import { getContext, onMount } from "svelte";
-    import Lyrics from "$components/Lyrics.svelte";
     import { notesVisible } from "$stores/misc.js";
-    const copy = getContext("copy");
 
-    let clickedIndex = null; // Track the clicked index
-    let pages = []; // Store the DOM elements of each page
+    const copy = getContext("copy");
+    let clickedIndex = null;
+    let pages = [];
     let originalPositions = [];
     let width;
 
-    // Function to get a random rotation for each page
     function getRandomRotate() {
-        const increments = width >= 720 ? [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1] : [-0.125, 0, 0.125];
-        const randomIndex = Math.floor(Math.random() * increments.length);
-        return increments[randomIndex];
+        const increments = width >= 720 
+            ? [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1] 
+            : [-0.125, 0, 0.125];
+        return increments[Math.floor(Math.random() * increments.length)];
     }
 
     function getRandomLeft() {
         const increments = [-52, -51, -50, -49, -48];
-        const randomIndex = Math.floor(Math.random() * increments.length);
-        return increments[randomIndex];
+        return increments[Math.floor(Math.random() * increments.length)];
     }
 
     function setPages($notesVisible) {
-            let cumulativeHeight = 0; // Initialize cumulative height
-            let delay = $notesVisible ? 750 : 0;
-            setTimeout(() => {
-                pages.forEach((page, i) => {
-                    const fullHeight = page.scrollHeight; // Includes content not visible due to clipping
-                    const pageHeight = fullHeight; // Full height of the page
+        const delay = $notesVisible ? 750 : 0;
+        let cumulativeHeight = 0;
 
-                    if ($notesVisible) {
-                        // Calculate the top position with padding
-                        const topPosition = cumulativeHeight;
-                        originalPositions[i] = topPosition; // Store original positions in pixels
+        setTimeout(() => {
+            pages.forEach((page, i) => {
+                const fullHeight = page.scrollHeight;
 
-                        // Apply styles for open state
-                        page.style.top = `${topPosition}px`; // Set the top position
-                        page.style.height = "auto";
-                        page.style.overflowY = "visible";
-
-                        // Update cumulative height with padding for all pages except the first
-                        cumulativeHeight += pageHeight + 32;
-                    } else {
-                        // Reset all pages to their original closed position
-                        originalPositions[i] = 0; // Reset stored position to 0
-                        page.style.top = `0px`; // Set top position to 0
-                    }
-                });
-            }, delay);
+                if ($notesVisible) {
+                    page.style.top = `${cumulativeHeight}px`;
+                    page.style.height = "auto";
+                    page.style.overflowY = "visible";
+                    originalPositions[i] = cumulativeHeight;
+                    cumulativeHeight += fullHeight + 32;
+                } else {
+                    page.style.top = "0px";
+                    page.style.height = "";
+                    page.style.overflowY = "hidden";
+                    originalPositions[i] = 0;
+                }
+            });
+        }, delay);
     }
 
     onMount(() => {
-        // Initialize positions for each page on mount
-
-            pages.forEach((page, i) => {
-
-                page.style.top = `${i*32}px`; // Set the initial top position
-            });
+        pages.forEach((page, i) => {
+            page.style.top = `${i * 32}px`;
+        });
     });
 
     $: setPages($notesVisible);
@@ -68,20 +58,23 @@
 <section class="lyrics" class:notesVisible={$notesVisible}>
     <div class="page-wrapper" class:notesVisible={$notesVisible}>
         {#each copy.lyrics as page, i}
-            <div 
+            <div
                 bind:this={pages[i]}
-                class="page" 
+                class="page"
                 id="lyrics-page-{i}"
-                style="transform: translate({getRandomLeft()}%, {i*32}px) rotate({getRandomRotate()}deg); transition-delay: {(copy.lyrics.length-i)*0.025}s;
-                filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};"
+                style="
+                    transform: translate({getRandomLeft()}%, {i * 32}px) rotate({getRandomRotate()}deg);
+                    transition-delay: {(copy.lyrics.length - i) * 0.025}s;
+                    filter: {clickedIndex === null || clickedIndex === i ? 'none' : 'brightness(95%)'};
+                "
             >
                 <div class="page-inset">
                     <h5>{page.num} {page.songTitle}</h5>
-                    {#each page.text as graf, i}
+                    {#each page.text as graf}
                         <p>{@html graf.value}</p>
                     {/each}
                 </div>
-                {#if i == copy.lyrics.length - 1}
+                {#if i === copy.lyrics.length - 1}
                     <div class="padder"></div>
                 {/if}
             </div>
@@ -111,12 +104,14 @@
 
     section.notesVisible {
         transform: translateY(0);
-        overflow:auto;
+        overflow: auto;
     }
+
     .padder {
         height: 10rem;
         width: 100%;
     }
+
     .page-wrapper {
         width: 100%;
         height: 100%;
@@ -127,13 +122,11 @@
         position: relative;
         pointer-events: auto;
     }
-    :global(strong) {
-        display: inline-block;
-    }
+
     .page {
         width: 100%;
         max-width: 660px;
-        height: 100%;
+        height: auto;
         color: #151515;
         margin: 1rem auto;
         z-index: 1000;
@@ -144,11 +137,6 @@
         pointer-events: auto;
     }
 
-    .page.isOpen {
-        position: absolute;
-        height: auto;
-    }
-
     .page-inset {
         width: 100%;
         padding: 1rem 2rem 2rem 2rem;
@@ -157,7 +145,7 @@
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;
-        box-shadow: 0 -1px 1px rgba(0,0,0,0.15);
+        box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.15);
     }
 
     h5 {
@@ -170,53 +158,12 @@
         font-size: 14px;
     }
 
-    p.letter {
-        font-family: var(--serif);
-    }
-
-    .bolded {
-        line-height: 1;  
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .intro p {
-        font-family: var(--mono);
-        line-height: 1;
-        margin: 1rem 0;
-        font-style: normal;
-    }
-
-    .intro {
-        margin-bottom: 4rem;
-    }
-
-    .text p {
-        margin: 1rem 0;
-        font-style: normal;
-    }
-
-    :global(.right-align) {
-        text-align: right;
-        margin-left: auto;
-    }
-
-    @media(max-width: 750px) {
-        .topper {
-            flex-direction: column;
-            padding-top: 1rem;
-        }
-        .topper p {
-            margin: 0;
-        }
-    }
-
-    @media(max-width: 600px) {
+    @media (max-width: 600px) {
         .page-inset {
             padding: 0rem 1rem 2rem 1rem;
         }
         h5 {
-            font-size: var(--16px);
+            font-size: 16px;
         }
     }
 </style>
