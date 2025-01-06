@@ -394,7 +394,7 @@
         font-weight: 700;
         font-size: 12px;
         border: none;
-        background: #a6bfc2;
+        background: var(--fang-accent);
         color: var(--fang-dark);
         opacity: 0;
         transition: all 0.5s ease;

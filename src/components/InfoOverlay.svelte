@@ -38,7 +38,7 @@
                     <li><span class="icon">{@html icons[i]}</span><a href="{link.url}">{link.name}</a></li>
                 {/each}
             </ul>
-            <p class="copyright">©Ⓟ October 18, 2024 <br>Noah Fagan, HORSEANDHOUND</p>
+            <p class="copyright">{@html copy.copyright}</p>
         </div>
     </div>
 </section>
@@ -253,12 +253,12 @@
         font-size: 14px !important;
         font-weight: 700;
     }
-    :global(.caption a) {
+    :global(.caption a, .copyright a) {
        color: var(--fang-light); 
     }
 
-    :global(.left a:hover, .right .links a:hover) {
-        color: rgba(165, 191, 182, 0.95);
+    :global(.info a:hover, .right .links li a:hover) {
+        color: var(--fang-accent);
     }
     :global(.links .icon svg path) {
         fill: var(--fang-light);

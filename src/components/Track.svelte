@@ -158,7 +158,7 @@
         height: 100%;
     }
     :global(.track button svg path) {
-        fill: #a6bfc2;
+        fill: var(--fang-accent);
     }
 
     @media(max-width: 800px) {

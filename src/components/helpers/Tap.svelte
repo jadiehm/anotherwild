@@ -90,7 +90,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: #a6bfc2;
+		background: var(--fang-accent);
 		border-radius: 3px;
 		outline: none;
 		box-shadow: none;

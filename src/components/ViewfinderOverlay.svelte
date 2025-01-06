@@ -86,7 +86,7 @@
         margin-top: 1rem;
         height: 2.5rem;
         width: 2.5rem;
-        background: #a6bfc2;
+        background: var(--fang-accent);
         border: none;
         z-index: 1000;
         transition: all 0.5s ease;
