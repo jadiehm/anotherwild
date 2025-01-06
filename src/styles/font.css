@@ -1,6 +1,73 @@
 @font-face {
 	font-family: "Hoefler Text";
-	src: url('/assets/fonts/hoefler-text.woff2') format('woff2');
+	src: url("https://afangintherough.com/assets/fonts/hoefler-text.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Hoefler Text";
+	src: url("https://afangintherough.com/assets/fonts/hoefler-text-bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+/* National */
+@font-face {
+	font-family: "National 2 Narrow Web";
+	src: url("https://pudding.cool/assets/fonts/national/National2NarrowWeb-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "National 2 Narrow Web";
+	src: url("https://pudding.cool/assets/fonts/national/National2NarrowWeb-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+/* Tiempos Text */
+@font-face {
+	font-family: "Tiempos Text Web";
+	src: url("https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Tiempos Text Web";
+	src: url("https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+/* Alder Road */
+@font-face {
+	font-family: "Alder Road";
+	src: url("https://pudding.cool/assets/fonts/alder-road/AlderRoad-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+/* Alder Road */
+@font-face {
+	font-family: "Carnaby Street";
+	src: url("https://pudding.cool/assets/fonts/carnaby-street/CarnabyStreet-Clean.woff2") format("woff2");
 	font-weight: 400;
 	font-style: normal;
 	font-stretch: normal;
