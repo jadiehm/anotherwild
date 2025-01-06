@@ -31,6 +31,7 @@
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
         let target = event.target.closest('g');
+        showHintText = false;
 
         setTimeout(() => {
             if (target && target.id) {
@@ -203,7 +204,7 @@
             {/if}
         </h1>
     </div>
-    <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick} on:touchstart|preventDefault={backClick}>
+    <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
             Back to desk
@@ -234,7 +235,6 @@
     <div class="svg-wrapper" 
         on:click={handleClick}
         on:tap={handleClick} 
-        on:touchstart|preventDefault={handleClick}
         on:mouseover={handleMouseOver}
         on:mouseout={handleMouseOut}
         on:mousemove={handleMouseMove}
@@ -357,10 +357,6 @@
         pointer-events: none;
         transition: opacity 0.25s ease;
         text-shadow: 2px 2px 10px var(--fang-dark);
-    }
-
-    #hover-hint.bckBtnVisible {
-        display: none;
     }
     #photo-click {
         width: 100%;

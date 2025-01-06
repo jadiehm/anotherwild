@@ -43,12 +43,12 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
         transition: transform 500ms linear;
         font-family: var(--serif);
         color: var(--fang-light);
         overflow-x: hidden;
         pointer-events: none;
+        padding-top: 6rem;
     }
 
     section.folderVisible {
@@ -61,7 +61,6 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        justify-content: center;
         flex-direction: column;
         pointer-events: none;
         transition: filter 0.25s linear;

@@ -120,7 +120,16 @@
     <img class="wheel" class:wheelSpin={wheelSpin} src="assets/images/tape-wheel.png" />
     <div class="tape-wrapper">
         <div class="tape-wrapper-inner">
-            <img class="tape" src="assets/images/tape.png" />
+            <img class="tape" 
+                src="assets/images/tape.png" 
+                srcset="
+                    assets/images/tape.png 1000w, 
+                    assets/images/tape-small.png 600w" 
+                sizes="(min-width: 1000px) 1000px, 
+                    (min-width: 600px) 600px, 
+                    100vw"
+                alt="vintage tape deck"
+            />
             <div class="svg-wrapper" on:click={handleClick}>
                 {@html tapeSVG}
             </div>
