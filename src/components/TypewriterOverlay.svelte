@@ -123,20 +123,6 @@
                             <div class="page-topper">
                                 <p class="kicker">CH{chapter.chapID} - {chapter.title}</p>
                                 <p class="page-num">{i+1}</p>
-                                {#if chapter.chapID == 1 && i == 0}
-                                    <div class="handwriting">
-                                        <img src="assets/images/handwriting/handwriting-1.png" alt="handwriting is this a draft?"/>
-                                        <img src="assets/images/handwriting/handwriting-5.png" alt="handwriting linked to audio signals? how?"/>
-                                    </div>
-                                {:else if chapter.chapID == 13 && i == 0}
-                                    <div class="handwriting">
-                                        <img src="assets/images/handwriting/handwriting-2.png" alt="handwriting does tome begin here?"/>
-                                    </div>
-                                {:else if chapter.chapID == 6 && i == 0}
-                                    <div class="handwriting">
-                                        <img src="assets/images/handwriting/handwriting-3.png" alt="handwriting comma usage, insane"/>
-                                    </div>
-                                {/if}
                             </div>
                             {#each page.text as graf, i}
                                 <p>{@html graf.value}</p>
@@ -153,25 +139,6 @@
 </section>
 
 <style>
-    .handwriting {
-        position: absolute;
-        top: -1.5rem;
-        left: 0;
-        width: 100%;
-    }
-    .handwriting img:first-of-type {
-        width: 200px;
-        top: 0;
-        left: 120px;
-        position: absolute;
-    }
-
-    .handwriting img:last-of-type {
-        width: 270px;
-        position: absolute;
-        top: 2.5rem;
-        left: 150px;
-    }
     section {
         position: fixed;
         top: 0;
@@ -338,26 +305,6 @@
         }
         h5 {
             font-size: var(--16px);
-        }
-
-        .handwriting img:first-of-type {
-            left: 40px;   
-        }
-
-        .handwriting img:last-of-type {
-            left: 80px;  
-        }
-    }
-
-    @media(max-width: 500px) {
-        .handwriting img:first-of-type {
-            width: 160px;
-            left: 0;
-        }
-
-        .handwriting img:last-of-type {
-            width: 240px;
-            left: 20px;
         }
     }
 </style>
