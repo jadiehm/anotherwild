@@ -305,8 +305,5 @@
         h5 {
             font-size: var(--16px);
         }
-        p {
-            font-size: var(--12px);
-        }
     }
 </style>

@@ -7,12 +7,13 @@
     let pages = []; // Store the DOM elements of each page
     let originalPositions = [];
     let isExpanded = false;
+    let width;
 
     export let isOpen;
 
     // Function to get a random rotation for each page
     function getRandomRotate() {
-        const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
+        const increments = width >= 720 ? [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1] : [-0.125, 0, 0.125];
         const randomIndex = Math.floor(Math.random() * increments.length);
         return increments[randomIndex];
     }
@@ -49,6 +50,8 @@
 
     $: setPages(isOpen);
 </script>
+
+<svelte:window bind:innerWidth={width}/>
 
 <div class="page-wrapper" class:isOpen={isOpen}>
     {#each copy.lyrics as song, i}

@@ -7,10 +7,11 @@
     let clickedIndex = null; // Track the clicked index
     let pages = []; // Store the DOM elements of each page
     let originalPositions = [];
+    let width;
 
     // Function to get a random rotation for each page
     function getRandomRotate() {
-        const increments = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
+        const increments = width >= 720 ? [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1] : [-0.125, 0, 0.125];
         const randomIndex = Math.floor(Math.random() * increments.length);
         return increments[randomIndex];
     }
@@ -61,6 +62,8 @@
 
     $: setPages($notesVisible);
 </script>
+
+<svelte:window bind:innerWidth={width}/>
 
 <section class="lyrics" class:notesVisible={$notesVisible}>
     <div class="page-wrapper" class:notesVisible={$notesVisible}>
@@ -214,9 +217,6 @@
         }
         h5 {
             font-size: var(--16px);
-        }
-        p {
-            font-size: var(--12px);
         }
     }
 </style>
