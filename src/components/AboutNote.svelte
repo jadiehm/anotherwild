@@ -124,7 +124,7 @@
         color: #151515;
         padding: 1rem 2rem 3rem 2rem;
         margin: 1rem auto;
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;
@@ -148,7 +148,7 @@
         width: 100%;
         padding: 1rem 2rem 3rem 2rem;
         background-color: var(--fang-light);
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;

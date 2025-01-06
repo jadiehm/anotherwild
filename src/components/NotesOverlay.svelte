@@ -150,7 +150,7 @@
         width: 100%;
         padding: 1rem 2rem 2rem 2rem;
         background-color: var(--fang-paper);
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;

@@ -26,23 +26,39 @@
 
 <section class="viewfinder" class:viewfinderVisible={$viewfinderVisible}>
     <div class="controls">
-        <button on:click={prevClick}><ChevronLeft color={"#01010f"} strokeWidth={3} fill={"none"} /></button>
+        <button aria-label="previous image" on:click={prevClick}><ChevronLeft color={"#01010f"} strokeWidth={3} fill={"none"} /></button>
         <div class="wheel">
             <img class="wheel-nums" style="transform: rotate({wheelRotation}deg)" src="assets/images/viewfinder-wheel.png" alt="viewfinder number wheel"/>
             <img src="assets/images/viewfinder-cover.png" alt="black background cover for viewfinder number"/>
         </div>
-        <button on:click={nextClick}><ChevronRight color={"#01010f"} strokeWidth={1} /></button>
+        <button aria-label="next image" on:click={nextClick}><ChevronRight color={"#01010f"} strokeWidth={1} /></button>
     </div>
     <div class="view">
         <div class="left">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" alt="left side of postcard {postcard+1}"/>
+                <img class:active={activePostcard == i} 
+                    src="assets/images/postcards/postcard{postcard+1}.jpg" 
+                    srcset="
+                            assets/images/postcards/postcard{postcard+1}.jpg 1000w, 
+                            assets/images/postcards/postcard{postcard+1}-small.jpg 600w" 
+                    sizes="(min-width: 1000px) 1000px, 
+                            (min-width: 600px) 600px, 
+                            100vw"
+                    alt="left side of postcard {postcard+1}"/>
             {/each}
             <div class="vignette"></div>
         </div>
         <div class="right">
             {#each postcards as postcard, i}
-                <img class:active={activePostcard == i} src="assets/images/postcards/postcard{postcard+1}.png" alt="right side of postcard {postcard+1}" />
+                <img class:active={activePostcard == i} 
+                src="assets/images/postcards/postcard{postcard+1}.jpg" 
+                    srcset="
+                            assets/images/postcards/postcard{postcard+1}.jpg 1000w, 
+                            assets/images/postcards/postcard{postcard+1}-small.jpg 600w" 
+                    sizes="(min-width: 1000px) 1000px, 
+                            (min-width: 600px) 600px, 
+                            100vw"
+                alt="right side of postcard {postcard+1}" />
             {/each}
             <div class="vignette"></div>
         </div>

@@ -204,7 +204,7 @@
             {/if}
         </h1>
     </div>
-    <button class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
+    <button aria-label="back ot desk" class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
             Back to desk
@@ -248,7 +248,15 @@
         {@html photoClickSVG}
     </div>
     <div class="photo-wrapper">
-        <img src="/assets/images/photoclick.jpg" alt="an old wooden desk with a typewriter, a viewfinder, a stack of papers, a file foolder, a knife, a tape deck, a radio, and a lamp"/>
+        <img 
+            src="assets/images/photoclick.jpg" 
+            srcset="
+                    assets/images/photoclick.jpg 1000w, 
+                    assets/images/photoclick-small.jpg 600w" 
+            sizes="(min-width: 1000px) 1000px, 
+                    (min-width: 600px) 600px, 
+                    100vw"
+            alt="an old wooden desk with a typewriter, a viewfinder, a stack of papers, a file foolder, a knife, a tape deck, a radio, and a lamp"/>
     </div>
 </div>
 <InfoOverlay />
@@ -380,7 +388,7 @@
 
     #photo-click img {
         width: 100%;
-        aspect-ratio: 1.75/1;
+        aspect-ratio: 1.78/1;
     }
 
     #photo-click.bckBtnVisible {
@@ -428,7 +436,7 @@
 
     .overlays {
         width: 100%; 
-        aspect-ratio: 1.75/1;
+        aspect-ratio: 1.78/1;
         position: absolute;
         margin-top: 1rem; 
         filter: blur(20px);
@@ -452,7 +460,7 @@
 
     .svg-wrapper, .photo-wrapper {
         width: 100%; 
-        aspect-ratio: 1.75/1;
+        aspect-ratio: 1.78/1;
         position: absolute;
         margin-top: 1rem;
     }

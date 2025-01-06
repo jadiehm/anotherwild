@@ -226,6 +226,7 @@
 
     .folder-tab img {
         height: 100%;
+        aspect-ratio: 1/8.378;
     }
 
     .folder-left.isOpen {

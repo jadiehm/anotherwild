@@ -109,7 +109,7 @@
         height: calc(100% - 2rem);
         position: absolute;
         background-color: var(--fang-light);
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;
@@ -147,7 +147,7 @@
         color: #151515;
         padding: 3rem;
         margin: 1rem 0;
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;
@@ -186,6 +186,8 @@
     }
 
     .left img {
+        width: 100%;
+        aspect-ratio: 1/1.508;
         margin-bottom: 0.25rem;
         transition: filter 0.3s ease;
     }
@@ -201,8 +203,8 @@
         position: absolute;
         top: -1.75rem;
         right: -1.75rem;
-        width: 40%;
-        aspect-ratio: 1;
+        width: 40% !important;
+        aspect-ratio: 1/1 !important;
         border: 5px solid var(--fang-dark);
     }
 

@@ -38,7 +38,6 @@
             resetPages(nonActivePages)
             calcHeight(activePages)  
         } else {
-            console.log("yep")
             resetPages(nonActivePages)
             resetPages(activePages)
             activeChapter = 0;
@@ -225,7 +224,7 @@
         width: 100%;
         padding: 2rem;
         background-color: var(--fang-paper);
-        background-image: url("assets/images/bg_texture.png");
+        background-image: url("/assets/images/bg_texture.png");
         background-size: 200px;
         background-repeat: repeat;
         border: 1px solid #dfd9d5;
