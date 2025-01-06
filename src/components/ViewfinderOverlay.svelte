@@ -1,26 +1,34 @@
 <script>
-    import { getContext } from "svelte";
+    import { getContext, onMount } from "svelte";
     import ChevronLeft from "lucide-svelte/icons/chevron-left";
-    import ChevronRight from "lucide-svelte/icons/chevron-right";
+	import ChevronRight from "lucide-svelte/icons/chevron-right";
+
     import { viewfinderVisible } from "$stores/misc.js";
 
     const copy = getContext("copy");
 
-    const postcards = Array.from({ length: 18 }, (_, i) => i); // Generate an array [0, 1, ..., 17]
+    const postcards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 17];
+
     let activePostcard = 0;
     let wheelRotation = 0;
 
     function prevClick() {
         if (activePostcard > 0) {
             activePostcard--;
-            wheelRotation += 20;
+            wheelRotation = wheelRotation + 20;
+        } else {
+            activePostcard = 17;
+            wheelRotation = 20; 
         }
     }
 
     function nextClick() {
-        if (activePostcard < postcards.length - 1) {
+        if (activePostcard !== 17) {
             activePostcard++;
-            wheelRotation -= 20;
+            wheelRotation = wheelRotation - 20;
+        } else {
+            activePostcard = 0;
+            wheelRotation = 0; 
         }
     }
 </script>

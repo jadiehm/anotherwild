@@ -116,9 +116,18 @@
         viewfinderVisible.set(false);
         logsVisible.set(false);
         typewriterVisible.set(false);
-        bckBtnVisible.set(false);
+
+        const button = document.querySelector('.back');
+        if (button) {
+            button.offsetHeight;
+            button.blur(); // Remove focus
+        }
+
+        setTimeout(() => {
+            bckBtnVisible.set(false);
+        }, 0);
         activeSection = "afangintherough";
-    }
+    } 
     let visibleText = '';
     let showCursor = false; // Controls cursor visibility
     let index = 0;
@@ -204,17 +213,20 @@
             {/if}
         </h1>
     </div>
-    <button aria-label="back ot desk" class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
+    {#if $bckBtnVisible}
+    <button transition:fade={{duration: 500}} aria-label="back ot desk" class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
             Back to desk
         {/if}
     </button>
+    {/if}
 </nav>
-
-<p id="hover-hint" class:bckBtnVisible={bckBtnVisible} style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;">
-    {hintText}
-</p>
+{#if !$bckBtnVisible}
+    <p id="hover-hint" class:bckBtnVisible={bckBtnVisible} style="opacity: {showHintText ? 1 : 0}; top: {hintTextY}px; left: {hintTextX}px;">
+        {hintText}
+    </p>
+{/if}
 
 <div id="photo-click" class:bckBtnVisible={$bckBtnVisible}>
     <div class="vignette" class:bckBtnVisible={$bckBtnVisible}></div>
@@ -228,10 +240,12 @@
         <img id="viewfinder-overlay" src="/assets/images/viewfinder-overlay.png" alt="black background highlighting viewfinder" />
         <img id="light-overlay" src="/assets/images/light-overlay.png" alt="black background highlighting lamp" />
     </div>
-    <div class="touch-hint" class:touchVisible={touchVisible}>
-        {@html touchSVG}
-        <p>Explore the desk</p>
-    </div>
+    {#if !$bckBtnVisible}
+        <div class="touch-hint" class:touchVisible={touchVisible}>
+            {@html touchSVG}
+            <p>Explore the desk</p>
+        </div>
+    {/if}
     <div class="svg-wrapper" 
         role="button"
         tabindex="0"
