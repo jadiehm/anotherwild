@@ -57,7 +57,7 @@
                     activeSection = "log excerpts";
                 } else if (id == "typewriter") {
                     typewriterVisible.set(true);
-                    activeSection = "a deer between death";
+                    activeSection = "adbd:2026";
                 }
             } 
         }, 500)

@@ -3,8 +3,10 @@
     import Folder from "$components/Folder.svelte";
     import Tap from "$components/helpers/Tap.svelte";
     import { typewriterVisible } from "$stores/misc.js";
+    import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
+    const copy = getContext("copy");
     const story = getContext("story");
     const chaptersLen = story.chapters.length;
     let mounted = false;
@@ -16,6 +18,19 @@
 
     let chapPages = []; // Store the DOM elements of each page
     let originalPositions = [];
+
+    $: allParagraphs = [
+        // Original paragraphs 0-4
+        ...copy.placeholder.slice(0, 5).map(p => ({ ...p, isGroup: false })), 
+        
+        // The injected group (margin 0)
+        ...copy.placeholderGroup.map(p => ({ ...p, isGroup: true })),
+        
+        // The rest of the original paragraphs
+        ...copy.placeholder.slice(5).map(p => ({ ...p, isGroup: false })),
+
+        {value: "adeerbetweendeath:2026"}
+    ];
 
     // Function to get a random rotation for each page
     function getRandomRotate() {
@@ -94,6 +109,33 @@
         horizTransform = `${-activeChapter*85}vw`
     }
 
+    function getDelay(index, allPs) {
+        let totalDelay = 0;
+        for (let i = 0; i < index; i++) {
+            // Delay is based on character count of previous paragraphs
+            totalDelay += (allPs[i].value.length * 25); 
+        }
+        return totalDelay;
+    }
+
+    function typewriter(node, { speed = 1, delay = 0 }) {
+        const text = node.textContent.trim();
+        const duration = text.length / (speed * 0.02);
+        
+        // Hide text immediately
+        node.textContent = ""; 
+
+        return {
+            delay,
+            duration,
+            tick: (t) => {
+                // This is where the magic happens
+                const i = Math.trunc(text.length * t);
+                node.textContent = text.slice(0, i);
+            }
+        };
+    }
+
     onMount(() => {
         mounted = true;
     });
@@ -105,7 +147,31 @@
 
 <svelte:window bind:innerWidth={width}/>
 
-{#if $typewriterVisible}
+<section class="placeholder" class:typewriterVisible={$typewriterVisible}>
+    <div class="contents">
+        <div class="story-page-wrapper" class:typewriterVisible={$typewriterVisible}>
+            <div 
+                class="story-page" 
+                style="transform: rotate({getRandomRotate()}deg)"
+            >
+                <div class="page-inset">
+                    {#if $typewriterVisible}
+                        {#each allParagraphs as graf, i}
+                            <p 
+                                class="story-p" 
+                                class:group={graf.isGroup}
+                                in:typewriter|global={{ speed: 2, delay: getDelay(i, allParagraphs) }}
+                            >
+                                {graf.value}
+                            </p>
+                        {/each}
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- {#if $typewriterVisible}
     <Tap tapType={"story"} showArrows={true} on:tap={handleTap} activeChapter={activeChapter} chaptersLen={chaptersLen}/>
 {/if}
 <section bind:this={scrollContainer} class="story" class:typewriterVisible={$typewriterVisible} style="width: {100*chaptersLen}%; transform: translate({horizTransform},{$typewriterVisible ? "0px" : "100%"})">
@@ -136,7 +202,7 @@
             </div>
         </div>
     {/each}
-</section>
+</section> -->
 
 <style>
     section {
@@ -222,6 +288,7 @@
 
     .page-inset {
         width: 100%;
+        aspect-ratio: 1 / 1.3;
         padding: 2rem;
         background-color: var(--fang-paper);
         background-image: url("/assets/images/bg_texture.png");
@@ -246,7 +313,6 @@
         font-size: 12px;
         font-weight: 700;
         margin: 0;
-        text-transform: uppercase;
     }
 
     .kicker {
@@ -256,10 +322,22 @@
     p {
         margin: 1rem 0;
         font-size: 14px;
+        text-align: center;
+        font-family: var(--mono);
+    }
+
+    p.group {
+        margin: 0;
+        min-height: 1.2em; /* Prevents layout jumping while typing */
+        white-space: pre-wrap; /* Preserves formatting */
     }
 
     p.letter {
         font-family: var(--serif);
+    }
+
+    .story-p:last-of-type {
+        font-weight: 700;
     }
 
     .bolded {
