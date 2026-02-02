@@ -230,7 +230,7 @@
 
     .contents {
         height: 100%;
-        width: 85vw; /* Ensure each content block has a consistent width */
+        width: 100%; /* Ensure each content block has a consistent width */
         display: flex;
         align-items: center;
         flex-shrink: 0;
