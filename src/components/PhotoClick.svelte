@@ -11,10 +11,12 @@
     import photoClickSVG from "$svg/photoclick.svg";
     import touchSVG from "$svg/touch.svg";
     import Icon from "$components/helpers/Icon.svelte";
+    import PlayCircle from "lucide-svelte/icons/play";
+	import PauseCircle from "lucide-svelte/icons/pause";
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible, modalVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible, modalVisible, audioEnabled, ambientPlaying } from "$stores/misc.js";
 
     let width;
     let height;
@@ -35,16 +37,15 @@
         let target = event.target.closest('g');
         showHintText = false;
 
-        if (audioPhotoElement) {
-            audioPhotoElement.node().pause();
-            audioPhotoElement.node().currentTime = 0;
-            audioPhotoElement.node().load();
-        }
-
         setTimeout(() => {
             if (target && target.id) {
                 let id = target.id;
                 bckBtnVisible.set(true)
+                if (audioPhotoElement) {
+                    audioPhotoElement.node().pause();
+                    audioPhotoElement.node().currentTime = 0;
+                    audioPhotoElement.node().load();
+                }
                 if (id == "light") {
                     aboutVisible.set(true);
                     activeSection = "about";
@@ -117,6 +118,11 @@
     }
 
     function backClick() {
+        if (audioPhotoElement && $audioEnabled) {
+            audioPhotoElement.node().play().catch(e => {
+                console.error("Audio playback failed:", e);
+            });
+        }
         aboutVisible.set(false);
         folderVisible.set(false);
         radioVisible.set(false);
@@ -136,6 +142,25 @@
         }, 0);
         activeSection = "afangintherough";
     } 
+
+    function ambientClick() {
+        if (audioPhotoElement && audioPhotoElement.node()) {
+            const player = audioPhotoElement.node();
+
+            if ($ambientPlaying) {
+                player.pause();
+                audioEnabled.set(false);
+                ambientPlaying.set(false);
+            } else {
+                player.play().catch(e => {
+                    console.error("Audio playback failed:", e);
+                });
+                ambientPlaying.set(true);
+                audioEnabled.set(true);
+            }
+        }
+    }
+
     let visibleText = '';
     let showCursor = false; // Controls cursor visibility
     let index = 0;
@@ -187,12 +212,6 @@
             audioLogElement.node().currentTime = 0;
             audioLogElement.node().load();
         } 
-
-        if (audioPhotoElement) {
-            audioPhotoElement.node().pause();
-            audioPhotoElement.node().currentTime = 0;
-            audioPhotoElement.node().load();
-        } 
     }
 
     onMount(() => {
@@ -230,12 +249,21 @@
         </h1>
     </div>
     {#if $bckBtnVisible}
-    <button transition:fade={{duration: 500}} aria-label="back ot desk" class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
+    <button transition:fade={{duration: 500}} aria-label="back to desk" class="back" class:bckBtnVisible={$bckBtnVisible} on:click={backClick} on:tap={backClick}>
         <Icon name="arrow-left" width="1rem"/>
         {#if width >= 500}
             Back to desk
         {/if}
     </button>
+    {/if}
+    {#if !$bckBtnVisible && !$modalVisible}
+        <button on:click={ambientClick} class="play-btn" class:ambientPulse={$ambientPlaying} aria-label="play or pause">
+            {#if $ambientPlaying}
+                <Icon name="volume-2" width="1rem"/>
+            {:else}
+                <Icon name="volume-x" width="1rem"/>
+            {/if}
+        </button>
     {/if}
 </nav>
 {#if !$bckBtnVisible}
@@ -465,6 +493,45 @@
         pointer-events: auto;
     }
 
+    .play-btn {
+        z-index: 999;
+        background: var(--fang-accent);
+        border-radius: 50%;
+        height: 2.5rem;
+        width: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .play-btn span {
+        margin: 0.25rem 0 0 0.25rem;
+    }
+    .play-btn:hover {
+        transform: scale(1.05);
+        transition: 100ms all linear;
+        opacity: 0.8 !important;
+    }
+
+    .play-btn.ambientPulse {
+        animation: pulse-scale 1s infinite;
+    }
+
+    @keyframes pulse-scale {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05); /* Grow by 10% */
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    :global(.play-btn svg rect) {
+        stroke: none;
+    }
+
     :global(.back svg) {
         margin: -2px 6px 0 0;
         transition: transform 0.25s ease;
@@ -574,6 +641,10 @@
 
         .svg-wrapper, .photo-wrapper, .overlays {
             width: 150%;
+        }
+        .play-btn {
+            width: 2rem;
+            height: 2rem;
         }
     }
 

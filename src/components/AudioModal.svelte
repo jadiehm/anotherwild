@@ -1,5 +1,5 @@
 <script>
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible, modalVisible, audioEnabled } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible, modalVisible, audioEnabled, ambientPlaying } from "$stores/misc.js";
     import Icon from "$components/helpers/Icon.svelte";
     import * as d3 from "d3";
 
@@ -11,8 +11,10 @@
         if (withAudio && audioPhotoElement) {
             audioPhotoElement.node().play();
             audioEnabled.set(true);
+            ambientPlaying.set(true);
         } else {
             audioEnabled.set(false);
+            ambientPlaying.set(false);
         }
         // Handle proceeding with or without audio
         modalVisible.set(false);
@@ -23,7 +25,7 @@
 {#if $modalVisible}
 <section class="audio-modal">
     <div class="inner-modal">
-        <p>This experience uses audio.</p>
+        <p>This experience uses ambient audio.</p>
         <div class="btn-wrapper">
             <button on:click={() => proceed(true)}>Proceed with audio<Icon name="volume-2" width="2rem"/></button>
             <button on:click={() => proceed(false)}>Proceed muted<Icon name="volume-x" width="2rem"/></button>
@@ -35,11 +37,11 @@
 <style>
     .audio-modal {
         position: fixed;
-        top: 0;
+        top: 4.5rem;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.6);
         z-index: 1000;
         display: flex;
         align-items: center;
@@ -48,6 +50,7 @@
         color: var(--fang-light);
         font-weight: 700;
         font-size: var(--18px);
+        padding: 0 1rem;
     }
 
     .inner-modal {
@@ -56,6 +59,10 @@
         align-items: center;
         justify-content: center;
         gap: 1rem;
+    }
+
+    p {
+        text-align: center;
     }
 
     .btn-wrapper {
@@ -80,6 +87,7 @@
         transition: all 0.5s ease;
         background: var(--fang-accent);
         color: var(--fang-dark);
+        min-width: 220px;
     }
 
     button:hover {
@@ -90,6 +98,15 @@
     :global(.audio-modal button svg) {
         position: relative;
         top: -1px;
+    }
+
+    @media(max-width: 600px) {
+        p {
+            max-width: 300px;
+        }
+        .btn-wrapper {
+            flex-direction: column;
+        }
     }
 </style>
 
