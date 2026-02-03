@@ -11,3 +11,5 @@ export const viewfinderVisible = writable(false);
 export const logsVisible = writable(false);
 export const typewriterVisible = writable(false);
 export const bckBtnVisible = writable(false);
+export const modalVisible = writable(true);
+export const audioEnabled = writable(false);

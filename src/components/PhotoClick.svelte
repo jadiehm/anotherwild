@@ -1,5 +1,6 @@
 <script>
     import { getContext, onMount } from "svelte";
+    import AudioModal from "$components/AudioModal.svelte";
     import InfoOverlay from "$components/InfoOverlay.svelte";
     import FolderOverlay from "$components/FolderOverlay.svelte";
     import ViewfinderOverlay from "$components/ViewfinderOverlay.svelte";
@@ -13,7 +14,7 @@
     import { fade } from "svelte/transition";
     import * as d3 from "d3";
 
-    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible } from "$stores/misc.js";
+    import { aboutVisible, folderVisible, radioVisible, notesVisible, viewfinderVisible, logsVisible, typewriterVisible, bckBtnVisible, modalVisible } from "$stores/misc.js";
 
     let width;
     let height;
@@ -26,12 +27,19 @@
     let isMounted;
     let audioLogElement;
     let audioSongElement;
+    let audioPhotoElement;
     let touchVisible = true;
 
     function handleClick(event) {
         // Check if the clicked element is a `<g>` or a child of it
         let target = event.target.closest('g');
         showHintText = false;
+
+        if (audioPhotoElement) {
+            audioPhotoElement.node().pause();
+            audioPhotoElement.node().currentTime = 0;
+            audioPhotoElement.node().load();
+        }
 
         setTimeout(() => {
             if (target && target.id) {
@@ -166,6 +174,7 @@
     $: if (isMounted && !$bckBtnVisible) {
         const audioLogElement = d3.select('#log-audio');
         const audioSongElement = d3.select('#bg-audio');
+        const audioPhotoElement = d3.select('#photo-audio');
 
         if (audioLogElement) {
             audioLogElement.node().pause();
@@ -178,12 +187,19 @@
             audioLogElement.node().currentTime = 0;
             audioLogElement.node().load();
         } 
+
+        if (audioPhotoElement) {
+            audioPhotoElement.node().pause();
+            audioPhotoElement.node().currentTime = 0;
+            audioPhotoElement.node().load();
+        } 
     }
 
     onMount(() => {
         isMounted = true;
         audioLogElement = d3.select('#log-audio');
         audioSongElement = d3.select('#bg-audio');
+        audioPhotoElement = d3.select('#photo-audio');
 
         const handleKeyUp = () => {
             // Hide the hint text on key release
@@ -228,7 +244,12 @@
     </p>
 {/if}
 
-<div id="photo-click" class:bckBtnVisible={$bckBtnVisible}>
+<AudioModal />
+
+<div id="photo-click" class:bckBtnVisible={$bckBtnVisible} class:disabled={$modalVisible}>
+    <audio id="photo-audio" loop>
+        <source id="photoAudioSource" src="assets/audio/RAIN.mp3" type="audio/mpeg">
+    </audio>
     <div class="vignette" class:bckBtnVisible={$bckBtnVisible}></div>
     <div class="vignette dark" class:bckBtnVisible={$bckBtnVisible}></div>
     <div class="overlays">
@@ -240,7 +261,7 @@
         <img id="viewfinder-overlay" src="/assets/images/viewfinder-overlay.png" alt="black background highlighting viewfinder" />
         <img id="light-overlay" src="/assets/images/light-overlay.png" alt="black background highlighting lamp" />
     </div>
-    {#if !$bckBtnVisible}
+    {#if !$bckBtnVisible && !$modalVisible}
         <div class="touch-hint" class:touchVisible={touchVisible}>
             {@html touchSVG}
             <p>Explore the desk</p>
@@ -409,6 +430,11 @@
         pointer-events: none;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    #photo-click.disabled {
+        pointer-events: none;
+        user-select: none;
     }
 
     .back {
